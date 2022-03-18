@@ -23,6 +23,6 @@ plt.xlabel("Nro de tiro")
 plt.ylabel("Resultado del tiro")
 plt.title("Simulacion ruleta")
 
-#plt.savefig('grafico.png')
+#plt.savefig('grafico.png') Deberia guardar una imagen del grafico
 
 plt.show()
