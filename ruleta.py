@@ -6,8 +6,8 @@ x = []
 y= []
 
 def funcion(rep):
-    c=0; suma=0
-    while c <= rep:
+    c=0; suma=0; i=0
+    for i in range(rep):
         suma = suma + random.randint (0,36)
         c +=1
         x.append(c)
