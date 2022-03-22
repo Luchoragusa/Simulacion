@@ -1,3 +1,4 @@
+from cmath import sqrt
 import random
 from turtle import color
 import matplotlib.pyplot as plt
@@ -42,5 +43,17 @@ plt.plot(x,y, color='b')
 print(hi)
 
 # Esto hace el desvio
+#calculo
+numerador = 0
+for i in range(36):
+    numerador += abs(i - prom)**2
+desvio = sqrt(numerador / 37)
 
-plt.show()
+print ("{0:.4f}".format(desvio))
+
+# Esto hace la varianza
+varianza = desvio**2
+print ("{0:.4f}".format(varianza))
+
+#plt.show()
+
