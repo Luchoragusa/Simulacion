@@ -5,13 +5,14 @@ import matplotlib.pyplot as plt
 
 x = []
 y= []
+valores = []
 hi =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
 def funcion(rep):
     c=0; suma=0; i=0
     for i in range(rep):
         nRandom = random.randint (0,36)
-        suma = suma + nRandom
+        suma +=  nRandom
         hi[nRandom] += 1
         c +=1
         x.append(c)
