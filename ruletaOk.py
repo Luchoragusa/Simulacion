@@ -43,27 +43,35 @@ def funcionHi(rep):
     for i in range(36):
         x.append(i)
         y.append(hi[i]/rep)
-        frA += hi[i]/rep
-        y1.append(frA)
 
     plt.plot(x,y, color='r')
-    plt.plot(x,y1, color='b') #frec relativa acumulada
     plt.xlabel("Nro de tiro")
     plt.ylabel("Frecuencia Relativa")
     plt.title("Simulacion ruleta")
     plt.show()
 
-def funcionDesvio():
+def funcionDesvio(rep, valores):
     #Grafica del desvio estandar
 
     x = [0,36]
     y = [np.std(valores), np.std(valores)]
+
+
+#    i=0; x1 = []; y1= []; sum = 0
+#    for i in range(36):
+#        x1.append(i)
+#        sum += (abs(valores[i] - 18)**2)
+#    print (np.std(valores))
+#    print (sqrt(sum/rep))
+#    y1 = [sqrt(sum/rep), sqrt(sum/rep)]
+#    plt.plot(x,y1, color='b')
+
     plt.plot(x,y, color='r')
 
     plt.xlabel("Nro de tiro")
     plt.ylabel("Desvio estandar")
     plt.title("Simulacion ruleta")
-    plt.show()
+    #plt.show()
 
 def funcionVarianza():
     #Grafica de la varinza
@@ -85,5 +93,5 @@ print("El promedio es: ", np.mean(valores))
 
 #funcionProm(rep, valores)
 #funcionHi(rep)
-#funcionDesvio()
+#funcionDesvio(rep, valores)
 #funcionVarianza()
