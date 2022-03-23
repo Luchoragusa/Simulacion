@@ -91,7 +91,7 @@ print("Ingrese la cantidad de repeticiones que quiere ejecutar: ", end=""); rep 
 valores= funcion(rep)
 print("El promedio es: ", np.mean(valores))
 
-#funcionProm(rep, valores)
+funcionProm(rep, valores)
 #funcionHi(rep)
 #funcionDesvio(rep, valores)
 #funcionVarianza()
