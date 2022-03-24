@@ -5,8 +5,6 @@ from turtle import color
 import matplotlib.pyplot as plt
 from scipy import stats # importando scipy.stats
 
-#comentario juani
-
 valores = []
 hi =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] 
 
@@ -93,7 +91,7 @@ print("Ingrese la cantidad de repeticiones que quiere ejecutar: ", end=""); rep 
 valores= funcion(rep)
 print("El promedio es: ", np.mean(valores))
 
-#funcionProm(rep, valores)
-funcionHi(rep)
+funcionProm(rep, valores)
+#funcionHi(rep)
 #funcionDesvio(rep, valores)
 #funcionVarianza()
