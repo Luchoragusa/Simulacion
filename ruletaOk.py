@@ -46,7 +46,7 @@ def funcionHi(rep):
         x.append(i)
         y.append(hi[i]/rep)
 
-    plt.plot(x,y, color='r')
+    plt.bar(x,y, color='r')
     plt.xlabel("Nro de tiro")
     plt.ylabel("Frecuencia Relativa")
     plt.title("Simulacion ruleta")
@@ -93,7 +93,7 @@ print("Ingrese la cantidad de repeticiones que quiere ejecutar: ", end=""); rep 
 valores= funcion(rep)
 print("El promedio es: ", np.mean(valores))
 
-funcionProm(rep, valores)
-#funcionHi(rep)
+#funcionProm(rep, valores)
+funcionHi(rep)
 #funcionDesvio(rep, valores)
 #funcionVarianza()
