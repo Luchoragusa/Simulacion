@@ -5,6 +5,8 @@ from turtle import color
 import matplotlib.pyplot as plt
 from scipy import stats # importando scipy.stats
 
+#comentario juani
+
 valores = []
 hi =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] 
 
