@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from scipy import stats # importando scipy.stats
 
 valores = []
-hi =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+hi =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] 
 
 def funcion(rep):
     valnRandomor=0
