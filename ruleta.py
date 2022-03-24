@@ -7,6 +7,7 @@ from scipy import stats # importando scipy.stats
 
 valores = []
 hi =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] 
+fig, ax = plt.subplots(1, 2)
 
 def funcion(rep, corr):
     for c in range(corr):
@@ -22,21 +23,21 @@ def funcion(rep, corr):
             y.append(suma/(i+1))
             hi[nRandom] += 1
         valores.append(np.mean(valoresInt))
-        plt.plot(x,y)
+        ax[0].plot(x,y)
 
-# aca hago la frec relativa por tirada
         for i in range(36):
             xHi.append(i)
             yHi.append(hi[i]/rep)
-        plt.bar(x,y)
-        plt.xlabel("Nro de tiro")
-        plt.ylabel("Frecuencia Relativa")
-        plt.title("Simulacion ruleta")
+        ax[1].bar(xHi, yHi)
+
+    ax[0].set_xlabel("Tiradas")
+    ax[0].set_ylabel("Promedio")
+    ax[1].set_xlabel("Tiradas")
+    ax[1].set_ylabel("Frecuencia Relativa")
 
     plt.xlabel("Nro probable")
     plt.ylabel("Resultado del tiro")
     plt.title("Simulacion ruleta")
-
     plt.show()
     return (valores) 
 
@@ -66,7 +67,7 @@ print("Ingrese la cantidad de corridas que quiere ejecutar: ", end=""); corr = i
 
 valores= funcion(rep, corr)
 
-funcionProm(corr, valores)
+#funcionProm(corr, valores)
 #funcionHi(rep)
 #funcionDesvio(rep, valores)
 #funcionVarianza()
