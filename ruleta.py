@@ -2,7 +2,7 @@ from cmath import sqrt
 import numpy as np # importando numpy
 import random
 from turtle import color
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt 
 from scipy import stats # importando scipy.stats
 
 valores = []
@@ -12,16 +12,27 @@ def funcion(rep, corr):
     for c in range(corr):
         valoresInt = []
         suma=0
-        x = []
-        y= []
+        x = []; xHi = []
+        y= []; yHi = []
         for i in range(rep):
             nRandom = random.randint (0,36)
             valoresInt.append(nRandom)
             suma += nRandom
             x.append(i+1)
             y.append(suma/(i+1))
+            hi[nRandom] += 1
         valores.append(np.mean(valoresInt))
         plt.plot(x,y)
+
+# aca hago la frec relativa por tirada
+        for i in range(36):
+            xHi.append(i)
+            yHi.append(hi[i]/rep)
+        plt.bar(x,y)
+        plt.xlabel("Nro de tiro")
+        plt.ylabel("Frecuencia Relativa")
+        plt.title("Simulacion ruleta")
+
     plt.xlabel("Nro probable")
     plt.ylabel("Resultado del tiro")
     plt.title("Simulacion ruleta")
