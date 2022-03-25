@@ -1,6 +1,6 @@
 from cmath import sqrt
 import numpy as np # importando numpy
-import random
+import random as ran
 from turtle import color
 import matplotlib.pyplot as plt
 from pyparsing import col 
@@ -12,16 +12,13 @@ conjuntoValoresHi = []
 def funcion(rep, corr):
     for c in range(corr):
         valoresInt = []
-        suma=0
         hi =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         for i in range(rep):
-            nRandom = random.randint (0,36)
+            nRandom = ran.randint (0,36)
             valoresInt.append(nRandom)
             hi[nRandom] += 1
         conjuntoValores.append(valoresInt)
         conjuntoValoresHi.append(hi)
-
-
 
 def funcionProm(repeticiones, corridas, conjuntoValores):
     #Grafica de los promedios
@@ -37,9 +34,7 @@ def funcionProm(repeticiones, corridas, conjuntoValores):
     plt.xlabel("Numero de tiradas")
     plt.ylabel("Promedio")
     plt.title("Evaluacion del promedio sobre el conjunto de valores aleatorios")
-    x = [-1, rep]
-    y = [18, 18]
-    plt.plot(x,y, color = 'r')
+    plt.axhline(y=18, color = "r")  
     plt.ylim([12, 25]) # esta ponderada la medicion
 
 def funcionPromProm(corridas, conjuntoValores):
@@ -52,9 +47,8 @@ def funcionPromProm(corridas, conjuntoValores):
         plt.plot(x,y, marker='o')
     plt.xlabel("Numero de tiradas")
     plt.ylabel("Promedio")
-    plt.title("Evaluacion del promedio sobre el conjunto de valores aleatorios")
-    x = [0, corridas-1]
-    y = [18, 18]
+    plt.title("Evaluacion de la media aritmetica sobre el conjunto de valores aleatorios")
+    plt.axhline(y=18, color = "black")  
     plt.grid()
     plt.plot(x,y, color='r')
 
@@ -70,10 +64,8 @@ def funcionHi(repeticiones, corridas, conjuntoValoresHi):
     plt.xlabel("Numero de tiradas")
     plt.ylabel("Frecuencia Relativa")
     plt.title("Evaluacion de la frecuencia relativa sobre el conjunto de valores aleatorios")
-    x = [-1, 36]
-    y = [0.027, 0.027]
+    plt.axhline(y=0.027, color = "r")  
     plt.ylim([0.01, 0.0425]) # esta ponderada
-    plt.plot(x,y, color = 'r')
 
 def funcionPuntos(repeticiones, corridas, conjuntoValores):
     #Grafica de las frec relativas
@@ -86,15 +78,46 @@ def funcionPuntos(repeticiones, corridas, conjuntoValores):
         plt.scatter(x,y)
     plt.xlabel("Numero de tiradas")
     plt.ylabel("Frecuencia Relativa")
-    plt.title("Evaluacion de la frecuencia relativa sobre el conjunto de valores aleatorios")
+    plt.title("Evaluacion de los resultados aleatorios sobre el conjunto de valores aleatorios")
 
-#Main
+def RuletaDesvio(tir, corr, conjuntoValores):
+    for c in range(corr):
+        y = []; x = []; valoresi = []
+        valoresxCorrida = conjuntoValores[c]
+        for i in range(tir):
+            valoresi.append(valoresxCorrida[i])
+            x.append(i+1)  
+            y.append(np.std(valoresi))
+        plt.plot(x, y)
+    plt.xlabel("Numero probable")
+    plt.ylabel("Resultados del tiro")   
+    plt.axhline(y=np.sqrt(114), color = "black")  
+    plt.title("Evaluacion del desvio estandar sobre el conjunto de valores aleatorios")
+    plt.show()
 
-print("Ingrese la cantidad de repeticiones que quiere ejecutar: ", end=""); rep = int(input())
-print("Ingrese la cantidad de corridas que quiere ejecutar: ", end=""); corr = int(input())
+def RuletaVarianza(tir, corr, conjuntoValores):
+    for c in range(corr):
+        y = []; x = []; valoresi = []
+        valoresxCorrida = conjuntoValores[c]
+        for i in range(tir):
+            valoresi.append(valoresxCorrida[i])
+            x.append(i+1)  
+            y.append(np.var(valoresi))
+        plt.plot(x, y)
+    plt.xlabel("Numero probable")
+    plt.ylabel("Resultados del tiro")   
+    plt.axhline(y=114, color = "black")  
+    plt.title("Evaluacion de la varianza sobre el conjunto de valores aleatorios")
+    plt.show()
 
+#Inputs
+rep = int(input("Ingrese la cantidad de TIRADAS que quiere ejecutar: "))
+corr = int(input("Ingrese las CORRIDAS: "))
+
+#Generar conjuntos de valores random
 funcion(rep, corr)
 
+#Graficas
 funcionProm(rep, corr, conjuntoValores)
 plt.show()
 funcionPromProm(corr, conjuntoValores)
@@ -103,7 +126,5 @@ funcionHi(rep, corr, conjuntoValoresHi)
 plt.show()
 funcionPuntos(rep, corr, conjuntoValores)
 plt.show()
-
-
-#funcionDesvio(rep, valoresProm)
-#funcionVarianza()
+RuletaDesvio(rep, corr, conjuntoValores)
+RuletaVarianza(rep, corr, conjuntoValores)
