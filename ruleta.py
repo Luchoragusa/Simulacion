@@ -93,6 +93,7 @@ def RuletaDesvio(tir, corr, conjuntoValores):
     plt.ylabel("Resultados del tiro")   
     plt.axhline(y=np.sqrt(114), color = "black")  
     plt.title("Evaluacion del desvio estandar sobre el conjunto de valores aleatorios")
+    plt.ylim([5, 16]) # esta ponderada la medicion
     plt.show()
 
 def RuletaVarianza(tir, corr, conjuntoValores):
@@ -108,6 +109,7 @@ def RuletaVarianza(tir, corr, conjuntoValores):
     plt.ylabel("Resultados del tiro")   
     plt.axhline(y=114, color = "black")  
     plt.title("Evaluacion de la varianza sobre el conjunto de valores aleatorios")
+    plt.ylim([70, 150]) # esta ponderada la medicion
     plt.show()
 
 #Inputs
