@@ -28,20 +28,19 @@ def funcion(rep, corr):
         for i in range(36):
             xHi.append(i)
             yHi.append(hi[i]/rep)
-        ax[1].bar(xHi, yHi)
+        ax[1].bar(xHi, yHi, alpha=0.7)
 
-    ax[0].set_xlabel("Tiradas")
+    ax[0].set_xlabel("Numero de tiradas")
     ax[0].set_ylabel("Promedio")
-    ax[1].set_xlabel("Tiradas")
+    ax[0].title.set_text("Evaluacion del promedio sobre el conjunto de valores aleatorios")
+    ax[1].set_xlabel("Numero de tiradas")
     ax[1].set_ylabel("Frecuencia Relativa")
+    ax[1].title.set_text("Evaluacion de la frecuencia relativa sobre el conjunto de valores aleatorios")
 
     x = [-1, 36]
     y = [0.027, 0.027]
     ax[1].plot(x,y)
 
-    plt.xlabel("Nro probable")
-    plt.ylabel("Resultado del tiro")
-    plt.title("Simulacion ruleta")
     plt.show()
     return (valores) 
 
