@@ -35,6 +35,10 @@ def funcion(rep, corr):
     ax[1].set_xlabel("Tiradas")
     ax[1].set_ylabel("Frecuencia Relativa")
 
+    x = [-1, 36]
+    y = [0.027, 0.027]
+    ax[1].plot(x,y)
+
     plt.xlabel("Nro probable")
     plt.ylabel("Resultado del tiro")
     plt.title("Simulacion ruleta")
