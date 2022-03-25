@@ -75,6 +75,19 @@ def funcionHi(repeticiones, corridas, conjuntoValoresHi):
     plt.ylim([0.01, 0.0425]) # esta ponderada
     plt.plot(x,y, color = 'r')
 
+def funcionPuntos(repeticiones, corridas, conjuntoValores):
+    #Grafica de las frec relativas
+    for c in range(corridas):
+        x = []; y= []
+        valoresxCorrida = conjuntoValores[c]
+        for i in range(repeticiones):
+            x.append(i)
+            y.append(valoresxCorrida[i])
+        plt.scatter(x,y)
+    plt.xlabel("Numero de tiradas")
+    plt.ylabel("Frecuencia Relativa")
+    plt.title("Evaluacion de la frecuencia relativa sobre el conjunto de valores aleatorios")
+
 #Main
 
 print("Ingrese la cantidad de repeticiones que quiere ejecutar: ", end=""); rep = int(input())
@@ -88,6 +101,9 @@ funcionPromProm(corr, conjuntoValores)
 plt.show()
 funcionHi(rep, corr, conjuntoValoresHi)
 plt.show()
+funcionPuntos(rep, corr, conjuntoValores)
+plt.show()
+
 
 #funcionDesvio(rep, valoresProm)
 #funcionVarianza()
