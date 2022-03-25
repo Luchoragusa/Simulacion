@@ -33,13 +33,16 @@ def funcion(rep, corr):
     ax[0].set_xlabel("Numero de tiradas")
     ax[0].set_ylabel("Promedio")
     ax[0].title.set_text("Evaluacion del promedio sobre el conjunto de valores aleatorios")
+    x = [-1, rep]
+    y = [18, 18]
+    ax[0].plot(x,y, color = 'r')
+
     ax[1].set_xlabel("Numero de tiradas")
     ax[1].set_ylabel("Frecuencia Relativa")
     ax[1].title.set_text("Evaluacion de la frecuencia relativa sobre el conjunto de valores aleatorios")
-
     x = [-1, 36]
     y = [0.027, 0.027]
-    ax[1].plot(x,y)
+    ax[1].plot(x,y, color = 'r')
 
     plt.show()
     return (valores) 
