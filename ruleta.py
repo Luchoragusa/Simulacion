@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 from scipy import stats # importando scipy.stats
 
 valores = []
-hi =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] 
 fig, ax = plt.subplots(1, 2)
 
 def funcion(rep, corr):
@@ -15,6 +14,7 @@ def funcion(rep, corr):
         suma=0
         x = []; xHi = []
         y= []; yHi = []
+        hi =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] 
         for i in range(rep):
             nRandom = random.randint (0,36)
             valoresInt.append(nRandom)
