@@ -21,7 +21,8 @@ def funcion(rep, corr):
     return (conjuntoValores) 
 
 
-def funcionProm(corridas, valoresProm):
+
+def funcionProm(repeticiones, corridas, valoresProm):
     #Grafica de promedio de los promedios
     x = []
     y= []
@@ -46,14 +47,7 @@ print("Ingrese la cantidad de corridas que quiere ejecutar: ", end=""); corr = i
 
 conjuntoValores= funcion(rep, corr)
 
-print(conjuntoValores)
-print("Esta es la corrida 0 -->", conjuntoValores[0])
-
-asd = conjuntoValores[0]
-print ("Este es el conjunto 0 de la corrida 0")
-print("Esta es la corrida 0 -->", asd[0])
-
-#funcionProm(corr, valoresProm)
+funcionProm(rep, corr, conjuntoValores)
 #funcionHi(rep)
 #funcionDesvio(rep, valoresProm)
 #funcionVarianza()
