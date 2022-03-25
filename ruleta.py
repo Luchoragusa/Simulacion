@@ -24,7 +24,7 @@ def funcion(rep, corr):
 
 
 def funcionProm(repeticiones, corridas, conjuntoValores):
-    #Grafica de promedio de los promedios
+    #Grafica de los promedios
     for c in range(corridas):
         x = []; y= []
         suma=0
@@ -40,14 +40,29 @@ def funcionProm(repeticiones, corridas, conjuntoValores):
     x = [-1, rep]
     y = [18, 18]
     plt.plot(x,y, color = 'r')
+    plt.ylim([12, 25]) # esta ponderada la medicion
+
+def funcionPromProm(corridas, conjuntoValores):
+    #Grafica del promedio de los promedios
+    x = []; y= []
+    for c in range(corridas):
+        valoresxCorrida = conjuntoValores[c]
+        x.append(c)
+        y.append(np.mean(valoresxCorrida))
+        plt.plot(x,y, marker='o')
+    plt.xlabel("Numero de tiradas")
+    plt.ylabel("Promedio")
+    plt.title("Evaluacion del promedio sobre el conjunto de valores aleatorios")
+    x = [0, corridas-1]
+    y = [18, 18]
+    plt.grid()
+    plt.plot(x,y, color='r')
 
 def funcionHi(repeticiones, corridas, conjuntoValoresHi):
-    #Grafica de promedio de los promedios
+    #Grafica de las frec relativas
     for c in range(corridas):
         x = []; y= []
-        suma=0
         valoresxCorrida = conjuntoValoresHi[c]
-        print("Valores de " , c, " ", valoresxCorrida)
         for i in range(36):
             x.append(i)
             y.append(valoresxCorrida[i]/repeticiones)
@@ -57,6 +72,7 @@ def funcionHi(repeticiones, corridas, conjuntoValoresHi):
     plt.title("Evaluacion de la frecuencia relativa sobre el conjunto de valores aleatorios")
     x = [-1, 36]
     y = [0.027, 0.027]
+    plt.ylim([0.01, 0.0425]) # esta ponderada
     plt.plot(x,y, color = 'r')
 
 #Main
@@ -66,9 +82,12 @@ print("Ingrese la cantidad de corridas que quiere ejecutar: ", end=""); corr = i
 
 funcion(rep, corr)
 
-#funcionProm(rep, corr, conjuntoValores)
+funcionProm(rep, corr, conjuntoValores)
+plt.show()
+funcionPromProm(corr, conjuntoValores)
+plt.show()
 funcionHi(rep, corr, conjuntoValoresHi)
+plt.show()
+
 #funcionDesvio(rep, valoresProm)
 #funcionVarianza()
-
-plt.show()
