@@ -1,10 +1,12 @@
 import random
 from cmath import sqrt
+from xmlrpc.client import Boolean
 import numpy as np # importando numpy
 from turtle import color
 import matplotlib.pyplot as plt
 from pyparsing import col 
 from scipy import stats # importando scipy.stats
+
 apuesta_minima_ruleta = 10000
 dinero_ganado_paridad = 15000
 rojo = "Rojo"
@@ -55,6 +57,13 @@ def pedirNumero():
         else:
             band = True
 
+def validaSaldo(saldo):
+    band = False
+    if saldo < apuesta_minima_ruleta:
+        print(f"Necesitas de al menos {apuesta_minima_ruleta} pesos para jugar.")
+        band = True
+    return band
+
 def main():
     saldo_global = 50000 #El saldo con el que se inicia
     eleccion = ""
@@ -71,15 +80,17 @@ def main():
             eleccion_ruleta = ""
             while eleccion_ruleta != "4":
                 print(f"Dinero disponible: {saldo_global}")
-                eleccion_ruleta = input("""1. Número y color
+                eleccion_ruleta = input(""" 1. Número y color
                                             2. Solo color (negro y rojo)
                                             3. Paridad (par e impar)
                                             4. Volver
                                             Elige: """)
+#Opcion 1 (Número y color)
                 if eleccion_ruleta == "1":
-                    if saldo_global < apuesta_minima_ruleta:
-                        print(f"Necesita de al menos {apuesta_minima_ruleta} pesos para jugar a la ruleta")
+                    
+                    if(validaSaldo(saldo_global)):
                         break
+                    
                     numero_usuario = pedirNumero()
                     color_eleccion_usuario = input("1. Rojo\n2.Negro\nElige: ")
                     if color_eleccion_usuario == "1":
@@ -89,27 +100,33 @@ def main():
                     
                     #Se elige aleatoriamente
                     nRandom = random.randint(0, 36)
-                    cRandom = colores[random.randinit(0, len(colores)-1)]
                     print("Numero obtenido: " + str(nRandom))
+                    cRandom = colores[random.randinit(0, len(colores)-1)]
                     print("Color obtenido: " + str(cRandom))
+
                     if nRandom == numero_usuario and cRandom == color_eleccion_usuario:
                         #Acierta numero y color
                         print("Gana el dinero apostado multiplicado por 10.")
                         saldo_global += dinero_apostado*9
-                    else:
+                    else:                                                                               # ver esto, pq no es asi q si no pega los 2 pierde todo
                         print("Pierde lo apostado numero y color...")
                         saldo_global -= dinero_apostado
                     pass
+
+#Opcion 2 (Solo color)
                 elif eleccion_ruleta == "2":
-                    if saldo_global < apuesta_minima_ruleta:
-                        print(f"Necesitas de al menos {apuesta_minima_ruleta} pesos para jugar.")
+
+                    if(validaSaldo(saldo_global)):
                         break
+
                     color_eleccion_usuario = input("1.Rojo\n2.Negro\nElige: ")
+
                     if color_eleccion_usuario == "1":
                         color_usuario = rojo
                     else: 
                         color_usuario = negro
-                    color_aleatorio = colores[random.randinit(0, len(colores)-1)]
+
+                    cRandom = colores[random.randinit(0, len(colores)-1)]
                     print("Color obtenido: " + str(cRandom))
                     if color_usuario == cRandom:
                         #Acierta color
@@ -118,29 +135,36 @@ def main():
                     else:
                         print("Pierde lo apostado en color...")
                         saldo_global -= dinero_apostado
+                        
+#Opcion 3 (paridad)
                 elif eleccion_ruleta == "3":
-                    if saldo_global < apuesta_minima_ruleta:
-                        if saldo_global < apuesta_minima_ruleta:
-                            print(f"Necesitas al menos {apuesta_minima_ruleta} pesos para jugar a la ruleta")
-                            break
-                        paridad_eleccion_usuario = input("1.Par\n2.Impar\nElige: ")
-                        if paridad_eleccion_usuario == "1":
-                            paridad_usuario = par
-                        else:
-                            paridad_usuario = impar
-                        nRandom = random.randint(0, 36)
-                        print("Numero obtenido: " + str(nRandom))
-                        if nRandom % 2 == 0 and paridad_usuario == par:
-                            print("El numero es par.")
-                            print(f"Gana {dinero_ganado_paridad} pesos.")
-                            saldo_global += dinero_ganado_paridad
-                        elif nRandom % 2 != 0 and paridad_usuario == impar:
-                            print("El numero es impar.")
-                            print(f"Gana {dinero_ganado_paridad} pesos.")
-                            saldo_global += dinero_ganado_paridad
-                        else:
-                            print("Pierde lo apostado en paridad...")
-                            saldo_global -= dinero_apostado
+
+                    if(validaSaldo(saldo_global)):
+                        break
+
+                    paridad_eleccion_usuario = input("1.Par\n2.Impar\nElige: ")
+
+                    if paridad_eleccion_usuario == "1":
+                        paridad_usuario = par
+                    else:
+                        paridad_usuario = impar
+
+                    nRandom = random.randint(0, 36)
+                    print("Numero obtenido: " + str(nRandom))
+
+                    if nRandom % 2 == 0 and paridad_usuario == par:
+                        print("El numero es par.")
+                        print(f"Gana {dinero_ganado_paridad} pesos.")
+                        saldo_global += dinero_ganado_paridad
+
+                    elif nRandom % 2 != 0 and paridad_usuario == impar:
+                        print("El numero es impar.")
+                        print(f"Gana {dinero_ganado_paridad} pesos.")
+                        saldo_global += dinero_ganado_paridad
+                        
+                    else:
+                        print("Pierde lo apostado en paridad...")
+                        saldo_global -= dinero_apostado
 
     print(f"Saldo final: {saldo_global}")
                         
