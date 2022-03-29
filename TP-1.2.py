@@ -28,22 +28,35 @@ menu = """###### MENU RULETA #######
 2. SALIR
 Elige: """
 
-explicacion_ruleta = f"""Se puede apostar por:
+explicacion_ruleta = f"""\nSe puede apostar por:
 1) Numero y color: si acertás ambos, la apuesta se multiplica por 10. Si no, se pierde la apuesta
 2) Solamente color: si se acierta el color, la apuesta se multiplica por 2. Si no, se pierde la apuesta
 3) Solo paridad: si se acierta par o impar, se ganan 15000. Si no, se pierde la apuesta.
-Los numeros van del 0 al 36, colores son rojo y negro, paridades son par e impar"""
+Los numeros van del 0 al 36, colores son rojo y negro, paridades son par e impar\n"""
 
 #Está sin implementar, simplemente lo traje para utilizar después y no olvidarnos
 conjuntoValores = []
 conjuntoValoresHi = []
 
 
-def solicitarDineroRuleta(saldo):
+def solicitarDineroRuleta(saldoGlobal, apuestaActual):
     dinero_apostado = 0
-    while dinero_apostado < apuesta_minima_ruleta or dinero_apostado > saldo:
+    if  (saldoGlobal-apuestaActual) >= apuesta_minima_ruleta:
+        print(f"Tu saldo actual es: {saldoGlobal-apuestaActual}")
         dinero_apostado = float(input(f"¿Cuanto apostás? Debe ser al menos {apuesta_minima_ruleta} pesos, y no debe superar el saldo: "))
-    return dinero_apostado
+        band = True
+        while band:
+            if(dinero_apostado >= apuesta_minima_ruleta):
+                if ((saldoGlobal-(apuestaActual + dinero_apostado)) >= 0):
+                    apuestaActual += dinero_apostado
+                    band = False
+                else:
+                    dinero_apostado = float(input(f"Te pasaste de la apuesta maxima q podes hacer, la cual es {(saldoGlobal-apuestaActual)}:"))
+            else: 
+                dinero_apostado = float(input(f"Estas apostando menos de lo sugerida, ingresa una valor >= a 10000: "))
+    else:
+        print("Tu saldo no llega al minimo")
+    return dinero_apostado, apuestaActual
 
 def pedirNumero():
     numero = int(input("Elige un numero entre 0 y 36: "))
@@ -68,47 +81,29 @@ def main():
     while eleccion != "2":
         eleccion = input(menu)
         if eleccion == "1":
-            print(f"Dinero disponible: {saldo_global}")
+            print(f"Dinero disponible de su cuenta: {saldo_global}")
             colores = [rojo, negro]
             if(validaSaldo(saldo_global)):
                 continue
-
+            matrizApuestas = []
+            apuestaActual = 0
             print(explicacion_ruleta)
             eleccion_ruleta = ""
-            matrizApuestas = [[], 
-                                []]
             while eleccion_ruleta != "7":
-                print(f"Dinero disponible: {saldo_global}")
-                eleccion_ruleta = input(""" 1. Número
-                                            2. Solo color (negro y rojo)
-                                            3. Paridad (par e impar)
-                                            4. 12's
-                                            5. 1-18 y/o 19-36
-                                            6. 2 to 1
-                                            7. Volver
-                                            Elige: """)
+                print(f"Dinero disponible para esta ronda: {saldo_global-apuestaActual}")
+                eleccion_ruleta = input("""\t1. Número\n\t2. Solo color (negro y rojo)\n\t3. Paridad (par e impar)\n\t4. 12's\n\t5. 1-18 y/o 19-36\n\t6. 2 to 1\n\t7. Volver\n\tElige: """)
 #Opcion 1 (Número)
                 if eleccion_ruleta == "1":
                     seguirApostando = True
-
                     if(validaSaldo(saldo_global)):
                         break
-                
                     while seguirApostando:
+                        dinero_apostado,apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)
+                        if (dinero_apostado == 0):
+                            break
                         numero_usuario = pedirNumero()
-                        dinero_apostado = solicitarDineroRuleta(saldo_global)
-                        matrizApuestas.append([numero_usuario],[dinero_apostado])
-
-
-                        if nRandom == numero_usuario:
-                            #Acierta numero
-                            print("¡Has ganado el pleno!")
-                            print("Gana el dinero apostado (multiplicado por 10).")
-                            saldo_global += dinero_apostado*9
-                        else:                                                                              
-                            print("Pierde lo apostado numero y color...")
-                            saldo_global -= dinero_apostado
-                        pass
+                        matrizApuestas.append([numero_usuario, dinero_apostado]) #apuestas con dinero
+                        print(matrizApuestas)
 
 #Opcion 2 (Solo color)
                 elif eleccion_ruleta == "2":
