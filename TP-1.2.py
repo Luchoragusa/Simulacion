@@ -14,6 +14,11 @@ negro = "Negro"
 par = "Par"
 impar = "Impar"
 
+Ruleta = [[1,4,7,10,13,16,19,22,25,28,31,34]
+         ,[2,5,8,11,14,17,20,23,26,29,32,35]
+         ,[3,5,9,12,15,18,21,24,27,30,33,36]]
+
+
 menu = """###### MENU RULETA #######
 1. JUGAR
 2. SALIR
@@ -28,17 +33,6 @@ Los numeros van del 0 al 36, colores son rojo y negro, paridades son par e impar
 #Está sin implementar, simplemente lo traje para utilizar después y no olvidarnos
 conjuntoValores = []
 conjuntoValoresHi = []
-
-def funcion(rep, corr):
-    for c in range(corr):
-        valoresInt = []
-        hi =[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-        for i in range(rep):
-            nRandom = ran.randint (0,36)
-            valoresInt.append(nRandom)
-            hi[nRandom] += 1
-        conjuntoValores.append(valoresInt)
-        conjuntoValoresHi.append(hi)
 
 
 def solicitarDineroRuleta(saldo):
@@ -72,9 +66,9 @@ def main():
         if eleccion == "1":
             print(f"Dinero disponible: {saldo_global}")
             colores = [rojo, negro]
-            if saldo_global < apuesta_minima_ruleta:
-                print(f"Necesita de al menos {apuesta_minima_ruleta} pesos para jugar a la ruleta")
+            if(validaSaldo(saldo_global)):
                 continue
+
             print(explicacion_ruleta)
             dinero_apostado = solicitarDineroRuleta(saldo_global)
             eleccion_ruleta = ""
@@ -161,7 +155,7 @@ def main():
                         print("El numero es impar.")
                         print(f"Gana {dinero_ganado_paridad} pesos.")
                         saldo_global += dinero_ganado_paridad
-                        
+
                     else:
                         print("Pierde lo apostado en paridad...")
                         saldo_global -= dinero_apostado
