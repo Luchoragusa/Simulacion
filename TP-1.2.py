@@ -94,21 +94,21 @@ def main():
                     if(validaSaldo(saldo_global)):
                         break
                 
-                while seguirApostando:
-                    numero_usuario = pedirNumero()
-                    dinero_apostado = solicitarDineroRuleta(saldo_global)
-                    matrizApuestas.append([numero_usuario],[dinero_apostado])
+                    while seguirApostando:
+                        numero_usuario = pedirNumero()
+                        dinero_apostado = solicitarDineroRuleta(saldo_global)
+                        matrizApuestas.append([numero_usuario],[dinero_apostado])
 
 
-                    if nRandom == numero_usuario:
-                        #Acierta numero
-                        print("¡Has ganado el pleno!")
-                        print("Gana el dinero apostado (multiplicado por 10).")
-                        saldo_global += dinero_apostado*9
-                    else:                                                                              
-                        print("Pierde lo apostado numero y color...")
-                        saldo_global -= dinero_apostado
-                    pass
+                        if nRandom == numero_usuario:
+                            #Acierta numero
+                            print("¡Has ganado el pleno!")
+                            print("Gana el dinero apostado (multiplicado por 10).")
+                            saldo_global += dinero_apostado*9
+                        else:                                                                              
+                            print("Pierde lo apostado numero y color...")
+                            saldo_global -= dinero_apostado
+                        pass
 
 #Opcion 2 (Solo color)
                 elif eleccion_ruleta == "2":
