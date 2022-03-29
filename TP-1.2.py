@@ -18,6 +18,8 @@ matrizR = [[1,4,7,10,13,16,19,22,25,28,31,34]
          ,[2,5,8,11,14,17,20,23,26,29,32,35]
          ,[3,5,9,12,15,18,21,24,27,30,33,36]]
 
+# Definir apuesta por columna y por docena, ademas hacer que se pueda apostar por muchos a la vez
+# Modificar la opcion 1 para que sea solo numero, y que se pueden apostar a varias opciones
 
 menu = """###### MENU RULETA #######
 1. JUGAR
