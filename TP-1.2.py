@@ -15,8 +15,8 @@ par = "Par"
 impar = "Impar"
 
 matrizR = [[1,4,7,10,13,16,19,22,25,28,31,34]
-         ,[2,5,8,11,14,17,20,23,26,29,32,35]
-         ,[3,5,9,12,15,18,21,24,27,30,33,36]]
+        ,[2,5,8,11,14,17,20,23,26,29,32,35]
+        ,[3,5,9,12,15,18,21,24,27,30,33,36]]
 
 # Definir apuesta por columna y por docena, ademas hacer que se pueda apostar por muchos a la vez
 # Modificar la opcion 1 para que sea solo numero, y que se pueden apostar a varias opciones
@@ -74,37 +74,34 @@ def main():
             print(explicacion_ruleta)
             dinero_apostado = solicitarDineroRuleta(saldo_global)
             eleccion_ruleta = ""
-            while eleccion_ruleta != "4":
+            while eleccion_ruleta != "7":
                 print(f"Dinero disponible: {saldo_global}")
-                eleccion_ruleta = input(""" 1. Número y color
+                eleccion_ruleta = input(""" 1. Número
                                             2. Solo color (negro y rojo)
                                             3. Paridad (par e impar)
-                                            4. Volver
+                                            4. 12's
+                                            5. 1-18 y/o 19-36
+                                            6. 2 to 1
+                                            7. Volver
                                             Elige: """)
-#Opcion 1 (Número y color)
+#Opcion 1 (Número)
                 if eleccion_ruleta == "1":
                     
                     if(validaSaldo(saldo_global)):
                         break
                     
                     numero_usuario = pedirNumero()
-                    color_eleccion_usuario = input("1. Rojo\n2.Negro\nElige: ")
-                    if color_eleccion_usuario == "1":
-                        color_usuario = rojo
-                    else:
-                        color_usuario  = negro
                     
-                    #Se elige aleatoriamente
+                    #Se elige aleatoriamente el numero
                     nRandom = random.randint(0, 36)
                     print("Numero obtenido: " + str(nRandom))
-                    cRandom = colores[random.randinit(0, len(colores)-1)]
-                    print("Color obtenido: " + str(cRandom))
 
-                    if nRandom == numero_usuario and cRandom == color_eleccion_usuario:
-                        #Acierta numero y color
-                        print("Gana el dinero apostado multiplicado por 10.")
+                    if nRandom == numero_usuario:
+                        #Acierta numero
+                        print("¡Has ganado el pleno!")
+                        print("Gana el dinero apostado (multiplicado por 10).")
                         saldo_global += dinero_apostado*9
-                    else:                                                                               # ver esto, pq no es asi q si no pega los 2 pierde todo
+                    else:                                                                              
                         print("Pierde lo apostado numero y color...")
                         saldo_global -= dinero_apostado
                     pass
