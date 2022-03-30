@@ -1,4 +1,4 @@
-import random
+import random as ran
 from cmath import sqrt
 from xmlrpc.client import Boolean
 import numpy as np # importando numpy
@@ -19,9 +19,12 @@ docena2 = "2da docena"
 docena3 = "3ra docena"
 falta = "1-18"
 pasa = "19-36"
+
 columna1 = [1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34]
 columna2 = [2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35]
 columna3 = [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36]
+
+numerosRojos = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36]
 
 matrizR = [[1,4,7,10,13,16,19,22,25,28,31,34]
         ,[2,5,8,11,14,17,20,23,26,29,32,35]
@@ -40,13 +43,6 @@ explicacion_ruleta = f"""\nSe puede apostar por:
 2) Solamente color: si se acierta el color, la apuesta se multiplica por 2. Si no, se pierde la apuesta
 3) Solo paridad: si se acierta par o impar, se ganan 15000. Si no, se pierde la apuesta.
 Los numeros van del 0 al 36, colores son rojo y negro, paridades son par e impar\n"""
-
-colores = [rojo, negro]
-docenas = [docena1, docena2, docena3]
-faltapasa = [falta, pasa]
-columnas = [columna1, columna2, columna3]
-
-color_usuario = ""
 
 
 def solicitarDineroRuleta(saldoGlobal, apuestaActual):
@@ -85,10 +81,6 @@ def validaSaldo(saldo):
         band = True
     return band
 
-def girarLaRuleta():
-    numeroRandomObtenido = random.randint(0, 36)
-    return numeroRandomObtenido
-
 def main():
     saldo_global = 50000 #El saldo con el que se inicia
     eleccion = ""
@@ -114,8 +106,7 @@ def main():
                         break
                     numero_usuario = pedirNumero()
                     matrizApuestas.append([numero_usuario, dinero_apostado])
-
-#Opcion 2 (Solo color)
+#Opcion 2 (Color)
                 elif eleccion_ruleta == "2":
                     if(validaSaldo(saldo_global)):
                         break
@@ -130,7 +121,6 @@ def main():
                     else:
                         print("Ingresó otra opción.")
                         break
-
 #Opcion 3 (paridad)
                 elif eleccion_ruleta == "3":
                     if(validaSaldo(saldo_global)):
@@ -163,8 +153,7 @@ def main():
                     else:
                         print("Ingresó otra opción.")
                         break
-
-#Opcion 5 1-18 y/o 19-36
+#Opcion 5 1-18 o 19-36
                 elif eleccion_ruleta == "5":
                     if(validaSaldo(saldo_global)):
                         break
@@ -179,7 +168,6 @@ def main():
                     else:
                         print("Ingresó otra opción.")
                         break
-
 #Opcion 6 columnas
                 elif eleccion_ruleta == "6":
                     if(validaSaldo(saldo_global)):
@@ -197,14 +185,33 @@ def main():
                     else:
                         print("Ingresó otra opción.")
                         break
-                    print("Numero obtenida: " + str(numeroRandomObtenido))
-                    if nRandom in columna_usuario:
-                        #Acierta columna
-                        print("¡Acertaste la columna!.")
-                        apuestaActual += dinero_apostado * 3
-                    else:
-                        print(f"El numero '{nRandom}' pertenece a otra columna. Pierde lo apostado.")
-                        apuestaActual -= dinero_apostado
+#Opcion 7 columnas
+                elif eleccion_ruleta == "7": #genero el numero y analizo cada condicion
+                    nRandom = ran.randint (0,36)
+                    saldo_global -= dinero_apostado # le descuento al salgoGlobal lo apostado
+                    ganancia = 0
+                    for i in range(np.size(matrizApuestas)):
+                        m = matrizApuestas[i]
 
-            print(f"Saldo final: {saldo_global-apuestaActual}")                        
+                        # Si acerto el Numero
+                        if(m[0] == nRandom): 
+                            ganancia += m[1]*32
+                        # Si acerto el Color
+                        if(nRandom in numerosRojos and m[0] == rojo) or (nRandom not in numerosRojos and m[0] == negro):
+                                ganancia += m[1]*32 # Nose si se multiplica por 32
+                        # Si acerto la paridad
+                        if (nRandom %2 == 0 and m[0] == par) or (nRandom % 2 != 0 and m[0] == impar):
+                            ganancia += m[1] * 2
+                        # Si acerto los 12's
+                        if (nRandom >= 1 and nRandom <= 12 and m[1] == docena1) or (nRandom >= 13 and nRandom <= 24 and m[1] == docena2) or (nRandom >= 25 and nRandom <= 36 and m[1] == docena3):
+                            ganancia += m[1] * 2
+                        # Si acerto los 1-18 o 19-36
+                        if (nRandom >= 1 and nRandom <= 18 and m[1] == falta) or (nRandom >= 19 and nRandom <= 36 and m[1] == pasa):
+                            ganancia += m[1] * 2
+                        if (nRandom in columna1 and m[1] == columna1) or (nRandom in columna2 and m[1] == columna2) or (nRandom in columna3 and m[1] == columna3):
+                            ganancia += m[1] * 2
+
+                    saldo_global += ganancia # Sumo la ganancia q haya tenido el usuario
+
+            print(f"Saldo final: {saldo_global}") 
 main()
