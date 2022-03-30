@@ -85,20 +85,6 @@ def validaSaldo(saldo):
         band = True
     return band
 
-def soloColor(color_eleccion_usuario):
-    if color_eleccion_usuario == "1":
-        color_usuario = rojo
-    if color_eleccion_usuario == "2":
-        color_usuario = negro
-    cRandom = colores[random.randinit(0, len(colores)-1)]
-    print("Color obtenido: " + str(cRandom))
-    if color_usuario == cRandom:
-        #Acierta color
-        print("¡Acertaste el color!.")
-        return color_usuario
-    else:
-        print("No acertó el color. Pierde lo apostado.")
-
 def girarLaRuleta():
     numeroRandomObtenido = random.randint(0, 36)
     return numeroRandomObtenido
@@ -137,8 +123,10 @@ def main():
                     color_eleccion_usuario = input("\t1.Rojo\n\t2.Negro\n\tElige: ")         #Para UN SOLO color
                     if color_eleccion_usuario == "1":
                         matrizApuestas.append([rojo, dinero_apostado])
-                    else: 
+                    elif color_eleccion_usuario == "2":
                         matrizApuestas.append([negro, dinero_apostado])
+                    else:
+                        print("Ingresó otra opción.")
                     print(matrizApuestas)
 
 #Opcion 3 (paridad)
@@ -148,20 +136,12 @@ def main():
                     dinero_apostado,apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)
                     paridad_eleccion_usuario = input("\t1.Par\n\t2.Impar\n\tElige: ")       #Para UNA SOLA paridad
                     if paridad_eleccion_usuario == "1":
-                        paridad_usuario = par
+                        matrizApuestas.append([par, dinero_apostado])
                     elif paridad_eleccion_usuario == "2":
-                        paridad_usuario = impar
+                        matrizApuestas.append([impar, dinero_apostado])
                     else:
                         print("Ingresó otra opción.")
                         break
-                    nRandom = random.randint(0, 36)
-                    print("Numero obtenido: " + str(nRandom))
-                    if (nRandom % 2 == 0 and paridad_usuario == par) or (nRandom % 2 != 0 and paridad_usuario == impar):
-                        print("¡Acertaste la paridad!.")
-                        saldo_global += dinero_apostado * 2
-                    elif (nRandom % 2 == 0 and paridad_usuario == impar) or (nRandom % 2 != 0 and paridad_usuario == par):
-                        print("No acertó la paridad. Pierde lo apostado.")
-                        apuestaActual -= dinero_apostado
 #Opcion 4 12's
                 elif eleccion_ruleta == "4":
                     if(validaSaldo(saldo_global)):
