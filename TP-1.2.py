@@ -120,6 +120,8 @@ def main():
                     if(validaSaldo(saldo_global)):
                         break
                     dinero_apostado, apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)
+                    if (dinero_apostado == 0):
+                        break
                     color_eleccion_usuario = input("\t1.Rojo\n\t2.Negro\n\tElige: ")         #Para UN SOLO color
                     if color_eleccion_usuario == "1":
                         matrizApuestas.append([rojo, dinero_apostado])
@@ -127,13 +129,15 @@ def main():
                         matrizApuestas.append([negro, dinero_apostado])
                     else:
                         print("Ingresó otra opción.")
-                    print(matrizApuestas)
+                        break
 
 #Opcion 3 (paridad)
                 elif eleccion_ruleta == "3":
                     if(validaSaldo(saldo_global)):
                         break
                     dinero_apostado,apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)
+                    if (dinero_apostado == 0):
+                        break
                     paridad_eleccion_usuario = input("\t1.Par\n\t2.Impar\n\tElige: ")       #Para UNA SOLA paridad
                     if paridad_eleccion_usuario == "1":
                         matrizApuestas.append([par, dinero_apostado])
@@ -147,25 +151,19 @@ def main():
                     if(validaSaldo(saldo_global)):
                         break
                     dinero_apostado,apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)
+                    if (dinero_apostado == 0):
+                        break
                     docena_eleccion_usuario = input("\t1.1ra docena\n\t2.2da docena\n\t3.3ra docena\n\tElige: ")   #Para UNA SOLA docena
                     if docena_eleccion_usuario == "1":
-                        docena_usuario = docena1
+                        matrizApuestas.append([docena1, dinero_apostado])
                     elif docena_eleccion_usuario == "2":
-                        docena_usuario = docena2
+                        matrizApuestas.append([docena2, dinero_apostado])
                     elif docena_eleccion_usuario == "3":
-                        docena_usuario = docena3
+                        matrizApuestas.append([docena3, dinero_apostado])
                     else:
                         print("Ingresó otra opción.")
                         break
-                    dRandom = docenas[random.randinit(0, len(docenas)-1)]
-                    print("Docena obtenida: " + str(dRandom))
-                    if docena_usuario == dRandom:
-                        #Acierta docena
-                        print("¡Acertaste la docena!.")
-                        apuestaActual += dinero_apostado * 3
-                    else:
-                        print("El numero pertenece a otra docena. Pierde lo apostado.")
-                        apuestaActual -= dinero_apostado
+
 #Opcion 5 1-18 y/o 19-36
                 elif eleccion_ruleta == "5":
                     if(validaSaldo(saldo_global)):
