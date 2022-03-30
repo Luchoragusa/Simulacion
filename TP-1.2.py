@@ -169,35 +169,31 @@ def main():
                     if(validaSaldo(saldo_global)):
                         break
                     dinero_apostado,apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)
+                    if (dinero_apostado == 0):
+                        break
                     faltapasa_eleccion_usuario = input("\t1.1-18\n\t2.19-36\n\tElige: ")   #Para UNA SOLA 
                     if faltapasa_eleccion_usuario == "1":
-                        faltapasa_usuario = falta
+                        matrizApuestas.append([falta, dinero_apostado])
                     elif faltapasa_eleccion_usuario == "2":
-                        faltapasa_usuario = pasa
+                        matrizApuestas.append([pasa, dinero_apostado])
                     else:
                         print("Ingresó otra opción.")
                         break
-                    fpRandom = faltapasa[random.randinit(0, len(faltapasa)-1)]
-                    print("Docena obtenida: " + str(dRandom))
-                    if faltapasa_usuario == fpRandom:
-                        #Acierta 
-                        print("¡Acertaste!.")
-                        apuestaActual += dinero_apostado * 2
-                    else:
-                        print(f"Su numero elegido no pertenece a '{faltapasa_usuario}', pertenece a '{fpRandom}. Pierde lo apostado.'")
-                        apuestaActual -= dinero_apostado
+
 #Opcion 6 columnas
                 elif eleccion_ruleta == "6":
                     if(validaSaldo(saldo_global)):
                         break
                     dinero_apostado,apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)
+                    if (dinero_apostado == 0):
+                        break
                     columna_eleccion_usuario = input("\t1.1ra columna\n\t2.2da columna\n\t3.3ra columna\n\tElige: ")   #Para UNA SOLA docena
                     if columna_eleccion_usuario == "1":
-                        columna_usuario = columna1
+                        matrizApuestas.append([columna1, dinero_apostado])
                     elif columna_eleccion_usuario == "2":
-                        columna_usuario = columna2
+                        matrizApuestas.append([columna2, dinero_apostado])
                     elif columna_eleccion_usuario == "3":
-                        columna_usuario = columna3
+                        matrizApuestas.append([columna3, dinero_apostado])
                     else:
                         print("Ingresó otra opción.")
                         break
