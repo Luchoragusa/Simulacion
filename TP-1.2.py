@@ -26,10 +26,6 @@ columna3 = [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36]
 
 numerosRojos = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36]
 
-matrizR = [[1,4,7,10,13,16,19,22,25,28,31,34]
-        ,[2,5,8,11,14,17,20,23,26,29,32,35]
-        ,[3,5,9,12,15,18,21,24,27,30,33,36]]
-
 # Definir apuesta por columna y por docena, ademas hacer que se pueda apostar por muchos a la vez
 # Modificar la opcion 1 para que sea solo numero, y que se pueden apostar a varias opciones
 
@@ -353,11 +349,17 @@ def main():
                         if (nRandom >= 1 and nRandom <= 12 and m[1] == docena1) or (nRandom >= 13 and nRandom <= 24 and m[1] == docena2) or (nRandom >= 25 and nRandom <= 36 and m[1] == docena3):
                             ganancia += m[1] * 3
                         # Si acierto los 1-18 o 19-36
+                            ganancia += m[1] * 2 # Nose si se multiplica por 2
+                        # Si acerto los 12's
+                        if (nRandom >= 1 and nRandom <= 12 and m[1] == docena1) or (nRandom >= 13 and nRandom <= 24 and m[1] == docena2) or (nRandom >= 25 and nRandom <= 36 and m[1] == docena3):
+                            ganancia += m[1] * 2 # Nose si se multiplica por 2
+                        # Si acerto los 1-18 o 19-36
                         if (nRandom >= 1 and nRandom <= 18 and m[1] == falta) or (nRandom >= 19 and nRandom <= 36 and m[1] == pasa):
-                            ganancia += m[1] * 2
+                            ganancia += m[1] * 2 # Nose si se multiplica por 2
                         if (nRandom in columna1 and m[1] == columna1) or (nRandom in columna2 and m[1] == columna2) or (nRandom in columna3 and m[1] == columna3):
                             ganancia += m[1] * 3
                         # Si acierto la Martingala color
+                            ganancia += m[1] * 2 # Nose si se multiplica por 2
 
                         # Si acierto Apostar al color
 
