@@ -49,10 +49,9 @@ def main():
     colorSeleccionado = ""
     while eleccion != "2":
         eleccion = input(menu)
-        
         dinero_apostado = solicitarDineroRuleta()
 
-        color_eleccion_usuario = input("\t1.Rojo\n\t2.Negro\n\tElige: ")         #Para UN SOLO color
+        color_eleccion_usuario = input("\t1.Rojo\n\t2.Negro\n\tElige: ") 
         if color_eleccion_usuario == "1":
             colorSeleccionado = rojo
         elif color_eleccion_usuario == "2":
