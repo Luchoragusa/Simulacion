@@ -77,125 +77,38 @@ def validaSaldo(saldo):
         band = True
     return band
 
-def martingala(dineroApostado, saldoActual):
-    repeticiones = 1000
-    x, y = [], []
-    for i in range(100, 200, 10):
-        ganados = 0
-        for j in range(1, repeticiones):
-            target = i
-            while True:
-                if (saldoActual >= target):
-                    ganados += 1
-                    break
-            nRandom = ran.randint (0,37)
-            if (nRandom == 0):
-                saldoActual -= dineroApostado
-                dineroApostado *= 2
-            else:
-                if (nRandom % 2) == 0:  #significa par
-                    saldoActual += dineroApostado
-                else:   #dio impar
-                    saldoActual -= dineroApostado
-                    dineroApostado *= 2
-                if (dineroApostado > saldoActual):
-                    dineroApostado = saldoActual
-                if (saldoActual <= 0):
-                    break
-                if (dineroApostado > apuesta_minima_ruleta):
-                    dineroApostado = apuesta_minima_ruleta
-    perdidas = repeticiones - ganados
-    ratio = (100*ganados/repeticiones)
-    x.append(i)
-    y.append(ratio)
-    x, y = np.array(x), np.array(y)
-    line, = plt.plot(x,y, '--', linewidth=2)
-    plt.xlabel("Target ganador.")
-    plt.ylabel("Probabilidad")
-    plt.title("Martingala empezando con 1000 unidad y dinero minimo de apuesta")
-    plt.ylim(ymin=0)
-    plt.grid()
-    plt.show()
-    print(f"Target {target}, veces ganadas {ganados}, perdidas {perdidas}, ratio {ratio}")
-
-def otraMartingala(dineroApostado, saldoActual):
-    mesa = ["Rojo"] * 18 + ["Negro"] * 18 + ["Verde"] * 1
-    historialMartingala = []
-    while saldoActual > 0:
-        if dineroApostado > saldoActual:
-            dineroApostado = saldoActual
-        opRandom = ran.choice(mesa)
-        if opRandom == "Rojo":
-            saldoActual += dineroApostado * 2
-        else:
-            saldoActual -= dineroApostado
-            dineroApostado *= 2
-        historialMartingala.append(saldoActual)
-    return historialMartingala
 '''
-for i in range():
-    plt.plt(otraMartingala(dineroApostado, saldoActual), linewidth=2)
-plt.xlabel("Numero de rondas", fontsize=20, fontweight="bold")
-plt.ylabel("Saldo", fontsize=20, fontwight="bold")
-plt.xticks(fontsize=15, fontweight="bold")
-plt.yticks(fontsize=15, fontweight="bold")
-plt.title("Martingala", fontsize=22, fontweight="bold")
+Explicacion: 
+    Se comienza apostando $0.01 y luego, si perdemos, subiremos un paso en el n-esimo paso
+de la sucesión de Fibonacci. Si ganamos, nos movemos 2 pasos hacia atrás en la secuencia (o se contínua
+apostando 1 si ya estamos ahí). 
+    Definimos una función que nos da el n-ésimo num de Fibonacci. Multiplicamos cualquier numero de
+Fibonacci en el que estemos por $0.01. Si ganamos nuestra apuesta, disminuimos nuestro num de Fibonacci 
+en 2. Si se pierde la apuesta, aumentamos el n-ésimo de Fibonacci en 1.
 '''
-
-
-def siempreRojo(dineroApostado, saldoActual):
-    mesa = ["Rojo"] * 18 + ["Negro"] * 18 + ["Verde"] * 1
-    historialSiempreRojo = []
-    while saldoActual > 0:
-        opRandom = ran.choice(mesa)
-        if opRandom == "Rojo":
-            saldoActual += dineroApostado * 2
-        else:
-            saldoActual -= dineroApostado
-        historialSiempreRojo.append(saldoActual)
-    return historialSiempreRojo
-'''
-for i in range():
-    plt.plt(siempreRojo(dineroApostado, saldoActual), linewidth=2)
-plt.xlabel("Numero de rondas", fontsize=20, fontweight="bold")
-plt.ylabel("Saldo", fontsize=20, fontwight="bold")
-plt.xticks(fontsize=15, fontweight="bold")
-plt.yticks(fontsize=15, fontweight="bold")
-plt.title("Apostar siempre al color rojo", fontsize=22, fontweight="bold")
-'''
-
 def fibonacci(n):
     if n == 1 or n == 2:
         return 1
     else:
         return fibonacci(n-1) + fibonacci(n-2)
 
-def estrategiaFibo(dineroApostado, saldoActual):
-    nFib = 1
-    mesa = ["Rojo"] * 18 + ["Negro"] * 18 + ["Verde"] * 1
-    historialFibo = []
-    while saldoActual > 0:
-        apuesta = fibonacci(nFib) * dineroApostado
-        if apuesta > saldoActual:
-            apuesta = saldoActual
-        opRandom = ran.choice(mesa)
-        if opRandom == "Rojo":
-            saldoActual += apuesta
-            nFib = max(nFib - 2, 1)
+def estrategiaFibonacci(saldo):
+    enesimo = 1
+    mesa = ["Rojo"] * 18 + ["Negro"] * 18 + ["Verde"] * 2
+    saldo_historial = []
+    while saldo > 0:
+        apuesta = fibonacci(enesimo) * .01      #Apuesto 0.01
+        if apuesta > saldo:
+            apuesta = saldo
+        tirada = ran.choice(mesa)
+        if tirada == "Rojo":
+            saldo += apuesta
+            enesimo = max(enesimo - 2, 1)
         else:
-            saldoActual -= apuesta
-            nFib += 1
-        historialFibo.append(saldoActual)
-    return historialFibo
-'''
-for i in range():
-    plt.plt(otraMartingala(dineroApostado, saldoActual), linewidth=2)
-plt.xlabel("Numero de rondas", fontsize=20, fontweight="bold")
-plt.ylabel("Saldo", fontsize=20, fontwight="bold")
-plt.xticks(fontsize=15, fontweight="bold")
-plt.yticks(fontsize=15, fontweight="bold")
-plt.title("Estrategia Fibonacci", fontsize=22, fontweight="bold")
-'''
+            saldo -= apuesta
+            enesimo += 1
+        saldo_historial.append(saldo)
+    return saldo_historial
 
 def main():
     saldo_global = 50000 #El saldo con el que se inicia
@@ -212,8 +125,7 @@ def main():
             eleccion_ruleta = ""
             while eleccion_ruleta != "8":
                 print(f"Dinero disponible para esta ronda: {saldo_global-apuestaActual}")
-                eleccion_ruleta = input("""\t1. Número\n\t2. Color\n\t3. Paridad (par e impar)\n\t4. 12's\n\t5. 1-18 y/o 19-36\n\t6. 2 to 1\n\t
-                7. Martingala\n\t8. Apostar al rojo.\n\t9. Estrategia fibonacci\n\t10. Girar la ruleta\n\t11. Volver\n\tElige: """)
+                eleccion_ruleta = input("""\t1. Número\n\t2. Color\n\t3. Paridad (par e impar)\n\t4. 12's\n\t5. 1-18 y/o 19-36\n\t6. 2 to 1\n\t7. Estrategia "Martingala"\n\t8. Estrategia "Apostar al rojo".\n\t9. Estrategia "Fibonacci"\n\t10. Girar la ruleta\n\t10. Volver\n\tElige: """)
 #Opcion 1 (Número)
                 if eleccion_ruleta == "1":
                     if(validaSaldo(saldo_global)):
@@ -309,27 +221,18 @@ def main():
                     dinero_apostado, apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)
                     if (dinero_apostado == 0):
                         break
-                    martingala(dinero_apostado, apuestaActual)
+                    #martingala(dinero_apostado, apuestaActual)
                     #otraMartingala(dinero_apostado, apuestaActual)
-#Opcion 8 ESTRATEGIA Apostar siempre al rojo
-                elif eleccion_ruleta == "8":
-                    if(validaSaldo(saldo_global)):
-                        break
-                    dinero_apostado, apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)
-                    if (dinero_apostado == 0):
-                        break
-                    histSR = []
-                    histSR = siempreRojo(dinero_apostado, apuestaActual)
-#Opcion 9 ESTRATEGIA Fibonacci
+#Opcion 8 ESTRATEGIA Fibonacci
                 elif eleccion_ruleta == "9":
-                    if(validaSaldo(saldo_global)):
-                        break
-                    dinero_apostado, apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)
-                    if (dinero_apostado == 0):
-                        break
-                    histF = []
-                    histF = estrategiaFibo(dinero_apostado, apuestaActual)
-#Opcion 10 girar
+                    saldoParaFibo = 100
+                    for i in range(4):  #4 jugadores
+                        plt.plot(estrategiaFibonacci(saldoParaFibo))
+                    plt.xlabel("Numero de rondas", fontsize=10, fontweight="bold")
+                    plt.ylabel("Saldo", fontsize=10, fontweight="bold")
+                    plt.title("Estrategia Fibonacci", fontsize=10, fontweight="bold")
+                    plt.show()
+#Opcion 9 girar
                 elif eleccion_ruleta == "7": #genero el numero y analizo cada condicion
                     nRandom = ran.randint (0,36)
                     saldo_global -= dinero_apostado # le descuento al salgoGlobal lo apostado
@@ -360,11 +263,6 @@ def main():
                             ganancia += m[1] * 3
                         # Si acierto la Martingala color
                             ganancia += m[1] * 2 # Nose si se multiplica por 2
-
-                        # Si acierto Apostar al color
-
-                        # Si acierto fibonacci
-                        
                     saldo_global += ganancia # Sumo la ganancia q haya tenido el usuario
             print(f"Saldo final: {saldo_global}") 
 main()
