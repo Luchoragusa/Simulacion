@@ -44,6 +44,30 @@ def pedirNumero():
         else:
             band = True
 
+def graficarSaldos(evolucionSaldo):
+    for i in range(len(evolucionSaldo)):
+        print("Corrida --> ", i)
+        x = []
+        for j in range(len(evolucionSaldo[i])):
+            x.append(j+1)
+        plt.plot(x,evolucionSaldo[i])
+    plt.xlabel("Numero de apuestas")
+    plt.ylabel("Saldo")
+    plt.title("Evolucion de saldo") 
+    plt.show()
+
+def graficarApuestas(evolucionApuesta):
+    for i in range(len(evolucionApuesta)):
+        print("Corrida --> ", i)
+        x = []
+        for j in range(len(evolucionApuesta[i])):
+            x.append(j+1)
+        plt.plot(x,evolucionApuesta[i])
+    plt.xlabel("Numero de apuestas")
+    plt.ylabel("Valor de apuesta")
+    plt.title("Evolucion de las apuestas") 
+    plt.show()
+
 def main():
     eleccion = ""
     colorSeleccionado = ""
@@ -60,36 +84,45 @@ def main():
             print("Ingresó otra opción.")
             break
 #Opcion 10 girar
-        for i in range(1):
+        for i in range(5):
+            x=[]
             matrizApuestas = []
-            saldo_global = 10 #El saldo con el que se inicia
+            saldo_global = 100 #El saldo con el que se inicia
             mSaldo = []
             mSaldo.append(saldo_global)
-            matrizApuestas.append([colorSeleccionado, dinero_apostado])
+            matrizApuestas.append(dinero_apostado)
             contadorMG = 0
-            matrizInd = matrizApuestas[contadorMG]
-
-            while (matrizInd[1] <= saldo_global):
+            apuestaAct = matrizApuestas[contadorMG]
+            band = True
+            print("\n")
+            while (band):
                 nRandom = ran.randint (0,36)
-                saldo_global -= matrizInd[1] # le descuento al salgoGlobal lo apostado
-                if(nRandom in numerosRojos and matrizInd[0] == rojo) or (nRandom not in numerosRojos and matrizInd[0] == negro):
-                    saldo_global += matrizInd[1]*2
-                    matrizApuestas.append([matrizInd[0], dinero_apostado])
-                    print(matrizInd, " Ganaste, el saldo global es: ", saldo_global)    
-                else:
-                    matrizApuestas.append([matrizInd[0], matrizInd[1]*2])
-                    print(matrizInd, " Perdiste, el saldo global es: ", saldo_global) 
-                mSaldo.append(saldo_global)
+                saldo_global -= apuestaAct # le descuento al salgoGlobal lo apostado
+
                 contadorMG += 1
-                matrizInd = matrizApuestas[contadorMG]
+
+                if(nRandom in numerosRojos and colorSeleccionado == rojo) or (nRandom not in numerosRojos and colorSeleccionado == negro):
+                    saldo_global += apuestaAct*2
+                    matrizApuestas.append(dinero_apostado)
+                    apuestaAct = matrizApuestas[contadorMG]
+                    print("Apostaste: ", apuestaAct, " y ganaste, el saldo global es: ", saldo_global)    
+                else:
+                    if(apuestaAct*2 <= saldo_global):
+                        matrizApuestas.append(apuestaAct*2)
+                        apuestaAct = matrizApuestas[contadorMG]
+                    else:
+                        band = False
+                    print("Apostaste: ", apuestaAct, " y Perdiste, el saldo global es: ", saldo_global) 
+                mSaldo.append(saldo_global)
             print("Te quedaste sin saldo pa")
 
             evolucionApuesta.append(matrizApuestas)
-            evolucionSaldo.append(mSaldo)
+            evolucionSaldo.append(mSaldo) 
+            print("\n")
 
-            print("Matriz de apuesta: ", evolucionApuesta) # tener en cuenta que la ultima apuesta es la q no se hace pq no tenes saldo disponible
-            print("Matriz de saldos: ", evolucionSaldo)
+            print(f"Saldo final: {saldo_global} de la corrida {i}") # imprimir el saldo final de la corrida
+        graficarSaldos(evolucionSaldo)
+        graficarApuestas(evolucionApuesta)
 
-            print(f"Saldo final: {saldo_global}") 
-        print(f"Saldo final: {saldo_global}") 
-main()
+
+main() 
