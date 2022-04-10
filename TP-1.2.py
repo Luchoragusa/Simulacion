@@ -123,9 +123,9 @@ def main():
             apuestaActual = 0
             print(explicacion_ruleta)
             eleccion_ruleta = ""
-            while eleccion_ruleta != "8":
+            while eleccion_ruleta != "10":
                 print(f"Dinero disponible para esta ronda: {saldo_global-apuestaActual}")
-                eleccion_ruleta = input("""\t1. Número\n\t2. Color\n\t3. Paridad (par e impar)\n\t4. 12's\n\t5. 1-18 y/o 19-36\n\t6. 2 to 1\n\t7. Estrategia "Martingala"\n\t8. Estrategia "Apostar al rojo".\n\t9. Estrategia "Fibonacci"\n\t10. Girar la ruleta\n\t10. Volver\n\tElige: """)
+                eleccion_ruleta = input("""\t1. Número\n\t2. Color\n\t3. Paridad (par e impar)\n\t4. 12's\n\t5. 1-18 y/o 19-36\n\t6. 2 to 1\n\t7. Estrategia "Martingala"\n\t8. Estrategia "Fibonacci"\n\t9. Girar la ruleta\n\t10. Volver\n\tElige: """)
 #Opcion 1 (Número)
                 if eleccion_ruleta == "1":
                     if(validaSaldo(saldo_global)):
@@ -224,7 +224,7 @@ def main():
                     #martingala(dinero_apostado, apuestaActual)
                     #otraMartingala(dinero_apostado, apuestaActual)
 #Opcion 8 ESTRATEGIA Fibonacci
-                elif eleccion_ruleta == "9":
+                elif eleccion_ruleta == "8":
                     saldoParaFibo = 100
                     for i in range(4):  #4 jugadores
                         plt.plot(estrategiaFibonacci(saldoParaFibo))
@@ -233,7 +233,7 @@ def main():
                     plt.title("Estrategia Fibonacci", fontsize=10, fontweight="bold")
                     plt.show()
 #Opcion 9 girar
-                elif eleccion_ruleta == "7": #genero el numero y analizo cada condicion
+                elif eleccion_ruleta == "9": #genero el numero y analizo cada condicion
                     nRandom = ran.randint (0,36)
                     saldo_global -= dinero_apostado # le descuento al salgoGlobal lo apostado
                     ganancia = 0
