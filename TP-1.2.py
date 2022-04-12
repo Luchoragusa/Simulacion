@@ -30,7 +30,7 @@ numerosRojos = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 3
 # Modificar la opcion 1 para que sea solo numero, y que se pueden apostar a varias opciones
 
 menu = """###### MENU RULETA #######
-1. JUGAR
+1. COMENZAR
 2. SALIR
 Elige: """
 
@@ -77,15 +77,7 @@ def validaSaldo(saldo):
         band = True
     return band
 
-'''
-Explicacion: 
-    Se comienza apostando $0.01 y luego, si perdemos, subiremos un paso en el n-esimo paso
-de la sucesión de Fibonacci. Si ganamos, nos movemos 2 pasos hacia atrás en la secuencia (o se contínua
-apostando 1 si ya estamos ahí). 
-    Definimos una función que nos da el n-ésimo num de Fibonacci. Multiplicamos cualquier numero de
-Fibonacci en el que estemos por $0.01. Si ganamos nuestra apuesta, disminuimos nuestro num de Fibonacci 
-en 2. Si se pierde la apuesta, aumentamos el n-ésimo de Fibonacci en 1.
-'''
+
 def fibonacci(n):   #formula fibonacci aplicada a python
     if n == 1 or n == 2:
         return 1
@@ -125,108 +117,136 @@ def main():
             apuestaActual = 0
             print(explicacion_ruleta)
             eleccion_ruleta = ""
-            while eleccion_ruleta != "10":
-                print(f"Dinero disponible para esta ronda: {saldo_global-apuestaActual}")
-                eleccion_ruleta = input("""\t1. Número\n\t2. Color\n\t3. Paridad (par e impar)\n\t4. 12's\n\t5. 1-18 y/o 19-36\n\t6. 2 to 1\n\t7. Estrategia "Martingala"\n\t8. Estrategia "Fibonacci" hasta agotar saldo\n\t9. Girar la ruleta\n\t10. Volver\n\tElige: """)
+            eleccion_estrategia = ""
+            while eleccion_estrategia != "5":
+                eleccion_estrategia = input("""\t1. Jugar sin estrategia\n\t2. Estrategia Fibonacci\n\t3. Estrategia Martingala\n\t4. Estrategia JuaniC\n\t5. Volver\n\tElige: """)
+                if eleccion_estrategia == "1":
+                    while eleccion_ruleta != "8":
+                        print(f"Dinero disponible para esta ronda: {saldo_global-apuestaActual}")
+                        eleccion_ruleta = input("""\t1. Número\n\t2. Color\n\t3. Paridad (par e impar)\n\t4. 12's\n\t5. 1-18 y/o 19-36\n\t6. 2 to 1\n\t7. Girar la ruleta\n\t8. Volver\n\tElige: """)
 #Opcion 1 (Número)
-                if eleccion_ruleta == "1":
-                    if(validaSaldo(saldo_global)):
-                        break
-                    dinero_apostado, apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)
-                    if (dinero_apostado == 0):
-                        break
-                    numero_usuario = pedirNumero()
-                    matrizApuestas.append([numero_usuario, dinero_apostado])
+                        if eleccion_ruleta == "1":
+                            if(validaSaldo(saldo_global)):
+                                break
+                            dinero_apostado, apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)
+                            if (dinero_apostado == 0):
+                                break
+                            numero_usuario = pedirNumero()
+                            matrizApuestas.append([numero_usuario, dinero_apostado])
 #Opcion 2 (Color)
-                elif eleccion_ruleta == "2":
-                    if(validaSaldo(saldo_global)):
-                        break
-                    dinero_apostado, apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)
-                    if (dinero_apostado == 0):
-                        break
-                    color_eleccion_usuario = input("\t1.Rojo\n\t2.Negro\n\tElige: ")         #Para UN SOLO color
-                    if color_eleccion_usuario == "1":
-                        matrizApuestas.append([rojo, dinero_apostado])
-                    elif color_eleccion_usuario == "2":
-                        matrizApuestas.append([negro, dinero_apostado])
-                    else:
-                        print("Ingresó otra opción.")
-                        break
+                        elif eleccion_ruleta == "2":
+                            if(validaSaldo(saldo_global)):
+                                break
+                            dinero_apostado, apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)
+                            if (dinero_apostado == 0):
+                                break
+                            color_eleccion_usuario = input("\t1.Rojo\n\t2.Negro\n\tElige: ")         #Para UN SOLO color
+                            if color_eleccion_usuario == "1":
+                                matrizApuestas.append([rojo, dinero_apostado])
+                            elif color_eleccion_usuario == "2":
+                                matrizApuestas.append([negro, dinero_apostado])
+                            else:
+                                print("Ingresó otra opción.")
+                                break
 #Opcion 3 (paridad)
-                elif eleccion_ruleta == "3":
-                    if(validaSaldo(saldo_global)):
-                        break
-                    dinero_apostado,apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)
-                    if (dinero_apostado == 0):
-                        break
-                    paridad_eleccion_usuario = input("\t1.Par\n\t2.Impar\n\tElige: ")       #Para UNA SOLA paridad
-                    if paridad_eleccion_usuario == "1":
-                        matrizApuestas.append([par, dinero_apostado])
-                    elif paridad_eleccion_usuario == "2":
-                        matrizApuestas.append([impar, dinero_apostado])
-                    else:
-                        print("Ingresó otra opción.")
-                        break
+                        elif eleccion_ruleta == "3":
+                            if(validaSaldo(saldo_global)):
+                                break
+                            dinero_apostado,apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)
+                            if (dinero_apostado == 0):
+                                break
+                            paridad_eleccion_usuario = input("\t1.Par\n\t2.Impar\n\tElige: ")       #Para UNA SOLA paridad
+                            if paridad_eleccion_usuario == "1":
+                                matrizApuestas.append([par, dinero_apostado])
+                            elif paridad_eleccion_usuario == "2":
+                                matrizApuestas.append([impar, dinero_apostado])
+                            else:
+                                print("Ingresó otra opción.")
+                                break
 #Opcion 4 12's
-                elif eleccion_ruleta == "4":
-                    if(validaSaldo(saldo_global)):
-                        break
-                    dinero_apostado,apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)
-                    if (dinero_apostado == 0):
-                        break
-                    docena_eleccion_usuario = input("\t1.1ra docena\n\t2.2da docena\n\t3.3ra docena\n\tElige: ")   #Para UNA SOLA docena
-                    if docena_eleccion_usuario == "1":
-                        matrizApuestas.append([docena1, dinero_apostado])
-                    elif docena_eleccion_usuario == "2":
-                        matrizApuestas.append([docena2, dinero_apostado])
-                    elif docena_eleccion_usuario == "3":
-                        matrizApuestas.append([docena3, dinero_apostado])
-                    else:
-                        print("Ingresó otra opción.")
-                        break
+                        elif eleccion_ruleta == "4":
+                            if(validaSaldo(saldo_global)):
+                                break
+                            dinero_apostado,apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)
+                            if (dinero_apostado == 0):
+                                break
+                            docena_eleccion_usuario = input("\t1.1ra docena\n\t2.2da docena\n\t3.3ra docena\n\tElige: ")   #Para UNA SOLA docena
+                            if docena_eleccion_usuario == "1":
+                                matrizApuestas.append([docena1, dinero_apostado])
+                            elif docena_eleccion_usuario == "2":
+                                matrizApuestas.append([docena2, dinero_apostado])
+                            elif docena_eleccion_usuario == "3":
+                                matrizApuestas.append([docena3, dinero_apostado])
+                            else:
+                                print("Ingresó otra opción.")
+                                break
 #Opcion 5 1-18 o 19-36
-                elif eleccion_ruleta == "5":
-                    if(validaSaldo(saldo_global)):
-                        break
-                    dinero_apostado,apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)
-                    if (dinero_apostado == 0):
-                        break
-                    faltapasa_eleccion_usuario = input("\t1.1-18\n\t2.19-36\n\tElige: ")   #Para UNA SOLA 
-                    if faltapasa_eleccion_usuario == "1":
-                        matrizApuestas.append([falta, dinero_apostado])
-                    elif faltapasa_eleccion_usuario == "2":
-                        matrizApuestas.append([pasa, dinero_apostado])
-                    else:
-                        print("Ingresó otra opción.")
-                        break
+                        elif eleccion_ruleta == "5":
+                            if(validaSaldo(saldo_global)):
+                                break
+                            dinero_apostado,apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)
+                            if (dinero_apostado == 0):
+                                break
+                            faltapasa_eleccion_usuario = input("\t1.1-18\n\t2.19-36\n\tElige: ")   #Para UNA SOLA 
+                            if faltapasa_eleccion_usuario == "1":
+                                matrizApuestas.append([falta, dinero_apostado])
+                            elif faltapasa_eleccion_usuario == "2":
+                                matrizApuestas.append([pasa, dinero_apostado])
+                            else:
+                                print("Ingresó otra opción.")
+                                break
 #Opcion 6 columnas
-                elif eleccion_ruleta == "6":
-                    if(validaSaldo(saldo_global)):
-                        break
-                    dinero_apostado,apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)
-                    if (dinero_apostado == 0):
-                        break
-                    columna_eleccion_usuario = input("\t1.1ra columna\n\t2.2da columna\n\t3.3ra columna\n\tElige: ")   #Para UNA SOLA docena
-                    if columna_eleccion_usuario == "1":
-                        matrizApuestas.append([columna1, dinero_apostado])
-                    elif columna_eleccion_usuario == "2":
-                        matrizApuestas.append([columna2, dinero_apostado])
-                    elif columna_eleccion_usuario == "3":
-                        matrizApuestas.append([columna3, dinero_apostado])
-                    else:
-                        print("Ingresó otra opción.")
-                        break
-#Opcion 7 ESTRATEGIA Martingala (colores)  
-                elif eleccion_ruleta == "7":
-                    if(validaSaldo(saldo_global)):
-                        break
-                    dinero_apostado, apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)
-                    if (dinero_apostado == 0):
-                        break
-                    #martingala(dinero_apostado, apuestaActual)
-                    #otraMartingala(dinero_apostado, apuestaActual)
+                        elif eleccion_ruleta == "6":
+                            if(validaSaldo(saldo_global)):
+                                break
+                            dinero_apostado,apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)
+                            if (dinero_apostado == 0):
+                                break
+                            columna_eleccion_usuario = input("\t1.1ra columna\n\t2.2da columna\n\t3.3ra columna\n\tElige: ")   #Para UNA SOLA docena
+                            if columna_eleccion_usuario == "1":
+                                matrizApuestas.append([columna1, dinero_apostado])
+                            elif columna_eleccion_usuario == "2":
+                                matrizApuestas.append([columna2, dinero_apostado])
+                            elif columna_eleccion_usuario == "3":
+                                matrizApuestas.append([columna3, dinero_apostado])
+                            else:
+                                print("Ingresó otra opción.")
+                                break
+#Opcion 7 Girar ruleta 
+                        elif eleccion_ruleta == "7": #genero el numero y analizo cada condicion
+                            nRandom = ran.randint (0,36)
+                            saldo_global -= dinero_apostado # le descuento al salgoGlobal lo apostado
+                            ganancia = 0
+                            for i in range(np.size(matrizApuestas)):
+                                m = matrizApuestas[i]
+                                # Si acierto el Numero
+                                if(m[0] == nRandom): 
+                                    ganancia += m[1]*32
+                                # Si acierto el Color
+                                if(nRandom in numerosRojos and m[0] == rojo) or (nRandom not in numerosRojos and m[0] == negro):
+                                        ganancia += m[1]*2
+                                # Si acierto la paridad
+                                if (nRandom %2 == 0 and m[0] == par) or (nRandom % 2 != 0 and m[0] == impar):
+                                    ganancia += m[1] * 2
+                                # Si acierto los 12's
+                                if (nRandom >= 1 and nRandom <= 12 and m[1] == docena1) or (nRandom >= 13 and nRandom <= 24 and m[1] == docena2) or (nRandom >= 25 and nRandom <= 36 and m[1] == docena3):
+                                    ganancia += m[1] * 3
+                                # Si acierto los 1-18 o 19-36
+                                    ganancia += m[1] * 2 # Nose si se multiplica por 2
+                                # Si acerto los 12's
+                                if (nRandom >= 1 and nRandom <= 12 and m[1] == docena1) or (nRandom >= 13 and nRandom <= 24 and m[1] == docena2) or (nRandom >= 25 and nRandom <= 36 and m[1] == docena3):
+                                    ganancia += m[1] * 2 # Nose si se multiplica por 2
+                                # Si acerto los 1-18 o 19-36
+                                if (nRandom >= 1 and nRandom <= 18 and m[1] == falta) or (nRandom >= 19 and nRandom <= 36 and m[1] == pasa):
+                                    ganancia += m[1] * 2 # Nose si se multiplica por 2
+                                if (nRandom in columna1 and m[1] == columna1) or (nRandom in columna2 and m[1] == columna2) or (nRandom in columna3 and m[1] == columna3):
+                                    ganancia += m[1] * 3
+                                # Si acierto la Martingala color
+                                    ganancia += m[1] * 2 # Nose si se multiplica por 2
+                            saldo_global += ganancia # Sumo la ganancia q haya tenido el usuario
+                    print(f"Saldo final: {saldo_global}") 
 #Opcion 8 ESTRATEGIA Fibonacci
-                elif eleccion_ruleta == "8":
+                elif eleccion_estrategia == "2":
                     saldo_eleccion_fibo = input("Elija el saldo inicial ($50 o $100): ")   
                     cant_jugadores_eleccion = input("Elija cuantos jugadores participan (3 o 4): ")   
                     if saldo_eleccion_fibo == "50" and cant_jugadores_eleccion == "3":
@@ -235,7 +255,7 @@ def main():
                             plt.plot(estrategiaFibonacci(sef))
                         plt.xlabel("Numero de rondas")
                         plt.ylabel("Saldo")
-                        plt.title("Estrategia Fibonacci")
+                        plt.title("Evolución de Fibonacci de 3 jugadores partiendo de $50")
                         plt.show()
                     elif saldo_eleccion_fibo == "50" and cant_jugadores_eleccion == "4":
                         sef = 50 ; cje = 4
@@ -243,7 +263,7 @@ def main():
                             plt.plot(estrategiaFibonacci(sef))
                         plt.xlabel("Numero de rondas")
                         plt.ylabel("Saldo")
-                        plt.title("Estrategia Fibonacci")
+                        plt.title("Evolución de Fibonacci de 4 jugadores partiendo de $50")
                         plt.show()
                     elif saldo_eleccion_fibo == "100" and cant_jugadores_eleccion == "3":
                         sef = 100 ; cje = 3
@@ -251,7 +271,7 @@ def main():
                             plt.plot(estrategiaFibonacci(sef))
                         plt.xlabel("Numero de rondas")
                         plt.ylabel("Saldo")
-                        plt.title("Estrategia Fibonacci")
+                        plt.title("Evolución de Fibonacci de 3 jugadores partiendo de $100")
                         plt.show()
                     elif saldo_eleccion_fibo == "100" and cant_jugadores_eleccion == "4":
                         sef = 50 ; cje = 4
@@ -259,41 +279,8 @@ def main():
                             plt.plot(estrategiaFibonacci(sef))
                         plt.xlabel("Numero de rondas")
                         plt.ylabel("Saldo")
-                        plt.title("Estrategia Fibonacci")
+                        plt.title("Evolución de Fibonacci de 4 jugadores partiendo de $100")
                         plt.show()
                     else:
                         print("Ingresó otra opción distinta a la solicitada.")
-#Opcion 9 girar
-                elif eleccion_ruleta == "9": #genero el numero y analizo cada condicion
-                    nRandom = ran.randint (0,36)
-                    saldo_global -= dinero_apostado # le descuento al salgoGlobal lo apostado
-                    ganancia = 0
-                    for i in range(np.size(matrizApuestas)):
-                        m = matrizApuestas[i]
-                        # Si acierto el Numero
-                        if(m[0] == nRandom): 
-                            ganancia += m[1]*32
-                        # Si acierto el Color
-                        if(nRandom in numerosRojos and m[0] == rojo) or (nRandom not in numerosRojos and m[0] == negro):
-                                ganancia += m[1]*2
-                        # Si acierto la paridad
-                        if (nRandom %2 == 0 and m[0] == par) or (nRandom % 2 != 0 and m[0] == impar):
-                            ganancia += m[1] * 2
-                        # Si acierto los 12's
-                        if (nRandom >= 1 and nRandom <= 12 and m[1] == docena1) or (nRandom >= 13 and nRandom <= 24 and m[1] == docena2) or (nRandom >= 25 and nRandom <= 36 and m[1] == docena3):
-                            ganancia += m[1] * 3
-                        # Si acierto los 1-18 o 19-36
-                            ganancia += m[1] * 2 # Nose si se multiplica por 2
-                        # Si acerto los 12's
-                        if (nRandom >= 1 and nRandom <= 12 and m[1] == docena1) or (nRandom >= 13 and nRandom <= 24 and m[1] == docena2) or (nRandom >= 25 and nRandom <= 36 and m[1] == docena3):
-                            ganancia += m[1] * 2 # Nose si se multiplica por 2
-                        # Si acerto los 1-18 o 19-36
-                        if (nRandom >= 1 and nRandom <= 18 and m[1] == falta) or (nRandom >= 19 and nRandom <= 36 and m[1] == pasa):
-                            ganancia += m[1] * 2 # Nose si se multiplica por 2
-                        if (nRandom in columna1 and m[1] == columna1) or (nRandom in columna2 and m[1] == columna2) or (nRandom in columna3 and m[1] == columna3):
-                            ganancia += m[1] * 3
-                        # Si acierto la Martingala color
-                            ganancia += m[1] * 2 # Nose si se multiplica por 2
-                    saldo_global += ganancia # Sumo la ganancia q haya tenido el usuario
-            print(f"Saldo final: {saldo_global}") 
 main()
