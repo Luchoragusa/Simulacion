@@ -98,8 +98,10 @@ def estrategiaFibonacci(saldo):
     saldo_historial = []
     while saldo > 0:
         apuesta = fibonacci(enesimo) * .01      #Apuesto 0.01 dinero al "n" que me trae
-        if apuesta > saldo:
+        if apuesta > saldo:     #Esto hace que caiga a 0
             apuesta = saldo
+        if saldo < 40:
+            break
         tirada = ran.choice(mesa)
         if tirada == "Rojo":
             saldo += apuesta
@@ -231,33 +233,33 @@ def main():
                         sef = 50 ; cje = 3
                         for i in range(cje):  #4 jugadores
                             plt.plot(estrategiaFibonacci(sef))
-                        plt.xlabel("Numero de rondas", fontsize=10, fontweight="bold")
-                        plt.ylabel("Saldo", fontsize=10, fontweight="bold")
-                        plt.title("Estrategia Fibonacci", fontsize=10, fontweight="bold")
+                        plt.xlabel("Numero de rondas")
+                        plt.ylabel("Saldo")
+                        plt.title("Estrategia Fibonacci")
                         plt.show()
                     elif saldo_eleccion_fibo == "50" and cant_jugadores_eleccion == "4":
                         sef = 50 ; cje = 4
                         for i in range(cje):  #4 jugadores
                             plt.plot(estrategiaFibonacci(sef))
-                        plt.xlabel("Numero de rondas", fontsize=10, fontweight="bold")
-                        plt.ylabel("Saldo", fontsize=10, fontweight="bold")
-                        plt.title("Estrategia Fibonacci", fontsize=10, fontweight="bold")
+                        plt.xlabel("Numero de rondas")
+                        plt.ylabel("Saldo")
+                        plt.title("Estrategia Fibonacci")
                         plt.show()
                     elif saldo_eleccion_fibo == "100" and cant_jugadores_eleccion == "3":
                         sef = 100 ; cje = 3
                         for i in range(cje):  #4 jugadores
                             plt.plot(estrategiaFibonacci(sef))
-                        plt.xlabel("Numero de rondas", fontsize=10, fontweight="bold")
-                        plt.ylabel("Saldo", fontsize=10, fontweight="bold")
-                        plt.title("Estrategia Fibonacci", fontsize=10, fontweight="bold")
+                        plt.xlabel("Numero de rondas")
+                        plt.ylabel("Saldo")
+                        plt.title("Estrategia Fibonacci")
                         plt.show()
                     elif saldo_eleccion_fibo == "100" and cant_jugadores_eleccion == "4":
                         sef = 50 ; cje = 4
                         for i in range(cje):  #4 jugadores
                             plt.plot(estrategiaFibonacci(sef))
-                        plt.xlabel("Numero de rondas", fontsize=10, fontweight="bold")
-                        plt.ylabel("Saldo", fontsize=10, fontweight="bold")
-                        plt.title("Estrategia Fibonacci", fontsize=10, fontweight="bold")
+                        plt.xlabel("Numero de rondas")
+                        plt.ylabel("Saldo")
+                        plt.title("Estrategia Fibonacci")
                         plt.show()
                     else:
                         print("Ingresó otra opción distinta a la solicitada.")
