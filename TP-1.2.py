@@ -233,9 +233,11 @@ def main():
 #Opcion 7 Girar ruleta 
                         elif eleccion_ruleta == "7": #genero el numero y analizo cada condicion
                             nRandom = ran.randint (0,36)
+                            print("Salio el: ", nRandom)
                             saldo_global -= dinero_apostado # le descuento al salgoGlobal lo apostado
                             ganancia = 0
-                            for i in range(np.size(matrizApuestas)):
+                            for i in range(np.length(matrizApuestas)-1):
+                                print(np.length(matrizApuestas)) 
                                 m = matrizApuestas[i]
                                 # Si acierto el Numero
                                 if(m[0] == nRandom): 
