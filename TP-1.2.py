@@ -64,11 +64,12 @@ def pedirNumero():
     numero = int(input("Elige un numero entre 0 y 36: "))
     band = True
     while (band): 
-        if 0 < numero < 36:
+        if 0 <= numero <= 36:
             band = False
             return numero
         else:
             band = True
+            numero = int(input("Elige un numero entre 0 y 36: "))
 
 def validaSaldo(saldo):
     band = False
