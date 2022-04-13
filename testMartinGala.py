@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from pyparsing import col 
 from scipy import stats # importando scipy.stats
 
+saldoIni = 5000
 apuesta_minima_ruleta = 5
 rojo = "Rojo"
 negro = "Negro"
@@ -63,23 +64,85 @@ def graficarSaldos(evolucionSaldo):
     plt.title("Evolucion de saldo") 
     plt.show()
 
-def graficarApuestas(evolucionApuesta):
-    for i in range(len(evolucionApuesta)):
-        print("Corrida --> ", i)
-        x = []
-        for j in range(len(evolucionApuesta[i])):
-            x.append(j+1)
-        plt.plot(x,evolucionApuesta[i])
-    plt.xlabel("Numero de apuestas")
-    plt.ylabel("Valor de apuesta")
-    plt.title("Evolucion de las apuestas") 
+def graficarSaldos(m, band):
+    if (band):
+        for k in range(3):
+            mSaldo = m[k]
+            for i in range(len(mSaldo)):
+                print("Corrida --> ", i)
+                x = []
+                for j in range(len(mSaldo[i])):
+                    x.append(j+1)
+                plt.plot(x,mSaldo[i])
+            plt.xlabel("Numero de apuestas")
+            plt.ylabel("Saldo")
+            plt.title("Evolucion de saldo para " + str((k+1)*25) + " corridas")
+            plt.show()
+    else:
+        for i in range(len(m)):
+            print("Corrida --> ", i)
+            x = []
+            for j in range(len(m[i])):
+                x.append(j+1)
+            plt.plot(x,m[i])
+        plt.xlabel("Numero de apuestas")
+        plt.ylabel("Saldo")
+        plt.title("Evolucion de saldo") 
+        plt.show()
+
+def graficarApuestas(m,  band):
+    if (band):
+        for k in range(3):
+            mApuesta = m[k]
+            for i in range(len(mApuesta)):
+                print("Corrida --> ", i)
+                x = []
+                for j in range(len(mApuesta[i])):
+                    x.append(j+1)
+                plt.plot(x,mApuesta[i])
+            plt.xlabel("Numero de apuestas")
+            plt.ylabel("Valor de apuesta")
+            plt.title("Evolucion de las apuestas para " + str((k+1)*25) + " corridas") 
+            plt.show()
+    else:
+        for i in range(len(m)):
+            print("Corrida --> ", i)
+            x = []
+            for j in range(len(m[i])):
+                x.append(j+1)
+            plt.plot(x,m[i])
+        plt.xlabel("Numero de apuestas")
+        plt.ylabel("Valor de apuesta")
+        plt.title("Evolucion de las apuestas") 
+        plt.show()
+
+def graficarPromSaldos(m):
+    mProm = []
+    for i in range(len(m)):
+        mTemp = m[i]
+        mTemp2 = []
+        for j in range(len(mTemp)):
+            mTemp2.append(np.mean(mTemp[j]))
+        mProm.append(np.mean(mTemp2))
+    print("\nPromedio de saldos: ", mProm)
+
+    eje_x = ["25 corridas", "50 corridas", "75 corridas"]
+    eje_y = [mProm[0], mProm[1], mProm[2]]
+    plt.axhline(y=5000, color = "red") # linea de saldo inicial
+    plt.ylim([4000, 6500]) # esta ponderada la medicion
+    plt.bar(eje_x, eje_y)
+    plt.ylabel('Promedio de saldo resultante')
+    plt.xlabel('Cantidad de corridas')
+    plt.title('Promedio de saldo por cantidad de corridas')
+    plt.grid()
     plt.show()
+
 
 def agotarSaldo(colorSeleccionado, dinero_apostado):
 #Opcion 10 girar
     for i in range(5):
         matrizApuestas = []
-        saldo_global = 500 #El saldo con el que se inicia
+        saldo_global = saldoIni #El saldo con el que se inicia
         mSaldo = []
         mSaldo.append(saldo_global)
         matrizApuestas.append(dinero_apostado)
@@ -94,17 +157,14 @@ def agotarSaldo(colorSeleccionado, dinero_apostado):
             if(nRandom in numerosRojos and colorSeleccionado == rojo) or (nRandom not in numerosRojos and colorSeleccionado == negro):
                 saldo_global += apuestaAct*2
                 matrizApuestas.append(dinero_apostado)
-                apuestaAct = matrizApuestas[contadorMG]
-                print("Apostaste: ", apuestaAct, " y ganaste, el saldo global es: ", saldo_global)    
+                apuestaAct = matrizApuestas[contadorMG]   
             else:
                 if(apuestaAct*2 <= saldo_global):
                     matrizApuestas.append(apuestaAct*2)
                     apuestaAct = matrizApuestas[contadorMG]
                 else:
                     band = False
-                print("Apostaste: ", apuestaAct, " y Perdiste, el saldo global es: ", saldo_global) 
             mSaldo.append(saldo_global)
-        print("Te quedaste sin saldo")
         evolucionApuesta.append(matrizApuestas)
         evolucionSaldo.append(mSaldo) 
 
@@ -112,87 +172,78 @@ def tiradas(colorSeleccionado, dinero_apostado):
 #Opcion 10 girar
     for i in range(5):
         matrizApuestas = []; matrizApuestas.append(dinero_apostado)
-        saldo_global = 500 
+        saldo_global = saldoIni
         mSaldo = []; mSaldo.append(saldo_global)
         contadorMG = 0
         apuestaAct = matrizApuestas[contadorMG]
         band = True
         print("\n")
 
-        while (band and contadorMG<= 10):
+        while (band and contadorMG<= 25):
             nRandom = ran.randint (0,36)
             saldo_global -= apuestaAct # le descuento al salgoGlobal lo apostado
             contadorMG += 1
             if(nRandom in numerosRojos and colorSeleccionado == rojo) or (nRandom not in numerosRojos and colorSeleccionado == negro):
                 saldo_global += apuestaAct*2
                 matrizApuestas.append(dinero_apostado)
-                apuestaAct = matrizApuestas[contadorMG]
-                print("Apostaste: ", apuestaAct, " y ganaste, el saldo global es: ", saldo_global)    
+                apuestaAct = matrizApuestas[contadorMG] 
             else:
                 if(apuestaAct*2 <= saldo_global):
                     matrizApuestas.append(apuestaAct*2)
                     apuestaAct = matrizApuestas[contadorMG]
                 else:
                     band = False
-                print("Apostaste: ", apuestaAct, " y Perdiste, el saldo global es: ", saldo_global) 
             mSaldo.append(saldo_global)
-        print("Te quedaste sin saldo")
         evolucionApuesta.append(matrizApuestas)
         evolucionSaldo.append(mSaldo)
 
         matrizApuestas = []; matrizApuestas.append(dinero_apostado)
-        saldo_global = 500 
+        saldo_global = saldoIni
         mSaldo = []; mSaldo.append(saldo_global)
         contadorMG = 0
         apuestaAct = matrizApuestas[contadorMG]
         band = True
         print("\n")
-        while (band and contadorMG<= 20):
+        while (band and contadorMG<= 50):
             nRandom = ran.randint (0,36)
             saldo_global -= apuestaAct # le descuento al salgoGlobal lo apostado
             contadorMG += 1
             if(nRandom in numerosRojos and colorSeleccionado == rojo) or (nRandom not in numerosRojos and colorSeleccionado == negro):
                 saldo_global += apuestaAct*2
                 matrizApuestas.append(dinero_apostado)
-                apuestaAct = matrizApuestas[contadorMG]
-                print("Apostaste: ", apuestaAct, " y ganaste, el saldo global es: ", saldo_global)    
+                apuestaAct = matrizApuestas[contadorMG] 
             else:
                 if(apuestaAct*2 <= saldo_global):
                     matrizApuestas.append(apuestaAct*2)
                     apuestaAct = matrizApuestas[contadorMG]
                 else:
                     band = False
-                print("Apostaste: ", apuestaAct, " y Perdiste, el saldo global es: ", saldo_global) 
             mSaldo.append(saldo_global)
-        print("Te quedaste sin saldo")
         evolucionApuesta1.append(matrizApuestas)
         evolucionSaldo1.append(mSaldo)
 
         matrizApuestas = []; matrizApuestas.append(dinero_apostado)
-        saldo_global = 500 
+        saldo_global = saldoIni
         mSaldo = []; mSaldo.append(saldo_global)
         contadorMG = 0
         apuestaAct = matrizApuestas[contadorMG]
         band = True
         print("\n")
-        while (band and contadorMG<= 30):
+        while (band and contadorMG<= 75):
             nRandom = ran.randint (0,36)
             saldo_global -= apuestaAct # le descuento al salgoGlobal lo apostado
             contadorMG += 1
             if(nRandom in numerosRojos and colorSeleccionado == rojo) or (nRandom not in numerosRojos and colorSeleccionado == negro):
                 saldo_global += apuestaAct*2
                 matrizApuestas.append(dinero_apostado)
-                apuestaAct = matrizApuestas[contadorMG]
-                print("Apostaste: ", apuestaAct, " y ganaste, el saldo global es: ", saldo_global)    
+                apuestaAct = matrizApuestas[contadorMG]  
             else:
                 if(apuestaAct*2 <= saldo_global):
                     matrizApuestas.append(apuestaAct*2)
                     apuestaAct = matrizApuestas[contadorMG]
                 else:
                     band = False
-                print("Apostaste: ", apuestaAct, " y Perdiste, el saldo global es: ", saldo_global) 
             mSaldo.append(saldo_global)
-        print("Te quedaste sin saldo")
         evolucionApuesta2.append(matrizApuestas)
         evolucionSaldo2.append(mSaldo) 
 
@@ -200,7 +251,7 @@ def tiradas(colorSeleccionado, dinero_apostado):
 
 print("Bienvenido a la ruleta de la martin gala")
 print("\n")
-eleccion = int(input("\t###### MENU RULETA #######\n\t1. Jugar hasta agotar saldo\n\t2. Jugar 20 tiradas\n\tElige: "))
+eleccion = int(input("\t###### MENU RULETA #######\n\t1. Jugar hasta agotar saldo\n\t2. Jugar 25, 50 y 75 tiradas\n\tElige: "))
 print("\n")
 colorSeleccionado = ""
 dinero_apostado = solicitarDineroRuleta()
@@ -212,13 +263,15 @@ else:
 
 if eleccion == 1:
     agotarSaldo(colorSeleccionado, dinero_apostado)
+    graficarApuestas(evolucionApuesta, False)
+    graficarSaldos(evolucionSaldo, False)
+
 else:
     tiradas(colorSeleccionado, dinero_apostado)
-    graficarSaldos(evolucionSaldo1)
-    graficarApuestas(evolucionApuesta1)
-    graficarSaldos(evolucionSaldo2)
-    graficarApuestas(evolucionApuesta2)
+    m = [evolucionApuesta, evolucionApuesta1, evolucionApuesta2]
+    graficarApuestas(m, True)
+    m = [evolucionSaldo, evolucionSaldo1, evolucionSaldo2]
+    graficarSaldos(m, True)
+    
+    graficarPromSaldos(m)
 
-
-graficarSaldos(evolucionSaldo)
-graficarApuestas(evolucionApuesta)
