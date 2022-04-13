@@ -80,7 +80,6 @@ def graficarSaldos(m, band):
             plt.show()
     else:
         for i in range(len(m)):
-            print("Corrida --> ", i)
             x = []
             for j in range(len(m[i])):
                 x.append(j+1)
@@ -137,6 +136,32 @@ def graficarPromSaldos(m):
     plt.grid()
     plt.show()
 
+def graficarFR(evolucionApuesta):
+    mApuesta = []
+    mCantApuesta=[]
+    c = 0
+    for i in range(len(evolucionApuesta)):
+        m = evolucionApuesta[i]
+        for j in range(len(m)): # recorro cada apuesta
+            if m[j] in mApuesta: # me fijo si la apuesta ha se hizo
+                for k in range(len(mApuesta)): # recorro la matriz de apuestas para ver en q posicion esta guardada la apuesta
+                    if mApuesta[k] == m[j]:
+                        mCantApuesta[k] += 1 # le sumo uno en la posicion que corresponde de la matriz de apuesta
+            else: # si no esta agrego la apuesta y le agg 1 en la cantidad
+                mApuesta.append(m[j])
+                mCantApuesta.append(1)
+            c += 1
+    for i in range(len(mCantApuesta)): # obtengo la FR de cantidad de apuestas
+        mCantApuesta[i] = mCantApuesta[i]/c
+    print(mApuesta)
+    print(mCantApuesta)
+    #plt.ylim([4000, 6500]) # esta ponderada la medicion
+    plt.bar(mApuesta, mCantApuesta)
+    plt.ylabel('Frecuencia relativa por apuesta')
+    plt.xlabel('Valor de apuesta')
+    plt.title('Frecuencia relativa')
+    plt.grid()
+    plt.show()
 
 def agotarSaldo(colorSeleccionado, dinero_apostado):
 #Opcion 10 girar
@@ -147,24 +172,20 @@ def agotarSaldo(colorSeleccionado, dinero_apostado):
         mSaldo.append(saldo_global)
         matrizApuestas.append(dinero_apostado)
         contadorMG = 0
-        apuestaAct = matrizApuestas[contadorMG]
         band = True
-        print("\n")
         while (band):
             nRandom = ran.randint (0,36)
-            saldo_global -= apuestaAct # le descuento al salgoGlobal lo apostado
-            contadorMG += 1
+            saldo_global -= matrizApuestas[contadorMG] # le descuento al salgoGlobal lo apostado
             if(nRandom in numerosRojos and colorSeleccionado == rojo) or (nRandom not in numerosRojos and colorSeleccionado == negro):
-                saldo_global += apuestaAct*2
-                matrizApuestas.append(dinero_apostado)
-                apuestaAct = matrizApuestas[contadorMG]   
+                saldo_global += matrizApuestas[contadorMG]*2
+                matrizApuestas.append(matrizApuestas[0]) 
             else:
-                if(apuestaAct*2 <= saldo_global):
-                    matrizApuestas.append(apuestaAct*2)
-                    apuestaAct = matrizApuestas[contadorMG]
+                if(matrizApuestas[contadorMG]*2 <= saldo_global):
+                    matrizApuestas.append(matrizApuestas[contadorMG]*2)
                 else:
-                    band = False
+                    band = False 
             mSaldo.append(saldo_global)
+            contadorMG += 1
         evolucionApuesta.append(matrizApuestas)
         evolucionSaldo.append(mSaldo) 
 
@@ -172,78 +193,68 @@ def tiradas(colorSeleccionado, dinero_apostado):
 #Opcion 10 girar
     for i in range(5):
         matrizApuestas = []; matrizApuestas.append(dinero_apostado)
-        saldo_global = saldoIni
+        saldo_global = saldoIni #El saldo con el que se inicia
         mSaldo = []; mSaldo.append(saldo_global)
         contadorMG = 0
-        apuestaAct = matrizApuestas[contadorMG]
         band = True
-        print("\n")
 
         while (band and contadorMG<= 25):
             nRandom = ran.randint (0,36)
-            saldo_global -= apuestaAct # le descuento al salgoGlobal lo apostado
-            contadorMG += 1
+            saldo_global -= matrizApuestas[contadorMG] # le descuento al salgoGlobal lo apostado
             if(nRandom in numerosRojos and colorSeleccionado == rojo) or (nRandom not in numerosRojos and colorSeleccionado == negro):
-                saldo_global += apuestaAct*2
-                matrizApuestas.append(dinero_apostado)
-                apuestaAct = matrizApuestas[contadorMG] 
+                saldo_global += matrizApuestas[contadorMG]*2
+                matrizApuestas.append(matrizApuestas[0]) 
             else:
-                if(apuestaAct*2 <= saldo_global):
-                    matrizApuestas.append(apuestaAct*2)
-                    apuestaAct = matrizApuestas[contadorMG]
+                if(matrizApuestas[contadorMG]*2 <= saldo_global):
+                    matrizApuestas.append(matrizApuestas[contadorMG]*2)
                 else:
-                    band = False
+                    band = False 
             mSaldo.append(saldo_global)
+            contadorMG += 1
         evolucionApuesta.append(matrizApuestas)
         evolucionSaldo.append(mSaldo)
 
         matrizApuestas = []; matrizApuestas.append(dinero_apostado)
-        saldo_global = saldoIni
+        saldo_global = saldoIni #El saldo con el que se inicia
         mSaldo = []; mSaldo.append(saldo_global)
         contadorMG = 0
-        apuestaAct = matrizApuestas[contadorMG]
         band = True
-        print("\n")
+
         while (band and contadorMG<= 50):
             nRandom = ran.randint (0,36)
-            saldo_global -= apuestaAct # le descuento al salgoGlobal lo apostado
-            contadorMG += 1
+            saldo_global -= matrizApuestas[contadorMG] # le descuento al salgoGlobal lo apostado
             if(nRandom in numerosRojos and colorSeleccionado == rojo) or (nRandom not in numerosRojos and colorSeleccionado == negro):
-                saldo_global += apuestaAct*2
-                matrizApuestas.append(dinero_apostado)
-                apuestaAct = matrizApuestas[contadorMG] 
+                saldo_global += matrizApuestas[contadorMG]*2
+                matrizApuestas.append(matrizApuestas[0]) 
             else:
-                if(apuestaAct*2 <= saldo_global):
-                    matrizApuestas.append(apuestaAct*2)
-                    apuestaAct = matrizApuestas[contadorMG]
+                if(matrizApuestas[contadorMG]*2 <= saldo_global):
+                    matrizApuestas.append(matrizApuestas[contadorMG]*2)
                 else:
-                    band = False
+                    band = False 
             mSaldo.append(saldo_global)
+            contadorMG += 1
         evolucionApuesta1.append(matrizApuestas)
         evolucionSaldo1.append(mSaldo)
 
         matrizApuestas = []; matrizApuestas.append(dinero_apostado)
-        saldo_global = saldoIni
+        saldo_global = saldoIni #El saldo con el que se inicia
         mSaldo = []; mSaldo.append(saldo_global)
         contadorMG = 0
-        apuestaAct = matrizApuestas[contadorMG]
         band = True
-        print("\n")
+
         while (band and contadorMG<= 75):
             nRandom = ran.randint (0,36)
-            saldo_global -= apuestaAct # le descuento al salgoGlobal lo apostado
-            contadorMG += 1
+            saldo_global -= matrizApuestas[contadorMG] # le descuento al salgoGlobal lo apostado
             if(nRandom in numerosRojos and colorSeleccionado == rojo) or (nRandom not in numerosRojos and colorSeleccionado == negro):
-                saldo_global += apuestaAct*2
-                matrizApuestas.append(dinero_apostado)
-                apuestaAct = matrizApuestas[contadorMG]  
+                saldo_global += matrizApuestas[contadorMG]*2
+                matrizApuestas.append(matrizApuestas[0]) 
             else:
-                if(apuestaAct*2 <= saldo_global):
-                    matrizApuestas.append(apuestaAct*2)
-                    apuestaAct = matrizApuestas[contadorMG]
+                if(matrizApuestas[contadorMG]*2 <= saldo_global):
+                    matrizApuestas.append(matrizApuestas[contadorMG]*2)
                 else:
-                    band = False
+                    band = False 
             mSaldo.append(saldo_global)
+            contadorMG += 1
         evolucionApuesta2.append(matrizApuestas)
         evolucionSaldo2.append(mSaldo) 
 
@@ -265,6 +276,7 @@ if eleccion == 1:
     agotarSaldo(colorSeleccionado, dinero_apostado)
     graficarApuestas(evolucionApuesta, False)
     graficarSaldos(evolucionSaldo, False)
+    graficarFR(evolucionApuesta)
 
 else:
     tiradas(colorSeleccionado, dinero_apostado)
