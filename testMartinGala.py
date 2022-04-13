@@ -4,7 +4,7 @@ from xmlrpc.client import Boolean
 import numpy as np # importando numpy
 from turtle import color
 import matplotlib.pyplot as plt
-from pyparsing import col 
+from pyparsing import alphas, col 
 from scipy import stats # importando scipy.stats
 
 saldoIni = 5000
@@ -128,7 +128,7 @@ def graficarPromSaldos(m):
     eje_x = ["25 corridas", "50 corridas", "75 corridas"]
     eje_y = [mProm[0], mProm[1], mProm[2]]
     plt.axhline(y=5000, color = "red") # linea de saldo inicial
-    plt.ylim([4000, 6500]) # esta ponderada la medicion
+    #plt.ylim([4000, 6500]) # esta ponderada la medicion
     plt.bar(eje_x, eje_y)
     plt.ylabel('Promedio de saldo resultante')
     plt.xlabel('Cantidad de corridas')
@@ -136,32 +136,57 @@ def graficarPromSaldos(m):
     plt.grid()
     plt.show()
 
-def graficarFR(evolucionApuesta):
-    mApuesta = []
-    mCantApuesta=[]
-    c = 0
-    for i in range(len(evolucionApuesta)):
-        m = evolucionApuesta[i]
-        for j in range(len(m)): # recorro cada apuesta
-            if m[j] in mApuesta: # me fijo si la apuesta ha se hizo
-                for k in range(len(mApuesta)): # recorro la matriz de apuestas para ver en q posicion esta guardada la apuesta
-                    if mApuesta[k] == m[j]:
-                        mCantApuesta[k] += 1 # le sumo uno en la posicion que corresponde de la matriz de apuesta
-            else: # si no esta agrego la apuesta y le agg 1 en la cantidad
-                mApuesta.append(m[j])
-                mCantApuesta.append(1)
-            c += 1
-    for i in range(len(mCantApuesta)): # obtengo la FR de cantidad de apuestas
-        mCantApuesta[i] = mCantApuesta[i]/c
-    print(mApuesta)
-    print(mCantApuesta)
-    #plt.ylim([4000, 6500]) # esta ponderada la medicion
-    plt.bar(mApuesta, mCantApuesta)
-    plt.ylabel('Frecuencia relativa por apuesta')
-    plt.xlabel('Valor de apuesta')
-    plt.title('Frecuencia relativa')
-    plt.grid()
-    plt.show()
+def graficarFR(mDato, band):
+    if (band):
+        for k in range(3):
+            evolucionApuesta = mDato[k]
+            mApuesta = []
+            mCantApuesta=[]
+            c = 0
+            for i in range(len(evolucionApuesta)):
+                m = evolucionApuesta[i]
+                for j in range(len(m)): # recorro cada apuesta
+                    if m[j] in mApuesta: # me fijo si la apuesta ha se hizo
+                        for k in range(len(mApuesta)): # recorro la matriz de apuestas para ver en q posicion esta guardada la apuesta
+                            if mApuesta[k] == m[j]:
+                                mCantApuesta[k] += 1 # le sumo uno en la posicion que corresponde de la matriz de apuesta
+                    else: # si no esta agrego la apuesta y le agg 1 en la cantidad
+                        mApuesta.append(m[j])
+                        mCantApuesta.append(1)
+                    c += 1
+            for i in range(len(mCantApuesta)): # obtengo la FR de cantidad de apuestas
+                mCantApuesta[i] = mCantApuesta[i]/c  
+                mApuesta[i] = str(mApuesta[i])
+            plt.bar(mApuesta, mCantApuesta, alpha = 0.75, width= 0.25)
+            plt.ylabel("Frecuencia relativa por apuesta para " + str((k+1)*25) + " corridas")
+            plt.xlabel('Valor de apuesta')
+            plt.title('Frecuencia relativa')
+            plt.grid()
+            plt.show()
+    else:
+        mApuesta = []
+        mCantApuesta=[]
+        c = 0
+        for i in range(len(mDato)):
+            m = mDato[i]
+            for j in range(len(m)): # recorro cada apuesta
+                if m[j] in mApuesta: # me fijo si la apuesta ha se hizo
+                    for k in range(len(mApuesta)): # recorro la matriz de apuestas para ver en q posicion esta guardada la apuesta
+                        if mApuesta[k] == m[j]:
+                            mCantApuesta[k] += 1 # le sumo uno en la posicion que corresponde de la matriz de apuesta
+                else: # si no esta agrego la apuesta y le agg 1 en la cantidad
+                    mApuesta.append(m[j])
+                    mCantApuesta.append(1)
+                c += 1
+        for i in range(len(mCantApuesta)): # obtengo la FR de cantidad de apuestas
+            mCantApuesta[i] = mCantApuesta[i]/c  
+            mApuesta[i] = str(mApuesta[i])
+        plt.bar(mApuesta, mCantApuesta, alpha = 0.75, width= 0.25)
+        plt.ylabel('Frecuencia relativa por apuesta')
+        plt.xlabel('Valor de apuesta')
+        plt.title('Frecuencia relativa')
+        plt.grid()
+        plt.show()
 
 def agotarSaldo(colorSeleccionado, dinero_apostado):
 #Opcion 10 girar
@@ -275,15 +300,15 @@ else:
 if eleccion == 1:
     agotarSaldo(colorSeleccionado, dinero_apostado)
     graficarApuestas(evolucionApuesta, False)
+    graficarFR(evolucionApuesta, False)
     graficarSaldos(evolucionSaldo, False)
-    graficarFR(evolucionApuesta)
 
 else:
     tiradas(colorSeleccionado, dinero_apostado)
     m = [evolucionApuesta, evolucionApuesta1, evolucionApuesta2]
     graficarApuestas(m, True)
+    graficarFR(m, True)
     m = [evolucionSaldo, evolucionSaldo1, evolucionSaldo2]
     graficarSaldos(m, True)
-    
     graficarPromSaldos(m)
 
