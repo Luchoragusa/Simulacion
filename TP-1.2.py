@@ -87,7 +87,7 @@ def fibonacci(n):   #formula fibonacci aplicada a python
 
 def estrategiaFibonacci(saldo):
     enesimo = 1
-    mesa = ["Rojo"] * 18 + ["Negro"] * 18 + ["Verde"] * 2
+    mesa = ["Rojo"] * 18 + ["Negro"] * 18 + ["Verde"] * 1
     saldo_historial = []
     while saldo > 0:
         apuesta = fibonacci(enesimo) * .01      #Apuesto 0.01 dinero al "n" que me trae
@@ -106,14 +106,14 @@ def estrategiaFibonacci(saldo):
     return saldo_historial
 
 def estrategiaThomasDonald(saldo):
-    mesa = ["Rojo"] * 18 + ["Negro"] * 18 + ["Verde"] * 2
+    mesa = ["Rojo"] * 18 + ["Negro"] * 18 + ["Verde"] * 1
     saldo_historial = []  
     apuesta = 1                                          
     while saldo > 0:             
         if apuesta > saldo:
             apuesta = saldo
         tirada = ran.choice(mesa)
-        if tirada == "Rojo":
+        if tirada == "Negro":
             saldo += apuesta
             apuesta-=1
         else:
@@ -303,11 +303,11 @@ def main():
                         print("Ingresó otra opción distinta a la solicitada.")
 #Opcion 9 ESTRATEGIA Thomas Donald
                 elif eleccion_estrategia == "4":    
-                    for i in range(6):  #4 jugadores
-                        saldoParaThomas = 100
+                    for i in range(4):  #4 jugadores
+                        saldoParaThomas = 100   
                         plt.plot(estrategiaThomasDonald(saldoParaThomas))
-                    plt.xlabel("Numero de rondas", fontsize=10, fontweight="bold")
-                    plt.ylabel("Saldo", fontsize=10, fontweight="bold")
-                    plt.title("Estrategia Thomas Donald", fontsize=10, fontweight="bold")
+                    plt.xlabel("Numero de rondas")
+                    plt.ylabel("Saldo")
+                    plt.title("Evolución de Thomas Donald de 4 jugadores partiendo de $100")
                     plt.show()
 main()
