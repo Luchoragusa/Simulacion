@@ -105,6 +105,23 @@ def estrategiaFibonacci(saldo):
         saldo_historial.append(saldo)
     return saldo_historial
 
+def estrategiaThomasDonald(saldo):
+    mesa = ["Rojo"] * 18 + ["Negro"] * 18 + ["Verde"] * 2
+    saldo_historial = []  
+    apuesta = 1                                          
+    while saldo > 0:             
+        if apuesta > saldo:
+            apuesta = saldo
+        tirada = ran.choice(mesa)
+        if tirada == "Rojo":
+            saldo += apuesta
+            apuesta-=1
+        else:
+            saldo -= apuesta
+            apuesta += 1
+        saldo_historial.append(saldo)
+    return saldo_historial    
+
 def main():
     saldo_global = 50000 #El saldo con el que se inicia
     eleccion = ""
@@ -120,7 +137,7 @@ def main():
             eleccion_ruleta = ""
             eleccion_estrategia = ""
             while eleccion_estrategia != "5":
-                eleccion_estrategia = input("""\t1. Jugar sin estrategia\n\t2. Estrategia Fibonacci\n\t3. Estrategia Martingala\n\t4. Estrategia JuaniC\n\t5. Volver\n\tElige: """)
+                eleccion_estrategia = input("""\t1. Jugar sin estrategia\n\t2. Estrategia Fibonacci\n\t3. Estrategia Martingala\n\t4. Estrategia Thomas Donald\n\t5. Volver\n\tElige: """)
                 if eleccion_estrategia == "1":
                     while eleccion_ruleta != "8":
                         print(f"Dinero disponible para esta ronda: {saldo_global-apuestaActual}")
@@ -284,4 +301,13 @@ def main():
                         plt.show()
                     else:
                         print("Ingresó otra opción distinta a la solicitada.")
+#Opcion 9 ESTRATEGIA Thomas Donald
+                elif eleccion_estrategia == "4":    
+                    for i in range(6):  #4 jugadores
+                        saldoParaThomas = 100
+                        plt.plot(estrategiaThomasDonald(saldoParaThomas))
+                    plt.xlabel("Numero de rondas", fontsize=10, fontweight="bold")
+                    plt.ylabel("Saldo", fontsize=10, fontweight="bold")
+                    plt.title("Estrategia Thomas Donald", fontsize=10, fontweight="bold")
+                    plt.show()
 main()
