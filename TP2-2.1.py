@@ -82,11 +82,14 @@ def simulaciones():
     print(f"Espera: {mean(esperas):.1f} Maxima espera: {max(esperas):1f}")
     print("Cuartiles: ", [round(cu, 1) for cu in quantiles(esperas)])
 
+#===============================================================================================
+#                                    Algunas gráficas
+#===============================================================================================
 def graficas():
     eleccion_Grafica = ""
     x = []; y = []
     print("==============================================")
-    print("============ MENÚ DE GRÁFICAS ================")
+    print("             MENÚ DE GRÁFICAS                 ")
     print("==============================================")
     while eleccion_Grafica != "5":
         eleccion_Grafica = input("\n\t1. Random()\n\t2. Uniform()\n\t3. Randint()\n\t4. Salir\n\tElija: ")
@@ -122,7 +125,9 @@ def graficas():
             plt.show()
 graficas()
 
-#Método de la parte media del cuadrado de Jon Von Neuman
+#===============================================================================================
+#                        #Método de la parte media del cuadrado de Jon Von Neuman (Funca)
+#===============================================================================================
 def middleSquare():
     semilla = int(input("\n\tIngrese una semilla de 4 digitos: "))
     miTabla = PrettyTable(["Contador", "Nueva Semilla", "Valor"])
@@ -166,7 +171,10 @@ def middleSquare():
         plt.show()
 #middleSquare()
 
-#Mismo método de la parte media pero ploteado para que aparezca la gráfica
+#===============================================================================================
+#  Mismo método de la parte media pero ploteado para que aparezca la gráfica  (NO FUNCA CORRECTAMENTE, TRAE LA ULTIMA ROW)
+#===============================================================================================
+#
 def tableMiddleSquare():
     fig, ax =plt.subplots()
     fig.patch.set_visible(False)
