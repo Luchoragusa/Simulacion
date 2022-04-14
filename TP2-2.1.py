@@ -91,7 +91,7 @@ def graficas():
     print("==============================================")
     print("             MENÚ DE GRÁFICAS                 ")
     print("==============================================")
-    while eleccion_Grafica != "5":
+    while eleccion_Grafica != "4":
         eleccion_Grafica = input("\n\t1. Random()\n\t2. Uniform()\n\t3. Randint()\n\t4. Salir\n\tElija: ")
         if eleccion_Grafica == "1":
             for i in range(300):
