@@ -5,7 +5,10 @@ from statistics import mean, quantiles
 import matplotlib.pyplot as plt
 import numpy as np # importando numpy
 import networkx as nx
-
+from tabulate import tabulate
+from prettytable import PrettyTable
+import pandas as pd
+from mpl_toolkits import mplot3d
 
 #===============================================================================================
 #                         Funciones generadoras aleatoridad
@@ -79,77 +82,141 @@ def simulaciones():
     print(f"Espera: {mean(esperas):.1f} Maxima espera: {max(esperas):1f}")
     print("Cuartiles: ", [round(cu, 1) for cu in quantiles(esperas)])
 
+#===============================================================================================
+#                                    Algunas gráficas
+#===============================================================================================
 def graficas():
-    a = np.array([[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40], 
-    [rendom(),rendom(),rendom(),rendom(),rendom(),rendom(),rendom(),rendom(),rendom(),
-    rendom(),rendom(),rendom(),rendom(),rendom(),rendom(),rendom(),rendom(),rendom(),
-    rendom(),rendom(),rendom(),rendom(),rendom(),rendom(),rendom(),rendom(),rendom(),
-    rendom(),rendom(),rendom(),rendom(),rendom(),rendom(),rendom(),rendom(),rendom(),rendom(),rendom(),rendom(),rendom()]])
-    categorias = np.array([0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0])
-    colormap = np.array(['r', 'c', 'b'])
-    plt.scatter(a[0], a[1], s=100, c=colormap[categorias])
-    plt.xlabel("Numero de tiradas")
-    plt.ylabel("Resultado aleatorio")
-    plt.title("Evaluacion de ran.random()")
-    plt.show()
-    a = np.array([[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40], 
-    [iuniform(),iuniform(),iuniform(),iuniform(),iuniform(),iuniform(),iuniform(),iuniform(),iuniform(),
-    iuniform(),iuniform(),iuniform(),iuniform(),iuniform(),iuniform(),iuniform(),iuniform(),iuniform(),
-    iuniform(),iuniform(),iuniform(),iuniform(),iuniform(),iuniform(),iuniform(),iuniform(),iuniform(),
-    iuniform(),iuniform(),iuniform(),iuniform(),iuniform(),iuniform(),iuniform(),iuniform(),iuniform(),
-    iuniform(),iuniform(),iuniform(),iuniform()]])
-    categorias = np.array([0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0])
-    colormap = np.array(['g', 'm', 'y'])
-    plt.scatter(a[0], a[1], s=100, c=colormap[categorias])
-    plt.xlabel("Numero de tiradas")
-    plt.ylabel("Resultado aleatorio")
-    plt.title("Evaluacion de ran.uniform(1,10)")
-    plt.show()
-#Ejemplo de jugar al Truco: en una mano de 3 jugadores, qué cartas pueden salir dentro de la baraja de 1 a 12 cartas del juego para c/u
-    x = []; y = []; baraja = [1,2,3,4,5,6,7,10,11,12]; rangoy = np.arange(1,13,1); 
-    for i in range(3):
-        cartas = sampel(baraja)    
-        x.append(i+1)
-        y.append(cartas)
-        plt.plot(x,y, marker='o')
-    plt.xlabel("Orden de las cartas")
-    plt.ylabel("Resultado aleatorio de valores de cartas")
-    plt.title("Evaluacion de ran.sample()")
-    plt.xticks(x)
-    plt.yticks(rangoy)
-    plt.show()
+    eleccion_Grafica = ""
+    x = []; y = []
+    print("==============================================")
+    print("             MENÚ DE GRÁFICAS                 ")
+    print("==============================================")
+    while eleccion_Grafica != "4":
+        eleccion_Grafica = input("\n\t1. Random()\n\t2. Uniform()\n\t3. Randint()\n\t4. Salir\n\tElija: ")
+        if eleccion_Grafica == "1":
+            for i in range(300):
+                x.append(i+1)
+                y.append(rendom())
+                plt.scatter(x,y)
+            plt.xlabel("Numero de tiradas")
+            plt.ylabel("Resultado aleatorio")
+            plt.title("Evaluacion de ran.random()")
+            plt.show()
+        elif eleccion_Grafica == "2":
+            for i in range(300):
+                x.append(i+1)
+                y.append(rendom())
+                plt.scatter(x,y)
+            plt.xlabel("Numero de tiradas")
+            plt.ylabel("Resultado aleatorio")
+            plt.title("Evaluacion de ran.uniform(1,10)")
+            plt.show()
+        elif eleccion_Grafica == "3":
+            z = np.random.randint(100, size=200)
+            x = np.random.randint(80, size=200)
+            y = np.random.randint(60, size=200)
+            fig = plt.figure(figsize=(10,7))
+            ax = plt.axes(projection="3d")
+            ax.scatter3D(x,y,z, color = "darkorange")
+            ax.set_xlabel("X-axis")
+            ax.set_ylabel("Y-axis")
+            ax.set_zlabel("Z-axis")
+            plt.title("Representación de 100 números utilizando randint")
+            plt.show()
+graficas()
 
-#Método de la parte media del cuadrado de Jon Von Neuman
+#===============================================================================================
+#                        #Método de la parte media del cuadrado de Jon Von Neuman (Funca)
+#===============================================================================================
 def middleSquare():
-    semilla = int(input("Ingrese un numero de 4 digitos: "))
+    semilla = int(input("\n\tIngrese una semilla de 4 digitos: "))
+    miTabla = PrettyTable(["Contador", "Nueva Semilla", "Valor"])
+    numero = semilla
+    historial = []
+    loop = []
+    cont = 0
+    eleccion_metodo = input("\n\t1. Aparezca semilla repetida.\n\t2. No aparezca semilla repetida\n\tElija: ")
+    if eleccion_metodo == "1":
+        eleccion_repeticiones = int(input("\n\tCuantas repeticiones?: "))
+        for i in range(eleccion_repeticiones):
+            cont += 1
+            if numero in historial and numero not in loop:
+                loop.append(numero)
+            historial.append(numero)
+            cuad = numero*numero
+            numero = int(str(cuad).zfill(8)[2:6])      #zfill agrega relleno de ceros
+            #print(f"#{cont}:\nvalor = '{cuad}', new seed = {numero}")
+            miTabla.add_row([f"{cont}", f"{numero}", f"{cuad}"])
+            plt.scatter(cont, numero)
+        print(miTabla)
+        print(f"\n\tEmpezamos con semilla = '{semilla}', hemos repetido el proceso '{cont}' veces, y el loop lo genera '{apariciones}'")
+        plt.xlabel("Numero de repeticiones")
+        plt.ylabel("Numeros medios obtenidos del cuadrado")
+        plt.title("Representación gráfica de nuevas semillas")
+        plt.show()
+    if eleccion_metodo == "2":
+        while numero not in historial:
+            cont += 1
+            historial.append(numero)
+            cuad = numero*numero
+            numero = int(str(cuad).zfill(8)[2:6])      #zfill agrega relleno de ceros
+            #print(f"#{cont}:\nvalor = '{cuad}', new seed = {numero}")
+            miTabla.add_row([f"{cont}", f"{cuad}", f"{numero}"])
+            plt.scatter(cont, numero)
+        print(miTabla)
+        print(f"\n\tEmpezamos con semilla = '{semilla}', hemos repetido el proceso '{cont}' veces, hasta que '{numero} apareció de nuevo en la tabla'")
+        plt.xlabel("Numero de repeticiones")
+        plt.ylabel("Numeros medios obtenidos del cuadrado")
+        plt.title("Representación gráfica de nuevas semillas")
+        plt.show()
+#middleSquare()
+
+#===============================================================================================
+#  Mismo método de la parte media pero ploteado para que aparezca la gráfica  (NO FUNCA CORRECTAMENTE, TRAE LA ULTIMA ROW)
+#===============================================================================================
+#
+def tableMiddleSquare():
+    fig, ax =plt.subplots()
+    fig.patch.set_visible(False)
+    ax.axis('off')
+    ax.axis('tight')
+    column_labels=["Contador", "Valor", "Nueva Semilla"]
+    data = []
+    semilla = int(input("Ingrese una semilla de 4 digitos: "))
     numero = semilla
     historial = []
     cont = 0
-    G = nx.Graph()
     while numero not in historial:
         cont += 1
         historial.append(numero)
         cuad = numero*numero
         numero = int(str(cuad).zfill(8)[2:6])      #zfill agrega relleno de ceros
-        print(f"#{cont}:\nvalor = '{cuad}', new seed = {numero}")
-        G.add_edge(cont, cont+1)
-        nx.draw_networkx(G)
-        ax = plt.gca()
-        ax.margins(0.20)
-        plt.axis("off")
-    print(f"Empezamos con '{semilla}', hemos repetido el proceso '{cont}'")
+        #print(f"#{cont}:\nvalor = '{cuad}', new seed = {numero}")
+        data = [[cont, cuad, numero],
+                [cont, cuad, numero],
+                [cont, cuad, numero]]
+        df=pd.DataFrame(data,columns=column_labels)
+        ax.axis('tight')
+        ax.axis('off')
+    ax.table(cellText=df.values,
+            colLabels=df.columns,
+            rowLabels=["A","B","C"],
+            rowColours =["yellow"] * 3,  
+            colColours =["yellow"] * 3,
+            loc="center")
     plt.show()
-middleSquare()
+#tableMiddleSquare()
 
 def randu():
     n = 150000
-    x = [[0],[n]]; u = [[0],[n]]
+    x = [[],[]]; u = [[],[]]
     x[1] = 4798373
     u[1] = x[1] / (2^31 - 1)
-    for i in range(2,n):
-        x[i] = ((2 ^ 16 + 3) * x[i-1]) % (2 ^ 31)
-        u[i] = x[i] / (2 ^ 31)
-    plt.plot(x,u)
+    print(x)
+    print(u)
+    for i in range(n):
+        x.append(((2 ^ 16 + 3) * x[i-1]) % (2 ^ 31))
+        u.append(x[i] / (2 ^ 31))
+        plt.plot(x,u)
     plt.show()
 #randu()
-
