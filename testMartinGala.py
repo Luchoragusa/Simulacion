@@ -138,8 +138,8 @@ def graficarPromSaldos(m):
 
 def graficarFR(mDato, band):
     if (band):
-        for k in range(3):
-            evolucionApuesta = mDato[k]
+        for x in range(3):
+            evolucionApuesta = mDato[x]
             mApuesta = []
             mCantApuesta=[]
             c = 0
@@ -158,7 +158,7 @@ def graficarFR(mDato, band):
                 mCantApuesta[i] = mCantApuesta[i]/c  
                 mApuesta[i] = str(mApuesta[i])
             plt.bar(mApuesta, mCantApuesta, alpha = 0.75, width= 0.25)
-            plt.ylabel("Frecuencia relativa por apuesta para " + str((k+1)*25) + " corridas")
+            plt.ylabel("Frecuencia relativa por apuesta para " + str((x+1)*25) + " corridas")
             plt.xlabel('Valor de apuesta')
             plt.title('Frecuencia relativa')
             plt.grid()

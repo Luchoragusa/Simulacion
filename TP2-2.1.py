@@ -125,15 +125,21 @@ def middleSquare():
     numero = semilla
     historial = []
     cont = 0
+    G = nx.Graph()
     while numero not in historial:
         cont += 1
         historial.append(numero)
         cuad = numero*numero
         numero = int(str(cuad).zfill(8)[2:6])      #zfill agrega relleno de ceros
         print(f"#{cont}:\nvalor = '{cuad}', new seed = {numero}")
+        G.add_edge(cont, cont+1)
+        nx.draw_networkx(G)
+        ax = plt.gca()
+        ax.margins(0.20)
+        plt.axis("off")
     print(f"Empezamos con '{semilla}', hemos repetido el proceso '{cont}'")
-
-#middleSquare()
+    plt.show()
+middleSquare()
 
 def randu():
     n = 150000
