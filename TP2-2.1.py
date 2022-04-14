@@ -5,7 +5,9 @@ from statistics import mean, quantiles
 import matplotlib.pyplot as plt
 import numpy as np # importando numpy
 import networkx as nx
-
+from tabulate import tabulate
+from prettytable import PrettyTable
+import pandas as pd
 
 #===============================================================================================
 #                         Funciones generadoras aleatoridad
@@ -121,25 +123,76 @@ def graficas():
 
 #Método de la parte media del cuadrado de Jon Von Neuman
 def middleSquare():
-    semilla = int(input("Ingrese un numero de 4 digitos: "))
+    semilla = int(input("\n\tIngrese una semilla de 4 digitos: "))
+    miTabla = PrettyTable(["Contador", "Nueva Semilla", "Valor"])
     numero = semilla
     historial = []
     cont = 0
-    G = nx.Graph()
+    eleccion_metodo = input("\n\t1. Aparezca semilla repetida.\n\t2. No aparezca semilla repetida\n\tElija: ")
+    if eleccion_metodo == "1":
+        eleccion_repeticiones = int(input("\n\tCuantas repeticiones?: "))
+        for i in range(eleccion_repeticiones):
+            cont += 1
+            historial.append(numero)
+            cuad = numero*numero
+            numero = int(str(cuad).zfill(8)[2:6])      #zfill agrega relleno de ceros
+            #print(f"#{cont}:\nvalor = '{cuad}', new seed = {numero}")
+            miTabla.add_row([f"{cont}", f"{numero}", f"{cuad}"])
+            plt.scatter(cont, numero)
+        print(miTabla)
+        print(f"\n\tEmpezamos con semilla = '{semilla}', hemos repetido el proceso '{cont}' veces, hasta que '{numero} apareció de nuevo en la tabla'")
+        plt.xlabel("Numero de repeticiones")
+        plt.ylabel("Numeros medios obtenidos del cuadrado")
+        plt.title("Representación gráfica de nuevas semillas")
+        plt.show()
+    if eleccion_metodo == "2":
+        while numero not in historial:
+            cont += 1
+            historial.append(numero)
+            cuad = numero*numero
+            numero = int(str(cuad).zfill(8)[2:6])      #zfill agrega relleno de ceros
+            #print(f"#{cont}:\nvalor = '{cuad}', new seed = {numero}")
+            miTabla.add_row([f"{cont}", f"{cuad}", f"{numero}"])
+            plt.scatter(cont, numero)
+        print(miTabla)
+        print(f"\n\tEmpezamos con semilla = '{semilla}', hemos repetido el proceso '{cont}' veces, hasta que '{numero} apareció de nuevo en la tabla'")
+        plt.xlabel("Numero de repeticiones")
+        plt.ylabel("Numeros medios obtenidos del cuadrado")
+        plt.title("Representación gráfica de nuevas semillas")
+        plt.show()
+middleSquare()
+
+def tableMiddleSquare():
+    fig, ax =plt.subplots()
+    fig.patch.set_visible(False)
+    ax.axis('off')
+    ax.axis('tight')
+    column_labels=["Contador", "Valor", "Nueva Semilla"]
+    data = []
+    semilla = int(input("Ingrese una semilla de 4 digitos: "))
+    numero = semilla
+    historial = []
+    cont = 0
     while numero not in historial:
         cont += 1
         historial.append(numero)
         cuad = numero*numero
         numero = int(str(cuad).zfill(8)[2:6])      #zfill agrega relleno de ceros
-        print(f"#{cont}:\nvalor = '{cuad}', new seed = {numero}")
-        G.add_edge(cont, cont+1)
-        nx.draw_networkx(G)
-        ax = plt.gca()
-        ax.margins(0.20)
-        plt.axis("off")
-    print(f"Empezamos con '{semilla}', hemos repetido el proceso '{cont}'")
+        #print(f"#{cont}:\nvalor = '{cuad}', new seed = {numero}")
+        data = [[cont, cuad, numero],
+                [cont, cuad, numero],
+                [cont, cuad, numero]]
+        df=pd.DataFrame(data,columns=column_labels)
+        ax.axis('tight')
+        ax.axis('off')
+    ax.table(cellText=df.values,
+            colLabels=df.columns,
+            rowLabels=["A","B","C"],
+            rowColours =["yellow"] * 3,  
+            colColours =["yellow"] * 3,
+            loc="center")
     plt.show()
-middleSquare()
+#tableMiddleSquare()
 
 def randu():
     n = 150000
