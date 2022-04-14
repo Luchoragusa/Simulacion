@@ -108,18 +108,26 @@ def estrategiaFibonacci(saldo):
 def estrategiaParoli(saldo):
     mesa = ["Rojo"] * 18 + ["Negro"] * 18 + ["Verde"] * 1
     saldo_historial = []  
-    apuesta = 1                                          
+    apuesta = 10
+    vez_apostada=1                                          
     while saldo > 0:             
         if apuesta > saldo:
             apuesta = saldo
+        
         tirada = ran.choice(mesa)
 
         if tirada == "Negro":
             saldo += apuesta
-            apuesta-=1
+            if vez_apostada==1 or vez_apostada==2:
+                apuesta=apuesta*2
+                vez_apostada+=1
+            else:
+                apuesta=saldo
+                vez_apostada=1
         else:
             saldo -= apuesta
-            apuesta += 1
+            apuesta=10
+            vez_apostada=1
         saldo_historial.append(saldo)
     return saldo_historial    
 
@@ -139,7 +147,7 @@ def main():
             eleccion_ruleta = ""
             eleccion_estrategia = ""
             while eleccion_estrategia != "5":
-                eleccion_estrategia = input("""\t1. Jugar sin estrategia\n\t2. Estrategia Fibonacci\n\t3. Estrategia Martingala\n\t4. Estrategia Thomas Donald\n\t5. Volver\n\tElige: """)
+                eleccion_estrategia = input("""\t1. Jugar sin estrategia\n\t2. Estrategia Fibonacci\n\t3. Estrategia Martingala\n\t4. Estrategia Paroli\n\t5. Volver\n\tElige: """)
                 if eleccion_estrategia == "1":
                     while eleccion_ruleta != "8":
                         print(f"Dinero disponible para esta ronda: {saldo_global-apuestaActual}")
@@ -235,6 +243,8 @@ def main():
 #Opcion 7 Girar ruleta 
                         elif eleccion_ruleta == "7": #genero el numero y analizo cada condicion
                             nRandom = ran.randint (0,36)
+                            numerosRandom = []
+                            numerosRandom.append(nRandom)
                             print("Salio el: ", nRandom)
                             saldo_global -= dinero_apostado # le descuento al salgoGlobal lo apostado
                             ganancia = 0
@@ -273,6 +283,7 @@ def main():
                     plt.title("Evolución de saldo sin estrategia")
                     plt.axhline(y=50000, color = "r")
                     plt.show()
+
 
                     plt.plot(np.size(saldos_globales),saldos_globales)      #modificar para frecuencia relativa
                     plt.xlabel("Numero de rondas")
@@ -323,44 +334,19 @@ def main():
                         print("Ingresó otra opción distinta a la solicitada.")
 #Opcion 9 ESTRATEGIA Paroli
                 elif eleccion_estrategia == "4":    
-                    saldo_eleccion_paroli = input("Elija el saldo inicial ($50 o $100): ")   
-                    cant_jugadores_eleccion = input("Elija cuantos jugadores participan (3 o 4): ")   
-                    if saldo_eleccion_paroli == "50" and cant_jugadores_eleccion == "3":
-                        sef = 50 ; cje = 3
-                        for i in range(cje):  #4 jugadores
-                            plt.plot(estrategiaParoli(sef))
-                        plt.xlabel("Numero de rondas")
-                        plt.ylabel("Saldo")
-                        plt.title("Evolución de Paroli de 3 jugadores partiendo de $50")
-                        plt.axhline(y=50, color = "r")
-                        plt.show()
-                    elif saldo_eleccion_paroli == "50" and cant_jugadores_eleccion == "4":
-                        sef = 50 ; cje = 4
-                        for i in range(cje):  #4 jugadores
-                            plt.plot(estrategiaParoli(sef))
-                        plt.xlabel("Numero de rondas")
-                        plt.ylabel("Saldo")
-                        plt.title("Evolución de Paroli de 4 jugadores partiendo de $50")
-                        plt.axhline(y=50, color = "r")
-                        plt.show()
-                    elif saldo_eleccion_paroli == "100" and cant_jugadores_eleccion == "3":
-                        sef = 100 ; cje = 3
-                        for i in range(cje):  #4 jugadores
-                            plt.plot(estrategiaParoli(sef))
-                        plt.xlabel("Numero de rondas")
-                        plt.ylabel("Saldo")
-                        plt.title("Evolución de Paroli de 3 jugadores partiendo de $100")
-                        plt.axhline(y=100, color = "r")
-                        plt.show()
-                    elif saldo_eleccion_paroli == "100" and cant_jugadores_eleccion == "4":
-                        sef = 50 ; cje = 4
-                        for i in range(cje):  #4 jugadores
-                            plt.plot(estrategiaParoli(sef))
-                        plt.xlabel("Numero de rondas")
-                        plt.ylabel("Saldo")
-                        plt.title("Evolución de Paroli de 4 jugadores partiendo de $100")
-                        plt.axhline(y=100, color = "r")
-                        plt.show()
-                    else:
-                        print("Ingresó otra opción distinta a la solicitada.")
+                    saldo_eleccion_paroli = int(input("Elija el saldo inicial: "))  
+                    cant_jugadores_eleccion = int(input("Elija cuantos jugadores participan: "))  
+                    
+                    for i in range(cant_jugadores_eleccion):
+                        plt.plot(estrategiaParoli(saldo_eleccion_paroli))
+                    plt.xlabel("Numero de rondas")
+                    plt.ylabel("Saldo")
+                    texto_titulo="Evolución de Paroli de "+str(cant_jugadores_eleccion)+" jugadores partiendo de $"+str(saldo_eleccion_paroli)
+                    plt.title(texto_titulo)
+                    plt.axhline(y=50, color = "r")
+                    plt.show()
+                    
+
+
+
 main()
