@@ -315,9 +315,9 @@ def main():
                         plt.plot(estrategiaParoli(saldo_eleccion_paroli))
                         plt.xlabel("Numero de rondas")
                         plt.ylabel("Saldo")
-                        texto_titulo="Evolución de Paroli de "+str(cant_jugadores_eleccion)+" jugadores partiendo de $"+str(saldo_eleccion_paroli)
+                        texto_titulo="Evolución de Paroli partiendo de $"+str(saldo_eleccion_paroli)
                         plt.title(texto_titulo)
-                        plt.axhline(y=50, color = "r")
+                        plt.axhline(y=saldo_eleccion_paroli/2, color = "r")
                         plt.show()
                     elif(eleccion_modo_paroli=="2"):
                         saldo_eleccion_paroli = int(input("\nElija el saldo inicial: "))  
@@ -328,9 +328,8 @@ def main():
                         plt.ylabel("Saldo")
                         texto_titulo="Evolución de Paroli de "+str(cant_jugadores_eleccion)+" jugadores partiendo de $"+str(saldo_eleccion_paroli)
                         plt.title(texto_titulo)
-                        plt.axhline(y=50, color = "r")
+                        plt.axhline(y=saldo_eleccion_paroli/2, color = "r")
                         plt.show()
                     else:
                         print("Opción incorrecta")
-                  
 main()

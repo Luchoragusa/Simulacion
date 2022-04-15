@@ -123,7 +123,7 @@ def graficas():
             ax.set_zlabel("Z-axis")
             plt.title("Representación de 100 números utilizando randint")
             plt.show()
-graficas()
+#graficas()
 
 #===============================================================================================
 #                        #Método de la parte media del cuadrado de Jon Von Neuman (Funca)
@@ -149,7 +149,7 @@ def middleSquare():
             miTabla.add_row([f"{cont}", f"{numero}", f"{cuad}"])
             plt.scatter(cont, numero)
         print(miTabla)
-        print(f"\n\tEmpezamos con semilla = '{semilla}', hemos repetido el proceso '{cont}' veces, y el loop lo genera '{apariciones}'")
+        print(f"\n\tEmpezamos con semilla = '{semilla}', hemos repetido el proceso '{cont}' veces, y el loop lo genera '{loop}'")
         plt.xlabel("Numero de repeticiones")
         plt.ylabel("Numeros medios obtenidos del cuadrado")
         plt.title("Representación gráfica de nuevas semillas")
@@ -205,7 +205,7 @@ def tableMiddleSquare():
             colColours =["yellow"] * 3,
             loc="center")
     plt.show()
-#tableMiddleSquare()
+tableMiddleSquare()
 
 def randu():
     n = 150000
