@@ -52,24 +52,11 @@ def pedirNumero():
         else:
             band = True
 
-def graficarSaldos(evolucionSaldo):
-    for i in range(len(evolucionSaldo)):
-        print("Corrida --> ", i)
-        x = []
-        for j in range(len(evolucionSaldo[i])):
-            x.append(j+1)
-        plt.plot(x,evolucionSaldo[i])
-    plt.xlabel("Numero de apuestas")
-    plt.ylabel("Saldo")
-    plt.title("Evolucion de saldo") 
-    plt.show()
-
 def graficarSaldos(m, band):
     if (band):
         for k in range(3):
             mSaldo = m[k]
             for i in range(len(mSaldo)):
-                print("Corrida --> ", i)
                 x = []
                 for j in range(len(mSaldo[i])):
                     x.append(j+1)
@@ -77,6 +64,8 @@ def graficarSaldos(m, band):
             plt.xlabel("Numero de apuestas")
             plt.ylabel("Saldo")
             plt.title("Evolucion de saldo para " + str((k+1)*25) + " corridas")
+            plt.axhline(y=saldoIni, color = "red") # linea de saldo inicial
+            plt.grid()
             plt.show()
     else:
         for i in range(len(m)):
@@ -87,6 +76,8 @@ def graficarSaldos(m, band):
         plt.xlabel("Numero de apuestas")
         plt.ylabel("Saldo")
         plt.title("Evolucion de saldo") 
+        plt.axhline(y=saldoIni, color = "red") # linea de saldo inicial
+        plt.grid()
         plt.show()
 
 def graficarApuestas(m,  band):
@@ -94,25 +85,25 @@ def graficarApuestas(m,  band):
         for k in range(3):
             mApuesta = m[k]
             for i in range(len(mApuesta)):
-                print("Corrida --> ", i)
                 x = []
                 for j in range(len(mApuesta[i])):
                     x.append(j+1)
                 plt.plot(x,mApuesta[i])
             plt.xlabel("Numero de apuestas")
             plt.ylabel("Valor de apuesta")
-            plt.title("Evolucion de las apuestas para " + str((k+1)*25) + " corridas") 
+            plt.title("Evolucion de las apuestas para " + str((k+1)*25) + " corridas")
+            plt.grid()  
             plt.show()
     else:
         for i in range(len(m)):
-            print("Corrida --> ", i)
             x = []
             for j in range(len(m[i])):
                 x.append(j+1)
             plt.plot(x,m[i])
         plt.xlabel("Numero de apuestas")
         plt.ylabel("Valor de apuesta")
-        plt.title("Evolucion de las apuestas") 
+        plt.title("Evolucion de las apuestas")
+        plt.grid()
         plt.show()
 
 def graficarPromSaldos(m):
@@ -123,12 +114,9 @@ def graficarPromSaldos(m):
         for j in range(len(mTemp)):
             mTemp2.append(np.mean(mTemp[j]))
         mProm.append(np.mean(mTemp2))
-    print("\nPromedio de saldos: ", mProm)
-
     eje_x = ["25 corridas", "50 corridas", "75 corridas"]
     eje_y = [mProm[0], mProm[1], mProm[2]]
-    plt.axhline(y=5000, color = "red") # linea de saldo inicial
-    #plt.ylim([4000, 6500]) # esta ponderada la medicion
+    plt.axhline(y=saldoIni, color = "red") # linea de saldo inicial
     plt.bar(eje_x, eje_y)
     plt.ylabel('Promedio de saldo resultante')
     plt.xlabel('Cantidad de corridas')
@@ -138,8 +126,8 @@ def graficarPromSaldos(m):
 
 def graficarFR(mDato, band):
     if (band):
-        for x in range(3):
-            evolucionApuesta = mDato[x]
+        for l in range(3):
+            evolucionApuesta = mDato[l]
             mApuesta = []
             mCantApuesta=[]
             c = 0
@@ -158,9 +146,9 @@ def graficarFR(mDato, band):
                 mCantApuesta[i] = mCantApuesta[i]/c  
                 mApuesta[i] = str(mApuesta[i])
             plt.bar(mApuesta, mCantApuesta, alpha = 0.75, width= 0.25)
-            plt.ylabel("Frecuencia relativa por apuesta para " + str((x+1)*25) + " corridas")
+            plt.title("Frecuencia relativa por apuesta para " + str((l+1)*25) + " corridas")
             plt.xlabel('Valor de apuesta')
-            plt.title('Frecuencia relativa')
+            plt.ylabel('Frecuencia relativa')
             plt.grid()
             plt.show()
     else:
@@ -182,9 +170,9 @@ def graficarFR(mDato, band):
             mCantApuesta[i] = mCantApuesta[i]/c  
             mApuesta[i] = str(mApuesta[i])
         plt.bar(mApuesta, mCantApuesta, alpha = 0.75, width= 0.25)
-        plt.ylabel('Frecuencia relativa por apuesta')
+        plt.tittle('Frecuencia relativa por apuesta')
         plt.xlabel('Valor de apuesta')
-        plt.title('Frecuencia relativa')
+        plt.ylabel('Frecuencia relativa')
         plt.grid()
         plt.show()
 
