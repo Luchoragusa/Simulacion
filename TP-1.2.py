@@ -43,21 +43,18 @@ Los numeros van del 0 al 36, colores son rojo y negro, paridades son par e impar
 
 def solicitarDineroRuleta(saldoGlobal, apuestaActual):
     dinero_apostado = 0
-    if  (saldoGlobal-apuestaActual) >= apuesta_minima_ruleta:
-        print(f"Tu saldo actual es: {saldoGlobal-apuestaActual}")
-        dinero_apostado = float(input(f"¿Cuanto apostás? Debe ser al menos '{apuesta_minima_ruleta}' pesos, y no debe superar el saldo: "))
-        band = True
-        while band:
-            if(dinero_apostado >= apuesta_minima_ruleta):
-                if ((saldoGlobal-(apuestaActual + dinero_apostado)) >= 0):
-                    apuestaActual += dinero_apostado
-                    band = False
-                else:
-                    dinero_apostado = float(input(f"Te pasaste de la apuesta maxima que podes hacer, la cual es '{(saldoGlobal-apuestaActual)}' pesos: "))
-            else: 
-                dinero_apostado = float(input(f"Estas apostando menos de lo sugerida, ingresa una valor >= a 10000: "))
-    else:
-        print("Tu saldo no llega al minimo para apostar.")
+    print(f"Tu saldo actual es: {saldoGlobal-apuestaActual}")
+    dinero_apostado = float(input(f"¿Cuanto apostás? Debe ser al menos '{apuesta_minima_ruleta}' pesos, y no debe superar el saldo: "))
+    band = True
+    while band:
+        if(dinero_apostado >= apuesta_minima_ruleta):
+            if ((saldoGlobal-(apuestaActual + dinero_apostado)) >= 0):
+                apuestaActual += dinero_apostado
+                band = False
+            else:
+                dinero_apostado = float(input(f"Te pasaste de la apuesta maxima que podes hacer, la cual es '{(saldoGlobal-apuestaActual)}' pesos: "))
+        else: 
+            dinero_apostado = float(input(f"Estas apostando menos de lo sugerida, ingresa una valor >= a 10000: "))
     return dinero_apostado, apuestaActual
 
 def pedirNumero():
@@ -71,12 +68,6 @@ def pedirNumero():
             band = True
             numero = int(input("Elige un numero entre 0 y 36: "))
 
-def validaSaldo(saldo):
-    band = False
-    if saldo < apuesta_minima_ruleta:
-        print(f"Necesitas de al menos {apuesta_minima_ruleta} pesos para jugar.")
-        band = True
-    return band
 
 
 def fibonacci(n):   #formula fibonacci aplicada a python
@@ -138,10 +129,9 @@ def main():
         eleccion = input(menu)
         if eleccion == "1":
             print(f"Dinero disponible de su cuenta: {saldo_global}")
-            if(validaSaldo(saldo_global)):
-                continue
-            matrizApuestas = []
             saldos_globales = []
+            saldos_globales.append(int(saldo_global))
+            matrizApuestas = []           
             apuestaActual = 0
             print(explicacion_ruleta)
             eleccion_ruleta = ""
@@ -153,21 +143,16 @@ def main():
                         print(f"\nDinero disponible para esta ronda: {saldo_global-apuestaActual}")
                         eleccion_ruleta = input("""\n\t1. Número\n\t2. Color\n\t3. Paridad (par e impar)\n\t4. 12's\n\t5. 1-18 y/o 19-36\n\t6. 2 to 1\n\t7. Girar la ruleta\n\t8. Volver\n\tElige: """)
 #Opcion 1 (Número)
-                        if eleccion_ruleta == "1":
-                            if(validaSaldo(saldo_global)):
-                                break
+                        if eleccion_ruleta == "1" and (saldo_global-apuestaActual) >= apuesta_minima_ruleta:
                             dinero_apostado, apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)                       
-                            if (dinero_apostado == 0):
-                                break
                             numero_usuario = pedirNumero()
                             matrizApuestas.append([numero_usuario, dinero_apostado])
+                        elif eleccion_ruleta == "1" and (saldo_global-apuestaActual) < apuesta_minima_ruleta:
+                            print("Tu saldo no llega al minimo para apostar. Se tirara la ruleta.")
+                            eleccion_ruleta="7"
 #Opcion 2 (Color)
-                        elif eleccion_ruleta == "2":
-                            if(validaSaldo(saldo_global)):
-                                break
+                        elif eleccion_ruleta == "2" and (saldo_global-apuestaActual) >= apuesta_minima_ruleta:
                             dinero_apostado, apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)                        
-                            if (dinero_apostado == 0):
-                                break
                             color_eleccion_usuario = input("\n\t1.Rojo\n\t2.Negro\n\tElige: ")         #Para UN SOLO color
                             while color_eleccion_usuario not in("1","2"):
                                 color_eleccion_usuario = input("\nOpcion incorrecta. Ingrese 1 o 2: ")
@@ -175,28 +160,26 @@ def main():
                                 matrizApuestas.append([rojo, dinero_apostado])
                             elif color_eleccion_usuario == "2":
                                 matrizApuestas.append([negro, dinero_apostado])
+                        elif eleccion_ruleta == "2" and (saldo_global-apuestaActual) < apuesta_minima_ruleta:
+                            print("Tu saldo no llega al minimo para apostar. Se tirara la ruleta.")
+                            eleccion_ruleta="7"
                             
 #Opcion 3 (paridad)
-                        elif eleccion_ruleta == "3":
-                            if(validaSaldo(saldo_global)):
-                                break
+                        elif eleccion_ruleta == "3" and (saldo_global-apuestaActual) >= apuesta_minima_ruleta:
                             dinero_apostado,apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)                           
-                            if (dinero_apostado == 0):
-                                break
                             paridad_eleccion_usuario = input("\n\t1.Par\n\t2.Impar\n\tElige: ")       #Para UNA SOLA paridad
                             while paridad_eleccion_usuario not in("1","2"):
                                 paridad_eleccion_usuario= input("\nOpcion incorrecta. Ingrese 1 o 2: ")
                             if paridad_eleccion_usuario == "1":
                                 matrizApuestas.append([par, dinero_apostado])
                             elif paridad_eleccion_usuario == "2":
-                                matrizApuestas.append([impar, dinero_apostado])                           
+                                matrizApuestas.append([impar, dinero_apostado])    
+                        elif eleccion_ruleta == "3" and (saldo_global-apuestaActual) < apuesta_minima_ruleta:
+                            print("Tu saldo no llega al minimo para apostar. Se tirara la ruleta.")
+                            eleccion_ruleta="7"                       
 #Opcion 4 12's
-                        elif eleccion_ruleta == "4":
-                            if(validaSaldo(saldo_global)):
-                                break
+                        elif eleccion_ruleta == "4" and (saldo_global-apuestaActual) >= apuesta_minima_ruleta:
                             dinero_apostado,apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)                         
-                            if (dinero_apostado == 0):
-                                break
                             docena_eleccion_usuario = input("\n\t1.1ra docena\n\t2.2da docena\n\t3.3ra docena\n\tElige: ")   #Para UNA SOLA docena
                             while docena_eleccion_usuario not in("1","2","3"):
                                 docena_eleccion_usuario= input("\nOpcion incorrecta. Ingrese 1 o 2 o 3: ")
@@ -205,14 +188,13 @@ def main():
                             elif docena_eleccion_usuario == "2":
                                 matrizApuestas.append([docena2, dinero_apostado])
                             elif docena_eleccion_usuario == "3":
-                                matrizApuestas.append([docena3, dinero_apostado])                            
+                                matrizApuestas.append([docena3, dinero_apostado])  
+                        elif eleccion_ruleta == "4" and (saldo_global-apuestaActual) < apuesta_minima_ruleta:
+                            print("Tu saldo no llega al minimo para apostar. Se tirara la ruleta.")
+                            eleccion_ruleta="7"                          
 #Opcion 5 1-18 o 19-36
-                        elif eleccion_ruleta == "5":
-                            if(validaSaldo(saldo_global)):
-                                break
+                        elif eleccion_ruleta == "5" and (saldo_global-apuestaActual) >= apuesta_minima_ruleta:
                             dinero_apostado,apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)                         
-                            if (dinero_apostado == 0):
-                                break
                             faltapasa_eleccion_usuario = input("\n\t1.1-18\n\t2.19-36\n\tElige: ")   #Para UNA SOLA 
                             while faltapasa_eleccion_usuario not in("1","2"):
                                 faltapasa_eleccion_usuario= input("\nOpcion incorrecta. Ingrese 1 o 2: ")
@@ -220,13 +202,12 @@ def main():
                                 matrizApuestas.append([falta, dinero_apostado])
                             elif faltapasa_eleccion_usuario == "2":
                                 matrizApuestas.append([pasa, dinero_apostado])
+                        elif eleccion_ruleta == "5" and (saldo_global-apuestaActual) < apuesta_minima_ruleta:
+                            print("Tu saldo no llega al minimo para apostar. Se tirara la ruleta.")
+                            eleccion_ruleta="7"
 #Opcion 6 columnas
-                        elif eleccion_ruleta == "6":
-                            if(validaSaldo(saldo_global)):
-                                break
+                        elif eleccion_ruleta == "6" and (saldo_global-apuestaActual) >= apuesta_minima_ruleta:
                             dinero_apostado,apuestaActual = solicitarDineroRuleta(saldo_global, apuestaActual)                        
-                            if (dinero_apostado == 0):
-                                break
                             columna_eleccion_usuario = input("\n\t1.1ra columna\n\t2.2da columna\n\t3.3ra columna\n\tElige: ")   #Para UNA SOLA docena
                             while columna_eleccion_usuario not in("1","2","3"):
                                 columna_eleccion_usuario= input("\nOpcion incorrecta. Ingrese 1 o 2 o 3: ")
@@ -235,9 +216,12 @@ def main():
                             elif columna_eleccion_usuario == "2":
                                 matrizApuestas.append([columna2, dinero_apostado])
                             elif columna_eleccion_usuario == "3":
-                                matrizApuestas.append([columna3, dinero_apostado])                        
+                                matrizApuestas.append([columna3, dinero_apostado]) 
+                        elif eleccion_ruleta == "6" and (saldo_global-apuestaActual) < apuesta_minima_ruleta:
+                            print("Tu saldo no llega al minimo para apostar. Se tirara la ruleta.")
+                            eleccion_ruleta="7"                       
 #Opcion 7 Girar ruleta 
-                        elif eleccion_ruleta == "7": #genero el numero y analizo cada condicion
+                        if eleccion_ruleta == "7": #genero el numero y analizo cada condicion
                             nRandom = ran.randint (0,36)
                             numerosRandom = []
                             numerosRandom.append(nRandom)
@@ -267,22 +251,20 @@ def main():
                                 #??????    Si acierto la Martingala color
                                 #??????    ganancia += m[1] * 2 # Nose si se multiplica por 2
                             saldo_global += ganancia # Sumo la ganancia q haya tenido el usuario
-                            saldos_globales.append(saldo_global)
+                            saldos_globales.append(int(saldo_global))
                             apuestaActual=0
+                            matrizApuestas.clear()
                     print(f"\nSaldo final: {saldo_global}") 
-                    plt.plot(np.size(saldos_globales),saldos_globales)
+                    nro_rondas = []
+                    for i in range(np.size(saldos_globales)):
+                        nro_rondas.append(int(i))
+                    plt.plot(nro_rondas,saldos_globales)
                     plt.xlabel("Numero de rondas")
                     plt.ylabel("Saldo")
                     plt.title("Evolución de saldo sin estrategia")
                     plt.axhline(y=50000, color = "r")
                     plt.show()
 
-
-                    plt.plot(np.size(saldos_globales),saldos_globales)      #modificar para frecuencia relativa
-                    plt.xlabel("Numero de rondas")
-                    plt.ylabel("Saldo")
-                    plt.title("Evolución de saldo sin estrategia")
-                    plt.show()
 #Opcion 8 ESTRATEGIA Fibonacci
                 elif eleccion_estrategia == "2":
                     saldo_eleccion_fibo = input("Elija el saldo inicial ($50 o $100): ")   
