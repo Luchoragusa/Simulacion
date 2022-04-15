@@ -309,15 +309,28 @@ def main():
                         print("Ingresó otra opción distinta a la solicitada.")
 #Opcion 9 ESTRATEGIA Paroli
                 elif eleccion_estrategia == "4":    
-                    saldo_eleccion_paroli = int(input("\nElija el saldo inicial: "))  
-                    cant_jugadores_eleccion = int(input("\nElija cuantos jugadores participan: "))                     
-                    for i in range(cant_jugadores_eleccion):
+                    eleccion_modo_paroli=input("\t¿Como desea jugar? \n\t1. Jugar hasta agotar saldo\n\t2. Jugar 25, 50 y 75 tiradas\n\tElige: ")
+                    if eleccion_modo_paroli=="1":
+                        saldo_eleccion_paroli = int(input("\nElija el saldo inicial: "))                       
                         plt.plot(estrategiaParoli(saldo_eleccion_paroli))
-                    plt.xlabel("Numero de rondas")
-                    plt.ylabel("Saldo")
-                    texto_titulo="Evolución de Paroli de "+str(cant_jugadores_eleccion)+" jugadores partiendo de $"+str(saldo_eleccion_paroli)
-                    plt.title(texto_titulo)
-                    plt.axhline(y=50, color = "r")
-                    plt.show()
+                        plt.xlabel("Numero de rondas")
+                        plt.ylabel("Saldo")
+                        texto_titulo="Evolución de Paroli de "+str(cant_jugadores_eleccion)+" jugadores partiendo de $"+str(saldo_eleccion_paroli)
+                        plt.title(texto_titulo)
+                        plt.axhline(y=50, color = "r")
+                        plt.show()
+                    elif(eleccion_modo_paroli=="2"):
+                        saldo_eleccion_paroli = int(input("\nElija el saldo inicial: "))  
+                        cant_jugadores_eleccion = int(input("\nElija cuantos jugadores participan: "))                     
+                        for i in range(cant_jugadores_eleccion):
+                            plt.plot(estrategiaParoli(saldo_eleccion_paroli))
+                        plt.xlabel("Numero de rondas")
+                        plt.ylabel("Saldo")
+                        texto_titulo="Evolución de Paroli de "+str(cant_jugadores_eleccion)+" jugadores partiendo de $"+str(saldo_eleccion_paroli)
+                        plt.title(texto_titulo)
+                        plt.axhline(y=50, color = "r")
+                        plt.show()
+                    else:
+                        print("Opción incorrecta")
                   
 main()
