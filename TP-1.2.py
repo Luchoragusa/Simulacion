@@ -267,43 +267,24 @@ def main():
 
 #Opcion 8 ESTRATEGIA Fibonacci
                 elif eleccion_estrategia == "2":
-                    saldo_eleccion_fibo = input("Elija el saldo inicial ($50 o $100): ")   
-                    cant_jugadores_eleccion = input("Elija cuantos jugadores participan (3 o 4): ")   
-                    if saldo_eleccion_fibo == "50" and cant_jugadores_eleccion == "3":
-                        sef = 50 ; cje = 3
-                        for i in range(cje):  #4 jugadores
-                            plt.plot(estrategiaFibonacci(sef))
+                    eleccion_modo_fibo = input("\t¿Como desea jugar? \n\t1. Jugar hasta agotar saldo\n\t2. Jugar 25, 50 y 75 tiradas\n\tElige: ")
+                    if eleccion_modo_fibo=="1":                        
+                        saldo_eleccion_fibo = int(input("Elija el saldo inicial ($50 o $100): "))
+                        plt.plot(estrategiaFibonacci(saldo_eleccion_fibo))
                         plt.xlabel("Numero de rondas")
                         plt.ylabel("Saldo")
-                        plt.title("Evolución de Fibonacci de 3 jugadores partiendo de $50")
-                        plt.axhline(y=50, color = "r")
+                        plt.title(f"Evolución de Fibonacci partiendo de ${saldo_eleccion_fibo}")
+                        plt.axhline(y=saldo_eleccion_fibo/2, color = "r")
                         plt.show()
-                    elif saldo_eleccion_fibo == "50" and cant_jugadores_eleccion == "4":
-                        sef = 50 ; cje = 4
-                        for i in range(cje):  #4 jugadores
-                            plt.plot(estrategiaFibonacci(sef))
+                    elif eleccion_modo_fibo=="2":
+                        saldo_eleccion_fibo = int(input("Elija el saldo inicial ($50 o $100): "))
+                        cant_jugadores_eleccion = input("Elija cuantos jugadores participan (3 o 4): ")   
+                        for i in range(cant_jugadores_eleccion):
+                            plt.plot(estrategiaFibonacci(saldo_eleccion_fibo))
                         plt.xlabel("Numero de rondas")
                         plt.ylabel("Saldo")
-                        plt.title("Evolución de Fibonacci de 4 jugadores partiendo de $50")
-                        plt.axhline(y=50, color = "r")
-                        plt.show()
-                    elif saldo_eleccion_fibo == "100" and cant_jugadores_eleccion == "3":
-                        sef = 100 ; cje = 3
-                        for i in range(cje):  #4 jugadores
-                            plt.plot(estrategiaFibonacci(sef))
-                        plt.xlabel("Numero de rondas")
-                        plt.ylabel("Saldo")
-                        plt.title("Evolución de Fibonacci de 3 jugadores partiendo de $100")
-                        plt.axhline(y=100, color = "r")
-                        plt.show()
-                    elif saldo_eleccion_fibo == "100" and cant_jugadores_eleccion == "4":
-                        sef = 50 ; cje = 4
-                        for i in range(cje):  #4 jugadores
-                            plt.plot(estrategiaFibonacci(sef))
-                        plt.xlabel("Numero de rondas")
-                        plt.ylabel("Saldo")
-                        plt.title("Evolución de Fibonacci de 4 jugadores partiendo de $100")
-                        plt.axhline(y=100, color = "r")
+                        plt.title(f"Evolución de Fibonacci de {cant_jugadores_eleccion} jugadores partiendo de ${saldo_eleccion_fibo}")
+                        plt.axhline(y=saldo_eleccion_fibo/2, color = "r")
                         plt.show()
                     else:
                         print("Ingresó otra opción distinta a la solicitada.")
