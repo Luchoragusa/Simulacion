@@ -79,28 +79,20 @@ def estrategiaFibonacci_Agota_Saldo(saldo):
     i=0      
     nro_tirada.append(i)
     saldo_historial.append(saldo)     
-    print(nro_tirada)
-    print(saldo_historial)
     while saldo > 0:
-        print("Entra al while")
-        apuesta = fibonacci(enesimo) * 10      #Apuesto 0.01 dinero al "n" que me trae       
-        print(apuesta)
+        apuesta = fibonacci(enesimo) * 10      #Apuesto 10 dinero al "n" que me trae       
         if apuesta > saldo:
             apuesta = saldo 
         tirada = ran.choice(mesa)
         if tirada == "Rojo":
-            print("Entra al if rojo")
             saldo += apuesta
             enesimo = max(enesimo - 2, 1)   #traigo el max numero entre n-2 y 1
         else:
-            print("Entra al else")
             saldo -= apuesta
             enesimo += 1
         i+=1    
         saldo_historial.append(saldo)        
-        print(f"nuevo saldo historial {saldo_historial}")
         nro_tirada.append(i)
-        print(f"nuevo nro_tirada {nro_tirada}")
     return nro_tirada, saldo_historial
 
 def estrategiaFibonacci_Tiradas(saldo,cant_tiradas):
@@ -332,11 +324,10 @@ def main():
                     arreglo_x=[]
                     arreglo_y=[]
                     arreglo_x,arreglo_y=estrategiaFibonacci_Agota_Saldo(saldo_eleccion_fibo)
-                    print(arreglo_x, arreglo_y)
                     plt.plot(arreglo_x,arreglo_y)
                 plt.xlabel("Numero de Tiradas")
                 plt.ylabel("Saldo")
-                texto_titulo=f"Evolución de Fibonacci de 5 corridas partiendo de ${str(saldo_eleccion_fibo)} hasta agotar el saldo"
+                texto_titulo=f"Evolución del saldo partiendo de ${str(saldo_eleccion_fibo)} hasta agotarlo en 5 corridas"
                 plt.title(texto_titulo)
                 plt.axhline(y=saldo_eleccion_fibo, color = "r")
                 plt.show()
@@ -352,7 +343,7 @@ def main():
                     plt.plot(arreglo_x,arreglo_y)
                 plt.xlabel("Numero de Tiradas")
                 plt.ylabel("Saldo")
-                texto_titulo="Evolución de Fibonacci de 5 corridas en "+str(cant_tiradas_fibo)+" tiradas de $"+str(saldo_eleccion_fibo)
+                texto_titulo=f"Evolución del saldo partiendo de ${str(saldo_eleccion_fibo)} de 5 corridas en {str(cant_tiradas_fibo)} tiradas"
                 plt.title(texto_titulo)
                 plt.axhline(y=saldo_eleccion_fibo, color = "r")
                 plt.show()
@@ -370,7 +361,7 @@ def main():
                     plt.plot(arreglo_x,arreglo_y)
                 plt.xlabel("Numero de Tiradas")
                 plt.ylabel("Saldo")
-                texto_titulo=f"Evolución de Paroli de 5 corridas partiendo de ${str(saldo_eleccion_paroli)} hasta agotar el saldo"
+                texto_titulo=f"Evolución del saldo partiendo de ${str(saldo_eleccion_paroli)} hasta agotarlo en 5 corridas"
                 plt.title(texto_titulo)
                 plt.axhline(y=saldo_eleccion_paroli, color = "r")
                 plt.show()
@@ -386,7 +377,7 @@ def main():
                     plt.plot(arreglo_x,arreglo_y)
                 plt.xlabel("Numero de Tiradas")
                 plt.ylabel("Saldo")
-                texto_titulo="Evolución de Paroli de 5 corridas en "+str(cant_tiradas_paroli)+" tiradas de $"+str(saldo_eleccion_paroli)
+                texto_titulo=f"Evolución del saldo partiendo de ${str(saldo_eleccion_paroli)} de 5 corridas en {str(cant_tiradas_paroli)} tiradas"
                 plt.title(texto_titulo)
                 plt.axhline(y=saldo_eleccion_paroli, color = "r")
                 plt.show()
