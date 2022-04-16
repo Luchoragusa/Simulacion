@@ -63,7 +63,7 @@ def graficarSaldos(m, band):
                 plt.plot(x,mSaldo[i])
             plt.xlabel("Numero de apuestas")
             plt.ylabel("Saldo")
-            plt.title("Evolucion de saldo para " + str((k+1)*25) + " corridas")
+            plt.title("Evolucion de saldo para " + str((k+1)*25) + " jugadas")
             plt.axhline(y=saldoIni, color = "red") # linea de saldo inicial
             plt.grid()
             plt.show()
@@ -91,7 +91,7 @@ def graficarApuestas(m,  band):
                 plt.plot(x,mApuesta[i])
             plt.xlabel("Numero de apuestas")
             plt.ylabel("Valor de apuesta")
-            plt.title("Evolucion de las apuestas para " + str((k+1)*25) + " corridas")
+            plt.title("Evolucion de las apuestas para " + str((k+1)*25) + " jugadas")
             plt.grid()  
             plt.show()
     else:
@@ -114,13 +114,13 @@ def graficarPromSaldos(m):
         for j in range(len(mTemp)):
             mTemp2.append(np.mean(mTemp[j]))
         mProm.append(np.mean(mTemp2))
-    eje_x = ["25 corridas", "50 corridas", "75 corridas"]
+    eje_x = ["25 jugadas", "50 jugadas", "75 jugadas"]
     eje_y = [mProm[0], mProm[1], mProm[2]]
     plt.axhline(y=saldoIni, color = "red") # linea de saldo inicial
     plt.bar(eje_x, eje_y)
     plt.ylabel('Promedio de saldo resultante')
-    plt.xlabel('Cantidad de corridas')
-    plt.title('Promedio de saldo por cantidad de corridas')
+    plt.xlabel('Cantidad de jugadas')
+    plt.title('Promedio de saldo por cantidad de jugadas')
     plt.grid()
     plt.show()
 
@@ -146,9 +146,9 @@ def graficarFR(mDato, band):
                 mCantApuesta[i] = mCantApuesta[i]/c  
                 mApuesta[i] = str(mApuesta[i])
             plt.bar(mApuesta, mCantApuesta, alpha = 0.75, width= 0.25)
-            plt.title("Frecuencia relativa por apuesta para " + str((l+1)*25) + " corridas")
+            plt.title("Frecuencia relativa por apuesta para " + str((l+1)*25) + " jugadas")
             plt.xlabel('Valor de apuesta')
-            plt.ylabel('Frecuencia relativa')
+            plt.ylabel('Frecuencia jugadas')
             plt.grid()
             plt.show()
     else:
@@ -275,7 +275,7 @@ def tiradas(colorSeleccionado, dinero_apostado):
 
 print("Bienvenido a la ruleta de la martin gala")
 print("\n")
-eleccion = int(input("\t###### MENU RULETA #######\n\t1. Jugar hasta agotar saldo\n\t2. Jugar 25, 50 y 75 tiradas\n\tElige: "))
+eleccion = int(input("\t###### MENU RULETA #######\n\t1. Jugar hasta agotar saldo\n\t2. Jugar 25, 50 y 75 jugadas\n\tElige: "))
 print("\n")
 colorSeleccionado = ""
 dinero_apostado = solicitarDineroRuleta()
