@@ -80,11 +80,33 @@ def estrategiaFibonacci_Agota_Saldo(saldo):
     nro_tirada.append(i)
     saldo_historial.append(saldo)     
     while saldo > 0:
-        apuesta = fibonacci(enesimo) * .01      #Apuesto 0.01 dinero al "n" que me trae
-
+        apuesta = fibonacci(enesimo) * .01      #Apuesto 0.01 dinero al "n" que me trae       
         if apuesta < saldo:
             break
-        
+        tirada = ran.choice(mesa)
+        if tirada == "Rojo":
+            saldo += apuesta
+            enesimo = max(enesimo - 2, 1)   #traigo el max numero entre n-2 y 1
+        else:
+            saldo -= apuesta
+            enesimo += 1
+        i+=1    
+        saldo_historial.append(saldo)        
+        nro_tirada.append(i)
+    return nro_tirada, saldo_historial
+
+def estrategiaFibonacci_Tiradas(saldo,cant_tiradas):
+    enesimo = 1
+    mesa = ["Rojo"] * 18 + ["Negro"] * 18 + ["Verde"] * 1
+    saldo_historial = []  
+    arrancaCon = 10
+    nro_tirada = []
+    saldo_historial.append(saldo)
+    nro_tirada.append(0)                                      
+    for i in range(cant_tiradas):                 
+        apuesta = fibonacci(enesimo) * arrancaCon      #Apuesto 0.01 dinero al "n" que me trae   
+        if apuesta > saldo:
+            apuesta = saldo       
         tirada = ran.choice(mesa)
         if tirada == "Rojo":
             saldo += apuesta
@@ -93,9 +115,8 @@ def estrategiaFibonacci_Agota_Saldo(saldo):
             saldo -= apuesta
             enesimo += 1
         saldo_historial.append(saldo)
-        i+=1
-        nro_tirada.append(i)
-    return nro_tirada, saldo_historial
+        nro_tirada.append(i+1)
+    return nro_tirada,saldo_historial    
 
 def estrategiaParoli_Agota_Saldo(saldo):
     mesa = ["Rojo"] * 18 + ["Negro"] * 18 + ["Verde"] * 1
@@ -106,10 +127,8 @@ def estrategiaParoli_Agota_Saldo(saldo):
     i=0      
     nro_tirada.append(i)
     saldo_historial.append(saldo)                              
-    while saldo > 0 and apuesta > saldo:             
-        
+    while saldo > 0 and apuesta > saldo:                   
         tirada = ran.choice(mesa)
-
         if tirada == "Negro":
             saldo += apuesta
             if vez_apostada==1 or vez_apostada==2:
@@ -321,7 +340,7 @@ def main():
                 for i in range(5):
                     arreglo_x=[]
                     arreglo_y=[]
-                    arreglo_x,arreglo_y=estrategiaParoli_Tiradas(saldo_eleccion_fibo,cant_tiradas_fibo)
+                    arreglo_x,arreglo_y=estrategiaFibonacci_Tiradas(saldo_eleccion_fibo,cant_tiradas_fibo)
                     plt.plot(arreglo_x,arreglo_y)
                 plt.xlabel("Numero de Tiradas")
                 plt.ylabel("Saldo")
