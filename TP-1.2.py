@@ -71,16 +71,20 @@ def fibonacci(n):   #formula fibonacci aplicada a python
     else:
         return fibonacci(n-1) + fibonacci(n-2)
 
-def estrategiaFibonacci(saldo):
+def estrategiaFibonacci_Agota_Saldo(saldo):
     enesimo = 1
     mesa = ["Rojo"] * 18 + ["Negro"] * 18 + ["Verde"] * 1
     saldo_historial = []
+    nro_tirada = []
+    i=0      
+    nro_tirada.append(i)
+    saldo_historial.append(saldo)     
     while saldo > 0:
         apuesta = fibonacci(enesimo) * .01      #Apuesto 0.01 dinero al "n" que me trae
-        if apuesta > saldo:     #Esto hace que caiga a 0
-            apuesta = saldo
-        if saldo < 40:
+
+        if apuesta < saldo:
             break
+        
         tirada = ran.choice(mesa)
         if tirada == "Rojo":
             saldo += apuesta
@@ -89,7 +93,9 @@ def estrategiaFibonacci(saldo):
             saldo -= apuesta
             enesimo += 1
         saldo_historial.append(saldo)
-    return saldo_historial
+        i+=1
+        nro_tirada.append(i)
+    return nro_tirada, saldo_historial
 
 def estrategiaParoli_Agota_Saldo(saldo):
     mesa = ["Rojo"] * 18 + ["Negro"] * 18 + ["Verde"] * 1
@@ -294,21 +300,33 @@ def main():
         elif eleccion_estrategia == "2":
             eleccion_modo_fibo = input("\t¿Como desea jugar? \n\t1. Jugar hasta agotar saldo\n\t2. Jugar 25, 50 y 75 tiradas\n\tElige: ")
             if eleccion_modo_fibo=="1":                        
-                saldo_eleccion_fibo = int(input("Elija el saldo inicial ($50 o $100): "))
-                plt.plot(estrategiaFibonacci(saldo_eleccion_fibo))
+                saldo_eleccion_fibo = int(input("\nElija el saldo inicial: "))                       
+                for i in range(5):  
+                    arreglo_x=[]
+                    arreglo_y=[]
+                    arreglo_x,arreglo_y=estrategiaFibonacci_Agota_Saldo(saldo_eleccion_fibo)
+                    print(arreglo_x, arreglo_y)
+                    plt.plot(arreglo_x,arreglo_y)
                 plt.xlabel("Numero de Tiradas")
                 plt.ylabel("Saldo")
-                plt.title(f"Evolución de Fibonacci partiendo de ${saldo_eleccion_fibo}")
+                texto_titulo=f"Evolución de Fibonacci de 5 corridas partiendo de ${str(saldo_eleccion_fibo)} hasta agotar el saldo"
+                plt.title(texto_titulo)
                 plt.axhline(y=saldo_eleccion_fibo, color = "r")
                 plt.show()
             elif eleccion_modo_fibo=="2":
-                saldo_eleccion_fibo = int(input("Elija el saldo inicial ($50 o $100): "))
-                cant_jugadores_eleccion = input("Elija cuantos jugadores participan (3 o 4): ")   
-                for i in range(cant_jugadores_eleccion):
-                    plt.plot(estrategiaFibonacci(saldo_eleccion_fibo))
+                saldo_eleccion_fibo = int(input("\nElija el saldo inicial: "))  
+                cant_tiradas_fibo = int(input("\nElija cuantas tiradas realiza (25,50 o 75): ")) 
+                while cant_tiradas_fibo not in (25,50,75):
+                    cant_tiradas_fibo = int(input("\nMAL!! Elija cuantas tiradas realiza (25,50 o 75): "))                     
+                for i in range(5):
+                    arreglo_x=[]
+                    arreglo_y=[]
+                    arreglo_x,arreglo_y=estrategiaParoli_Tiradas(saldo_eleccion_fibo,cant_tiradas_fibo)
+                    plt.plot(arreglo_x,arreglo_y)
                 plt.xlabel("Numero de Tiradas")
                 plt.ylabel("Saldo")
-                plt.title(f"Evolución de Fibonacci de {cant_jugadores_eleccion} jugadores partiendo de ${saldo_eleccion_fibo}")
+                texto_titulo="Evolución de Fibonacci de 5 corridas en "+str(cant_tiradas_fibo)+" tiradas de $"+str(saldo_eleccion_fibo)
+                plt.title(texto_titulo)
                 plt.axhline(y=saldo_eleccion_fibo, color = "r")
                 plt.show()
             else:
