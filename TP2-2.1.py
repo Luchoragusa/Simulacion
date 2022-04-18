@@ -9,6 +9,7 @@ from tabulate import tabulate
 from prettytable import PrettyTable
 import pandas as pd
 from mpl_toolkits import mplot3d
+import plotly.express as px
 
 #===============================================================================================
 #                         Funciones generadoras aleatoridad
@@ -154,6 +155,7 @@ def middleSquare():
         plt.ylabel("Numeros medios obtenidos del cuadrado")
         plt.title("Representación gráfica de nuevas semillas")
         plt.show()
+        window.requestAnimationFrame(miTabla)
     if eleccion_metodo == "2":
         while numero not in historial:
             cont += 1
@@ -169,7 +171,7 @@ def middleSquare():
         plt.ylabel("Numeros medios obtenidos del cuadrado")
         plt.title("Representación gráfica de nuevas semillas")
         plt.show()
-#middleSquare()
+middleSquare()
 
 #===============================================================================================
 #  Mismo método de la parte media pero ploteado para que aparezca la gráfica  (NO FUNCA CORRECTAMENTE, TRAE LA ULTIMA ROW)
@@ -205,7 +207,7 @@ def tableMiddleSquare():
             colColours =["yellow"] * 3,
             loc="center")
     plt.show()
-tableMiddleSquare()
+#tableMiddleSquare()
 
 def randu():
     n = 150000
@@ -220,3 +222,23 @@ def randu():
         plt.plot(x,u)
     plt.show()
 #randu()
+
+
+#===============================================================================================
+#                                           Análisis de Seed
+#===============================================================================================
+def comparacion():
+    eleccion_comparacion = ""
+    while eleccion_comparacion != "3":
+        eleccion_comparacion = input("\n\t1. Con seed.\n\t2. Sin seed\n\t3. Salir\n\tElija: ")
+        if eleccion_comparacion == "1":    
+            np.random.seed(8)       #Es el punto inicial del algoritmo. Es pseudo porque no es totalmente random, sino que se puede controlar
+            x = np.random.randint(1,7,size=1000)    #genera un numero del 1 al 6, y genera 1000 numeros
+            print(x) 
+            print(np.mean(x))
+        if eleccion_comparacion == "2":
+            #al borrarle el "np.random.seed(8)" el resultado va a ser distinto
+            x = np.random.randint(1,7,size=1000)   
+            print(x)
+            print(np.mean(x))
+#comparacion()
