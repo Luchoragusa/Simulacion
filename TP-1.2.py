@@ -157,7 +157,8 @@ def estrategiaParoli_Tiradas(saldo,cant_tiradas):
     saldo_historial.append(saldo)
     nro_tirada.append(0)                                      
     for i in range(cant_tiradas):            
-        
+        if saldo-apuesta < 0:
+            break
         tirada = ran.choice(mesa)
 
         if tirada == "Negro":
