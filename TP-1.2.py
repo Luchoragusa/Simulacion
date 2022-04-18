@@ -104,9 +104,7 @@ def estrategiaFibonacci_Tiradas(saldo,cant_tiradas):
     saldo_historial.append(saldo)
     nro_tirada.append(0)                                      
     for i in range(cant_tiradas):                 
-        apuesta = fibonacci(enesimo) * arrancaCon      #Apuesto 0.01 dinero al "n" que me trae   
-        if apuesta > saldo:
-            apuesta = saldo       
+        apuesta = fibonacci(enesimo) * arrancaCon      #Apuesto 0.01 dinero al "n" que me trae      
         tirada = ran.choice(mesa)
         if tirada == "Rojo":
             saldo += apuesta
@@ -127,8 +125,10 @@ def estrategiaParoli_Agota_Saldo(saldo):
     i=0      
     nro_tirada.append(i)
     saldo_historial.append(saldo)                              
-    while saldo > 0 and apuesta < saldo:                   
+    while saldo > 0:                   
         tirada = ran.choice(mesa)
+        if apuesta > saldo:
+            apuesta = saldo
         if tirada == "Negro":
             saldo += apuesta
             if vez_apostada==1 or vez_apostada==2:
@@ -155,8 +155,6 @@ def estrategiaParoli_Tiradas(saldo,cant_tiradas):
     saldo_historial.append(saldo)
     nro_tirada.append(0)                                      
     for i in range(cant_tiradas):            
-        if apuesta > saldo:
-            apuesta = saldo
         
         tirada = ran.choice(mesa)
 
