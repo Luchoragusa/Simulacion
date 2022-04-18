@@ -127,7 +127,7 @@ def estrategiaParoli_Agota_Saldo(saldo):
     i=0      
     nro_tirada.append(i)
     saldo_historial.append(saldo)                              
-    while saldo > 0 and apuesta > saldo:                   
+    while saldo > 0 and apuesta < saldo:                   
         tirada = ran.choice(mesa)
         if tirada == "Negro":
             saldo += apuesta
