@@ -120,7 +120,8 @@ def estrategiaParoli_Agota_Saldo(saldo):
     mesa = ["Rojo"] * 18 + ["Negro"] * 18 + ["Verde"] * 1
     saldo_historial = []  
     nro_tirada = []
-    apuesta = 10
+    apuesta_inicial=10
+    apuesta = apuesta_inicial
     vez_apostada=1      
     i=0      
     nro_tirada.append(i)
@@ -135,11 +136,11 @@ def estrategiaParoli_Agota_Saldo(saldo):
                 apuesta=apuesta*2
                 vez_apostada+=1
             else:
-                apuesta=saldo
+                apuesta=apuesta_inicial
                 vez_apostada=1
         else:
             saldo -= apuesta
-            apuesta=10
+            apuesta=apuesta_inicial
             vez_apostada=1
         saldo_historial.append(saldo)
         i+=1
@@ -150,7 +151,8 @@ def estrategiaParoli_Tiradas(saldo,cant_tiradas):
     mesa = ["Rojo"] * 18 + ["Negro"] * 18 + ["Verde"] * 1
     saldo_historial = []  
     nro_tirada = []
-    apuesta = 10
+    apuesta_inicial=10
+    apuesta=apuesta_inicial
     vez_apostada=1    
     saldo_historial.append(saldo)
     nro_tirada.append(0)                                      
@@ -164,11 +166,11 @@ def estrategiaParoli_Tiradas(saldo,cant_tiradas):
                 apuesta=apuesta*2
                 vez_apostada+=1
             else:
-                apuesta=saldo
+                apuesta=apuesta_inicial
                 vez_apostada=1
         else:
             saldo -= apuesta
-            apuesta=10
+            apuesta=apuesta_inicial
             vez_apostada=1
         saldo_historial.append(saldo)
         nro_tirada.append(i+1)
