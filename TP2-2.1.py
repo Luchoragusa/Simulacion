@@ -92,8 +92,8 @@ def graficas():
     print("==============================================")
     print("             MENÚ DE GRÁFICAS                 ")
     print("==============================================")
-    while eleccion_Grafica != "4":
-        eleccion_Grafica = input("\n\t1. Random()\n\t2. Uniform()\n\t3. Randint()\n\t4. Salir\n\tElija: ")
+    while eleccion_Grafica != "8":
+        eleccion_Grafica = input("\n\t1. Random()\n\t2. Uniform()\n\t3. Randint()\n\t4. Lluvia con seed rand.\n\t5. Lluvia sin seed rand\n\t6. Lluvia con seed randint.\n\t7. Lluvia sin seed randint\n\t8. Salir\n\tElija: ")
         if eleccion_Grafica == "1":
             for i in range(300):
                 x.append(i+1)
@@ -124,6 +124,32 @@ def graficas():
             ax.set_zlabel("Z-axis")
             plt.title("Representación de 100 números utilizando randint")
             plt.show()
+        elif eleccion_Grafica == "4":   
+            for i in range(3):          #Pongo 3 para hacer 3 graficas: con seed son iguales, sin seed son distintas
+                np.random.seed(42)
+                arreglo = np.random.rand(512, 512)      #512 x 512 numeros
+                plt.figure()
+                plt.imshow(arreglo, cmap="gray")
+                plt.show()
+        elif eleccion_Grafica == "5":
+            for i in range(3):
+                arreglo = np.random.rand(512, 512)
+                plt.figure()
+                plt.imshow(arreglo, cmap="gray")
+                plt.show()
+        elif eleccion_Grafica == "6":
+            for i in range(3):
+                np.random.seed(42)
+                arreglo = np.random.randint(0, 500, size=(512, 512))
+                plt.figure()
+                plt.imshow(arreglo, cmap="gray")
+                plt.show()
+        elif eleccion_Grafica == "7":
+            for i in range(3):
+                arreglo = np.random.randint(0, 500, size=(512, 512))
+                plt.figure()
+                plt.imshow(arreglo, cmap="gray")
+                plt.show()
 #graficas()
 
 #===============================================================================================
@@ -155,7 +181,6 @@ def middleSquare():
         plt.ylabel("Numeros medios obtenidos del cuadrado")
         plt.title("Representación gráfica de nuevas semillas")
         plt.show()
-        window.requestAnimationFrame(miTabla)
     if eleccion_metodo == "2":
         while numero not in historial:
             cont += 1
@@ -171,7 +196,7 @@ def middleSquare():
         plt.ylabel("Numeros medios obtenidos del cuadrado")
         plt.title("Representación gráfica de nuevas semillas")
         plt.show()
-middleSquare()
+#middleSquare()
 
 #===============================================================================================
 #  Mismo método de la parte media pero ploteado para que aparezca la gráfica  (NO FUNCA CORRECTAMENTE, TRAE LA ULTIMA ROW)
@@ -242,3 +267,16 @@ def comparacion():
             print(x)
             print(np.mean(x))
 #comparacion()
+
+#===============================================================================================
+#                                  Cuantos intentos hasta que aparezca...
+#===============================================================================================
+def howmany():
+    numeros_unicos = []
+    for i in range(1000):     #1000 porque es mas probable que no aparezca a que si, probar con numeros más grandes que 1000
+        x = np.random.randint(1, 100000)
+        if x in numeros_unicos:
+            print(f"El numero '{x}' se repite en la corrida '{i}'")
+        numeros_unicos.append(x)
+howmany()   #PARECE QUE TIRA ERROR pero es la gracia...lo importante es la Exception que devuelve al ejecutar esta funcion
+
