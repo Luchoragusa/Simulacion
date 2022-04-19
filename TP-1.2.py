@@ -63,8 +63,6 @@ def pedirNumero():
             band = True
             numero = int(input("Elige un numero entre 0 y 36: "))
 
-
-
 def fibonacci(n):   #formula fibonacci aplicada a python
     if n == 1 or n == 2:
         return 1
@@ -129,7 +127,8 @@ def estrategiaParoli_Agota_Saldo(saldo):
     vez_apostada=1      
     i=0      
     nro_tirada.append(i)
-    saldo_historial.append(saldo)                              
+    saldo_historial.append(saldo)
+    apuestas_historial.append(apuesta_inicial)                               
     while saldo > 0:                   
         tirada = ran.choice(mesa)
         if apuesta > saldo:
@@ -380,24 +379,84 @@ def main():
         elif eleccion_estrategia == "4":    
             eleccion_modo_paroli = input("\t¿Como desea jugar? \n\t1. Jugar hasta agotar saldo\n\t2. Jugar 25, 50 y 75 tiradas\n\tElige: ")
             if eleccion_modo_paroli=="1":
-                saldo_eleccion_paroli = int(input("\nElija el saldo inicial: "))                       
+                saldo_eleccion_paroli =100 # int(input("\nElija el saldo inicial: "))                       
+                
+                plt.figure(2)
+                fig2,axs2=plt.subplots(2, 2)
+
+                plt.figure(3)
+                fig,axs=plt.subplots(2, 2)
+                
                 for i in range(4):  
                     arreglo_x=[]
                     arreglo_y=[]
-                    arreglo_x,arreglo_y=estrategiaParoli_Agota_Saldo(saldo_eleccion_paroli)
+                    apuestasHistorial=[]
+                    valoresApuestasHistorial=[]
+                    arreglo_x,arreglo_y,apuestasHistorial,valoresApuestasHistorial=estrategiaParoli_Agota_Saldo(saldo_eleccion_paroli)
+                    plt.figure(1) 
                     plt.plot(arreglo_x,arreglo_y)
+                    
+                    plt.figure(2)
+                    if i==0:
+                        axs2[0,0].plot(arreglo_x,apuestasHistorial,marker='o')
+                        axs2[0,0].set_title("Corrida "+str(i+1))
+                        axs2[0,0].set(ylabel='Apuestas')
+                    elif i==1:
+                        axs2[0,1].plot(arreglo_x,apuestasHistorial, 'tab:orange',marker='o')
+                        axs2[0,1].set_title("Corrida "+str(i+1))
+                    elif i==2:
+                        axs2[1,0].plot(arreglo_x,apuestasHistorial, 'tab:green',marker='o')  
+                        axs2[1,0].set_title("Corrida "+str(i+1))
+                        axs2[1,0].set(xlabel='Numero de Tiradas', ylabel='Apuestas')
+                    elif i==3:
+                        axs2[1,1].plot(arreglo_x,apuestasHistorial, 'tab:red',marker='o')
+                        axs2[1,1].set_title("Corrida "+str(i+1))
+                        axs2[1,1].set(xlabel='Numero de Tiradas')
+
+                    plt.figure(3)
+                    total_valores_apuestas=valoresApuestasHistorial[0]+valoresApuestasHistorial[1]+valoresApuestasHistorial[2]
+                    frecuenciasValoresApuestasHistorial=[0,0,0]
+                    frecuenciasValoresApuestasHistorial[0]=valoresApuestasHistorial[0]/total_valores_apuestas
+                    frecuenciasValoresApuestasHistorial[1]=valoresApuestasHistorial[1]/total_valores_apuestas
+                    frecuenciasValoresApuestasHistorial[2]=valoresApuestasHistorial[2]/total_valores_apuestas
+
+                    eje_x_barras=["10","20","40"]
+                    if i==0:
+                        axs[0,0].bar(eje_x_barras,frecuenciasValoresApuestasHistorial, width= 0.25)
+                        axs[0,0].set_title("Corrida "+str(i+1))
+                        axs[0,0].set(ylabel='Frecuencia relativa')
+                    elif i==1:
+                        axs[0,1].bar(eje_x_barras,frecuenciasValoresApuestasHistorial,color="orange", width= 0.25)
+                        axs[0,1].set_title("Corrida "+str(i+1))
+                    elif i==2:
+                        axs[1,0].bar(eje_x_barras,frecuenciasValoresApuestasHistorial,color="green", width= 0.25)
+                        axs[1,0].set_title("Corrida "+str(i+1))
+                        axs[1,0].set(xlabel='Valor apostado', ylabel='Frecuencia relativa')
+                    elif i==3:
+                        axs[1,1].bar(eje_x_barras,frecuenciasValoresApuestasHistorial,color="red", width= 0.25)
+                        axs[1,1].set_title("Corrida "+str(i+1))
+                        axs[1,1].set(xlabel='Valor apostado')
+
+                plt.figure(1)
                 plt.xlabel("Numero de Tiradas")
                 plt.ylabel("Saldo")
                 texto_titulo=f"Evolución del saldo partiendo de ${str(saldo_eleccion_paroli)} hasta agotarlo en 4 corridas"
                 plt.title(texto_titulo)
                 plt.axhline(y=saldo_eleccion_paroli, color = "r")
+                
+                plt.figure(2)
+                texto_titulo=f"Evolución de las apuestas partiendo de ${str(saldo_eleccion_paroli)} de 4 corridas"
+                fig2.suptitle(texto_titulo)    #Para escribir el titulo de cada grafiquito
+                #for ax2 in axs2.flat:         #Para escribir los label de los ejes
+                #    ax2.set(xlabel='Numero de Tiradas', ylabel='Apuestas')
+                #for ax2 in fig2.get_axes():   #Para que compartan label los ejes
+                #    ax2.label_outer()
+
+                plt.figure(3)
+                texto_titulo=f"Frecuencia relativa de los valores de las apuestas de las 4 corridas"
+                fig.suptitle(texto_titulo)
+                              
                 plt.show()
-
-
-
-
-
-
 
             elif(eleccion_modo_paroli=="2"):
                 
@@ -405,10 +464,13 @@ def main():
                 cant_tiradas_paroli = int(input("\nElija cuantas tiradas realiza (25,50 o 75): ")) 
                 while cant_tiradas_paroli not in (25,50,75):
                     cant_tiradas_paroli = int(input("\nMAL!! Elija cuantas tiradas realiza (25,50 o 75): "))                     
+                
                 plt.figure(2)
                 fig2,axs2=plt.subplots(2, 2)
+
                 plt.figure(3)
                 fig,axs=plt.subplots(2, 2)
+
                 for i in range(4):
                     arreglo_x=[]
                     arreglo_y=[]
@@ -419,19 +481,21 @@ def main():
                     plt.plot(arreglo_x,arreglo_y)
                     
                     plt.figure(2)
-                    #plt.plot(arreglo_x,apuestasHistorial,marker='o')
                     if i==0:
-                        axs[0,0].plot(arreglo_x,apuestasHistorial,marker='o')
-                        axs[0,0].set_title("Corrida "+str(i+1))
+                        axs2[0,0].plot(arreglo_x,apuestasHistorial,marker='o')
+                        axs2[0,0].set_title("Corrida "+str(i+1))
+                        axs2[0,0].set(ylabel='Apuestas')
                     elif i==1:
-                        axs[0,1].plot(arreglo_x,apuestasHistorial, 'tab:orange',marker='o')
-                        axs[0,1].set_title("Corrida "+str(i+1))
+                        axs2[0,1].plot(arreglo_x,apuestasHistorial, 'tab:orange',marker='o')
+                        axs2[0,1].set_title("Corrida "+str(i+1))
                     elif i==2:
-                        axs[1,0].plot(arreglo_x,apuestasHistorial, 'tab:green',marker='o')  
-                        axs[1,0].set_title("Corrida "+str(i+1))
+                        axs2[1,0].plot(arreglo_x,apuestasHistorial, 'tab:green',marker='o')  
+                        axs2[1,0].set_title("Corrida "+str(i+1))
+                        axs2[1,0].set(xlabel='Numero de Tiradas', ylabel='Apuestas')
                     elif i==3:
-                        axs[1,1].plot(arreglo_x,apuestasHistorial, 'tab:red',marker='o')
-                        axs[1,1].set_title("Corrida "+str(i+1))
+                        axs2[1,1].plot(arreglo_x,apuestasHistorial, 'tab:red',marker='o')
+                        axs2[1,1].set_title("Corrida "+str(i+1))
+                        axs2[1,1].set(xlabel='Numero de Tiradas')
 
                     plt.figure(3)
                     total_valores_apuestas=valoresApuestasHistorial[0]+valoresApuestasHistorial[1]+valoresApuestasHistorial[2]
@@ -439,21 +503,23 @@ def main():
                     frecuenciasValoresApuestasHistorial[0]=valoresApuestasHistorial[0]/total_valores_apuestas
                     frecuenciasValoresApuestasHistorial[1]=valoresApuestasHistorial[1]/total_valores_apuestas
                     frecuenciasValoresApuestasHistorial[2]=valoresApuestasHistorial[2]/total_valores_apuestas
-                    
-                    print(valoresApuestasHistorial,frecuenciasValoresApuestasHistorial)
+
                     eje_x_barras=["10","20","40"]
                     if i==0:
-                        axs2[0,0].bar(eje_x_barras,frecuenciasValoresApuestasHistorial, width= 0.25)
-                        axs2[0,0].set_title("Corrida "+str(i+1))
+                        axs[0,0].bar(eje_x_barras,frecuenciasValoresApuestasHistorial, width= 0.25)
+                        axs[0,0].set_title("Corrida "+str(i+1))
+                        axs[0,0].set(ylabel='Frecuencia relativa')
                     elif i==1:
-                        axs2[0,1].bar(eje_x_barras,frecuenciasValoresApuestasHistorial, width= 0.25)
-                        axs2[0,1].set_title("Corrida "+str(i+1))
+                        axs[0,1].bar(eje_x_barras,frecuenciasValoresApuestasHistorial,color="orange", width= 0.25)
+                        axs[0,1].set_title("Corrida "+str(i+1))
                     elif i==2:
-                        axs2[1,0].bar(eje_x_barras,frecuenciasValoresApuestasHistorial, width= 0.25)
-                        axs2[1,0].set_title("Corrida "+str(i+1))
+                        axs[1,0].bar(eje_x_barras,frecuenciasValoresApuestasHistorial,color="green", width= 0.25)
+                        axs[1,0].set_title("Corrida "+str(i+1))
+                        axs[1,0].set(xlabel='Valor apostado', ylabel='Frecuencia relativa')
                     elif i==3:
-                        axs2[1,1].bar(eje_x_barras,frecuenciasValoresApuestasHistorial, width= 0.25)
-                        axs2[1,1].set_title("Corrida "+str(i+1))
+                        axs[1,1].bar(eje_x_barras,frecuenciasValoresApuestasHistorial,color="red", width= 0.25)
+                        axs[1,1].set_title("Corrida "+str(i+1))
+                        axs[1,1].set(xlabel='Valor apostado')
                 
                 plt.figure(1)
                 plt.xlabel("Numero de Tiradas")
@@ -463,24 +529,16 @@ def main():
                 plt.axhline(y=saldo_eleccion_paroli, color = "r")
 
                 plt.figure(2)
-                #plt.xlabel("Numero de Tiradas")
-                #plt.ylabel("Apuestas")
-                #texto_titulo=f"Evolución de las apuestas partiendo de ${str(saldo_eleccion_paroli)} de 4 corridas en {str(cant_tiradas_paroli)} tiradas"
-                #plt.title(texto_titulo)
                 texto_titulo=f"Evolución de las apuestas partiendo de ${str(saldo_eleccion_paroli)} de 4 corridas en {str(cant_tiradas_paroli)} tiradas"
-                fig2.suptitle(texto_titulo)  #Para escribir los label de los ejes
-                for ax2 in axs2.flat:
-                    ax2.set(xlabel='Numero de Tiradas', ylabel='Apuestas')
-                for ax2 in fig2.get_axes():   #Para que compartan label los ejes
-                    ax2.label_outer()
+                fig2.suptitle(texto_titulo)    #Para escribir el titulo de cada grafiquito
+                #for ax2 in axs2.flat:         #Para escribir los label de los ejes
+                #    ax2.set(xlabel='Numero de Tiradas', ylabel='Apuestas')
+                #for ax2 in fig2.get_axes():   #Para que compartan label los ejes
+                #    ax2.label_outer()
 
                 plt.figure(3)
                 texto_titulo=f"Frecuencia relativa del promedio de los valores de las apuestas de las 4 corridas en {str(cant_tiradas_paroli)} tiradas"
-                fig.suptitle(texto_titulo)  #Para escribir los label de los ejes
-                for ax in axs.flat:
-                    ax.set(xlabel='Valor apostado', ylabel='Frecuencia relativa')
-                for ax in fig.get_axes():   #Para que compartan label los ejes
-                    ax.label_outer()
+                fig.suptitle(texto_titulo)  
 
                 plt.show()
             else:
