@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 from pyparsing import alphas, col 
 from scipy import stats # importando scipy.stats
 
-saldoIni = 5000
-apuesta_minima_ruleta = 5
+saldoIni = 100
+apuesta_minima_ruleta = 10
 rojo = "Rojo"
 negro = "Negro"
 evolucionApuesta = []
