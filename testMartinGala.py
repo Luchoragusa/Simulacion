@@ -178,7 +178,7 @@ def graficarFR(mDato, band):
 
 def agotarSaldo(colorSeleccionado, dinero_apostado):
 #Opcion 10 girar
-    for i in range(5):
+    for i in range(4):
         matrizApuestas = []
         saldo_global = saldoIni #El saldo con el que se inicia
         mSaldo = []
@@ -204,7 +204,7 @@ def agotarSaldo(colorSeleccionado, dinero_apostado):
 
 def tiradas(colorSeleccionado, dinero_apostado):
 #Opcion 10 girar
-    for i in range(5):
+    for i in range(4):
         matrizApuestas = []; matrizApuestas.append(dinero_apostado)
         saldo_global = saldoIni #El saldo con el que se inicia
         mSaldo = []; mSaldo.append(saldo_global)
