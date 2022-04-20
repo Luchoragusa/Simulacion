@@ -69,19 +69,35 @@ def fibonacci(n):   #formula fibonacci aplicada a python
     else:
         return fibonacci(n-1) + fibonacci(n-2)
 
+
 def estrategiaFibonacci_Agota_Saldo(saldo):
     enesimo = 1
     mesa = ["Rojo"] * 18 + ["Negro"] * 18 + ["Verde"] * 1
     saldo_historial = []
+    apuesta_historial = []
+    valores_apuestas_historial = [0,0,0,0,0,0]
+    apuesta_inicial = 10
     nro_tirada = []
     i=0      
     nro_tirada.append(i)
-    saldo_historial.append(saldo)     
+    saldo_historial.append(saldo)    
+    apuesta_historial.append(apuesta_inicial) 
     while saldo > 0:
-        apuesta = fibonacci(enesimo) * 10      #Apuesto 10 dinero al "n" que me trae       
+        apuesta = fibonacci(enesimo) * apuesta_inicial     #Apuesto 10 dinero al "n" que me trae       
         if apuesta > saldo:
             apuesta = saldo 
+        apuesta_historial.append(apuesta)
         tirada = ran.choice(mesa)
+        if apuesta==10:
+            valores_apuestas_historial[0]+=1
+        elif apuesta==20:
+            valores_apuestas_historial[1]+=1        
+        elif apuesta==30:
+            valores_apuestas_historial[2]+=1
+        elif apuesta==50:
+            valores_apuestas_historial[3]+=1        
+        elif apuesta==80:
+            valores_apuestas_historial[4]+=1
         if tirada == "Rojo":
             saldo += apuesta
             enesimo = max(enesimo - 2, 1)   #traigo el max numero entre n-2 y 1
@@ -91,30 +107,7 @@ def estrategiaFibonacci_Agota_Saldo(saldo):
         i+=1    
         saldo_historial.append(saldo)        
         nro_tirada.append(i)
-    return nro_tirada, saldo_historial
-
-def estrategiaFibonacci_Tiradas(saldo,cant_tiradas):
-    enesimo = 1
-    mesa = ["Rojo"] * 18 + ["Negro"] * 18 + ["Verde"] * 1
-    saldo_historial = []  
-    apuestas_historial = []
-    arrancaCon = 10
-    nro_tirada = []
-    saldo_historial.append(saldo)
-    nro_tirada.append(0)                                      
-    for i in range(cant_tiradas):                 
-        apuesta = fibonacci(enesimo) * arrancaCon      #Apuesto 0.01 dinero al "n" que me trae      
-        apuestas_historial.append(apuesta)
-        tirada = ran.choice(mesa)
-        if tirada == "Rojo":
-            saldo += apuesta
-            enesimo = max(enesimo - 2, 1)   #traigo el max numero entre n-2 y 1
-        else:
-            saldo -= apuesta
-            enesimo += 1
-        saldo_historial.append(saldo)
-        nro_tirada.append(i+1)
-    return nro_tirada,saldo_historial,apuestas_historial   
+    return nro_tirada, saldo_historial, apuesta_historial, valores_apuestas_historial
 
 def estrategiaParoli_Agota_Saldo(saldo):
     mesa = ["Rojo"] * 18 + ["Negro"] * 18 + ["Verde"] * 1
@@ -160,6 +153,42 @@ def estrategiaParoli_Agota_Saldo(saldo):
         nro_tirada.append(i)
     return nro_tirada,saldo_historial,apuestas_historial,valores_apuestas_historial     
 
+def estrategiaFibonacci_Tiradas(saldo,cant_tiradas):
+    enesimo = 1
+    mesa = ["Rojo"] * 18 + ["Negro"] * 18 + ["Verde"] * 1
+    saldo_historial = []  
+    apuesta_historial = []
+    valores_apuestas_historial = [0,0,0,0,0]
+    apuesta_inicial = 10
+    nro_tirada = []
+    saldo_historial.append(saldo)
+    nro_tirada.append(0)                                      
+    for i in range(cant_tiradas):               
+        if saldo-apuesta < 0:
+            break  
+        apuesta = fibonacci(enesimo) * apuesta_inicial      #Apuesto 0.01 dinero al "n" que me trae      
+        apuesta_historial.append(apuesta)
+        tirada = ran.choice(mesa)
+        if apuesta==10:
+            valores_apuestas_historial[0]+=1
+        elif apuesta==20:
+            valores_apuestas_historial[1]+=1        
+        elif apuesta==30:
+            valores_apuestas_historial[2]+=1
+        elif apuesta==50:
+            valores_apuestas_historial[3]+=1        
+        elif apuesta==80:
+            valores_apuestas_historial[4]+=1
+        if tirada == "Rojo":
+            saldo += apuesta
+            enesimo = max(enesimo - 2, 1)   #traigo el max numero entre n-2 y 1
+        else:
+            saldo -= apuesta
+            enesimo += 1
+        saldo_historial.append(saldo)
+        nro_tirada.append(i+1)
+    return nro_tirada,saldo_historial,apuesta_historial, valores_apuestas_historial
+
 def estrategiaParoli_Tiradas(saldo,cant_tiradas):
     mesa = ["Rojo"] * 18 + ["Negro"] * 18 + ["Verde"] * 1
     saldo_historial = []  
@@ -176,9 +205,7 @@ def estrategiaParoli_Tiradas(saldo,cant_tiradas):
         if saldo-apuesta < 0:
             break
         tirada = ran.choice(mesa)
-
         apuestas_historial.append(apuesta)
-
         if apuesta==10:
             valores_apuestas_historial[0]+=1
         elif apuesta==20:
@@ -345,57 +372,19 @@ def main():
         elif eleccion_estrategia == "2":
             eleccion_modo_fibo = input("\t¿Como desea jugar? \n\t1. Jugar hasta agotar saldo\n\t2. Jugar 25, 50 y 75 tiradas\n\tElige: ")
             if eleccion_modo_fibo=="1":                        
-                saldo_eleccion_fibo = int(input("\nElija el saldo inicial: "))                       
-                for i in range(5):  
-                    arreglo_x=[]
-                    arreglo_y=[]
-                    arreglo_x,arreglo_y=estrategiaFibonacci_Agota_Saldo(saldo_eleccion_fibo)
-                    plt.plot(arreglo_x,arreglo_y)
-                plt.xlabel("Numero de Tiradas")
-                plt.ylabel("Saldo")
-                texto_titulo=f"Evolución del saldo partiendo de ${str(saldo_eleccion_fibo)} hasta agotarlo en 5 corridas"
-                plt.title(texto_titulo)
-                plt.axhline(y=saldo_eleccion_fibo, color = "r")
-                plt.show()
-            elif eleccion_modo_fibo=="2":
-                saldo_eleccion_fibo = int(input("\nElija el saldo inicial: "))  
-                cant_tiradas_fibo = int(input("\nElija cuantas tiradas realiza (25,50 o 75): ")) 
-                while cant_tiradas_fibo not in (25,50,75):
-                    cant_tiradas_fibo = int(input("\nMAL!! Elija cuantas tiradas realiza (25,50 o 75): "))                     
-                for i in range(5):
-                    arreglo_x=[]
-                    arreglo_y=[]
-                    arreglo_x,arreglo_y=estrategiaFibonacci_Tiradas(saldo_eleccion_fibo,cant_tiradas_fibo)
-                    plt.plot(arreglo_x,arreglo_y)
-                plt.xlabel("Numero de Tiradas")
-                plt.ylabel("Saldo")
-                texto_titulo=f"Evolución del saldo partiendo de ${str(saldo_eleccion_fibo)} de 5 corridas en {str(cant_tiradas_fibo)} tiradas"
-                plt.title(texto_titulo)
-                plt.axhline(y=saldo_eleccion_fibo, color = "r")
-                plt.show()
-            else:
-                print("Ingresó otra opción distinta a la solicitada.")
-#Opcion 9 ESTRATEGIA Paroli
-        elif eleccion_estrategia == "4":    
-            eleccion_modo_paroli = input("\t¿Como desea jugar? \n\t1. Jugar hasta agotar saldo\n\t2. Jugar 25, 50 y 75 tiradas\n\tElige: ")
-            if eleccion_modo_paroli=="1":
-                saldo_eleccion_paroli =100 # int(input("\nElija el saldo inicial: "))                       
-                
+                saldo_eleccion_fibo = 100     
                 plt.figure(2)
                 fig2,axs2=plt.subplots(2, 2)
-
                 plt.figure(3)
-                fig,axs=plt.subplots(2, 2)
-                
-                for i in range(4):  
+                fig,axs=plt.subplots(2, 2)               
+                for i in range(5):  
                     arreglo_x=[]
                     arreglo_y=[]
                     apuestasHistorial=[]
                     valoresApuestasHistorial=[]
-                    arreglo_x,arreglo_y,apuestasHistorial,valoresApuestasHistorial=estrategiaParoli_Agota_Saldo(saldo_eleccion_paroli)
+                    arreglo_x,arreglo_y,apuestasHistorial,valoresApuestasHistorial=estrategiaFibonacci_Agota_Saldo(saldo_eleccion_fibo)
                     plt.figure(1) 
-                    plt.plot(arreglo_x,arreglo_y)
-                    
+                    plt.plot(arreglo_x,arreglo_y)                   
                     plt.figure(2)
                     if i==0:
                         axs2[0,0].plot(arreglo_x,apuestasHistorial,marker='o')
@@ -412,14 +401,84 @@ def main():
                         axs2[1,1].plot(arreglo_x,apuestasHistorial, 'tab:red',marker='o')
                         axs2[1,1].set_title("Corrida "+str(i+1))
                         axs2[1,1].set(xlabel='Numero de Tiradas')
-
+                    plt.figure(3)
+                    total_valores_apuestas=valoresApuestasHistorial[0]+valoresApuestasHistorial[1]+valoresApuestasHistorial[2]+valoresApuestasHistorial[3]+valoresApuestasHistorial[4]
+                    frecuenciasValoresApuestasHistorial=[0,0,0,0,0]
+                    frecuenciasValoresApuestasHistorial[0]=valoresApuestasHistorial[0]/total_valores_apuestas
+                    frecuenciasValoresApuestasHistorial[1]=valoresApuestasHistorial[1]/total_valores_apuestas
+                    frecuenciasValoresApuestasHistorial[2]=valoresApuestasHistorial[2]/total_valores_apuestas
+                    frecuenciasValoresApuestasHistorial[3]=valoresApuestasHistorial[3]/total_valores_apuestas
+                    frecuenciasValoresApuestasHistorial[4]=valoresApuestasHistorial[4]/total_valores_apuestas
+                    eje_x_barras=["10","20","30","50","80"]
+                    if i==0:
+                        axs[0,0].bar(eje_x_barras,frecuenciasValoresApuestasHistorial, width= 0.25)
+                        axs[0,0].set_title("Corrida "+str(i+1))
+                        axs[0,0].set(ylabel='Frecuencia relativa')
+                    elif i==1:
+                        axs[0,1].bar(eje_x_barras,frecuenciasValoresApuestasHistorial,color="orange", width= 0.25)
+                        axs[0,1].set_title("Corrida "+str(i+1))
+                    elif i==2:
+                        axs[1,0].bar(eje_x_barras,frecuenciasValoresApuestasHistorial,color="green", width= 0.25)
+                        axs[1,0].set_title("Corrida "+str(i+1))
+                        axs[1,0].set(xlabel='Valor apostado', ylabel='Frecuencia relativa')
+                    elif i==3:
+                        axs[1,1].bar(eje_x_barras,frecuenciasValoresApuestasHistorial,color="red", width= 0.25)
+                        axs[1,1].set_title("Corrida "+str(i+1))
+                        axs[1,1].set(xlabel='Valor apostado')
+                plt.figure(1)
+                plt.xlabel("Numero de Tiradas")
+                plt.ylabel("Saldo")
+                texto_titulo=f"Evolución del saldo partiendo de ${str(saldo_eleccion_fibo)} hasta agotarlo en 4 corridas"
+                plt.title(texto_titulo)
+                plt.axhline(y=saldo_eleccion_fibo, color = "r")               
+                plt.figure(2)
+                texto_titulo=f"Evolución de las apuestas partiendo de ${str(saldo_eleccion_fibo)} de 4 corridas"
+                fig2.suptitle(texto_titulo)    
+                plt.figure(3)
+                texto_titulo=f"Frecuencia relativa de los valores de las apuestas de las 4 corridas"
+                fig.suptitle(texto_titulo)                              
+                plt.show()
+            else:
+                print("Ingresó otra opción distinta a la solicitada.")
+#Opcion 9 ESTRATEGIA Paroli
+        elif eleccion_estrategia == "4":    
+            eleccion_modo_paroli = input("\t¿Como desea jugar? \n\t1. Jugar hasta agotar saldo\n\t2. Jugar 25, 50 y 75 tiradas\n\tElige: ")
+            if eleccion_modo_paroli=="1":
+                saldo_eleccion_paroli =100 # int(input("\nElija el saldo inicial: "))                                      
+                plt.figure(2)
+                fig2,axs2=plt.subplots(2, 2)
+                plt.figure(3)
+                fig,axs=plt.subplots(2, 2)               
+                for i in range(4):  
+                    arreglo_x=[]
+                    arreglo_y=[]
+                    apuestasHistorial=[]
+                    valoresApuestasHistorial=[]
+                    arreglo_x,arreglo_y,apuestasHistorial,valoresApuestasHistorial=estrategiaParoli_Agota_Saldo(saldo_eleccion_paroli)
+                    plt.figure(1) 
+                    plt.plot(arreglo_x,arreglo_y)                   
+                    plt.figure(2)
+                    if i==0:
+                        axs2[0,0].plot(arreglo_x,apuestasHistorial,marker='o')
+                        axs2[0,0].set_title("Corrida "+str(i+1))
+                        axs2[0,0].set(ylabel='Apuestas')
+                    elif i==1:
+                        axs2[0,1].plot(arreglo_x,apuestasHistorial, 'tab:orange',marker='o')
+                        axs2[0,1].set_title("Corrida "+str(i+1))
+                    elif i==2:
+                        axs2[1,0].plot(arreglo_x,apuestasHistorial, 'tab:green',marker='o')  
+                        axs2[1,0].set_title("Corrida "+str(i+1))
+                        axs2[1,0].set(xlabel='Numero de Tiradas', ylabel='Apuestas')
+                    elif i==3:
+                        axs2[1,1].plot(arreglo_x,apuestasHistorial, 'tab:red',marker='o')
+                        axs2[1,1].set_title("Corrida "+str(i+1))
+                        axs2[1,1].set(xlabel='Numero de Tiradas')
                     plt.figure(3)
                     total_valores_apuestas=valoresApuestasHistorial[0]+valoresApuestasHistorial[1]+valoresApuestasHistorial[2]
                     frecuenciasValoresApuestasHistorial=[0,0,0]
                     frecuenciasValoresApuestasHistorial[0]=valoresApuestasHistorial[0]/total_valores_apuestas
                     frecuenciasValoresApuestasHistorial[1]=valoresApuestasHistorial[1]/total_valores_apuestas
                     frecuenciasValoresApuestasHistorial[2]=valoresApuestasHistorial[2]/total_valores_apuestas
-
                     eje_x_barras=["10","20","40"]
                     if i==0:
                         axs[0,0].bar(eje_x_barras,frecuenciasValoresApuestasHistorial, width= 0.25)
@@ -436,14 +495,12 @@ def main():
                         axs[1,1].bar(eje_x_barras,frecuenciasValoresApuestasHistorial,color="red", width= 0.25)
                         axs[1,1].set_title("Corrida "+str(i+1))
                         axs[1,1].set(xlabel='Valor apostado')
-
                 plt.figure(1)
                 plt.xlabel("Numero de Tiradas")
                 plt.ylabel("Saldo")
                 texto_titulo=f"Evolución del saldo partiendo de ${str(saldo_eleccion_paroli)} hasta agotarlo en 4 corridas"
                 plt.title(texto_titulo)
-                plt.axhline(y=saldo_eleccion_paroli, color = "r")
-                
+                plt.axhline(y=saldo_eleccion_paroli, color = "r")               
                 plt.figure(2)
                 texto_titulo=f"Evolución de las apuestas partiendo de ${str(saldo_eleccion_paroli)} de 4 corridas"
                 fig2.suptitle(texto_titulo)    #Para escribir el titulo de cada grafiquito
@@ -451,11 +508,9 @@ def main():
                 #    ax2.set(xlabel='Numero de Tiradas', ylabel='Apuestas')
                 #for ax2 in fig2.get_axes():   #Para que compartan label los ejes
                 #    ax2.label_outer()
-
                 plt.figure(3)
                 texto_titulo=f"Frecuencia relativa de los valores de las apuestas de las 4 corridas"
-                fig.suptitle(texto_titulo)
-                              
+                fig.suptitle(texto_titulo)                              
                 plt.show()
 
             elif(eleccion_modo_paroli=="2"):
