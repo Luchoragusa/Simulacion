@@ -213,16 +213,25 @@ def tableMiddleSquare():
         historial.append(numero)
         cuad = numero*numero
         numero = int(str(cuad).zfill(8)[2:6])      #zfill agrega relleno de ceros
-        #print(f"#{cont}:\nvalor = '{cuad}', new seed = {numero}")
-
         cont_t.append(cont) # Ver si esto es realmente es necesario ya que esta el index que hace lo mismo
         cuad_t.append(cuad)
         numero_t.append(numero)
-    
-    data={'Contador':cont_t, 'Cuadrado':cuad_t, 'Numero':numero_t}
-    df=pd.DataFrame(data)
-    print(df)
 
+# Esconde todo lo relacionado al grafico del plot y solo muestra la tabla
+    fig, ax = plt.subplots()
+    fig.patch.set_visible(False)
+    ax.xaxis.set_visible(False) 
+    ax.yaxis.set_visible(False)
+# Hago la tabla
+    data={'Contador':cont_t, 'Cuadrado':cuad_t, 'Numero':numero_t}
+    df = pd.DataFrame(data)
+# Hago el plot de la tabla
+    plt.table(cellText=df.values,colWidths = [0.25]*len(df.columns),
+          rowLabels=df.index,
+          colLabels=df.columns,
+          cellLoc = 'center', rowLoc = 'center',
+          loc='top')
+    plt.show()
 #tableMiddleSquare()
 
 def randu():
