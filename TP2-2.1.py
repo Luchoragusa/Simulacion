@@ -215,7 +215,7 @@ def tableMiddleSquare():
         numero = int(str(cuad).zfill(8)[2:6])      #zfill agrega relleno de ceros
         #print(f"#{cont}:\nvalor = '{cuad}', new seed = {numero}")
 
-        cont_t.append(cont)
+        cont_t.append(cont) # Ver si esto es realmente es necesario ya que esta el index que hace lo mismo
         cuad_t.append(cuad)
         numero_t.append(numero)
     
