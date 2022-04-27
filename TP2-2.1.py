@@ -203,35 +203,26 @@ def middleSquare():
 #===============================================================================================
 #
 def tableMiddleSquare():
-    fig, ax =plt.subplots()
-    fig.patch.set_visible(False)
-    ax.axis('off')
-    ax.axis('tight')
-    column_labels=["Contador", "Valor", "Nueva Semilla"]
-    data = []
     semilla = int(input("Ingrese una semilla de 4 digitos: "))
     numero = semilla
     historial = []
     cont = 0
+    cont_t = [];cuad_t = [];numero_t = []
     while numero not in historial:
         cont += 1
         historial.append(numero)
         cuad = numero*numero
         numero = int(str(cuad).zfill(8)[2:6])      #zfill agrega relleno de ceros
         #print(f"#{cont}:\nvalor = '{cuad}', new seed = {numero}")
-        data = [[cont, cuad, numero],
-                [cont, cuad, numero],
-                [cont, cuad, numero]]
-        df=pd.DataFrame(data,columns=column_labels)
-        ax.axis('tight')
-        ax.axis('off')
-    ax.table(cellText=df.values,
-            colLabels=df.columns,
-            rowLabels=["A","B","C"],
-            rowColours =["yellow"] * 3,  
-            colColours =["yellow"] * 3,
-            loc="center")
-    plt.show()
+
+        cont_t.append(cont)
+        cuad_t.append(cuad)
+        numero_t.append(numero)
+    
+    data={'Contador':cont_t, 'Cuadrado':cuad_t, 'Numero':numero_t}
+    df=pd.DataFrame(data)
+    print(df)
+
 #tableMiddleSquare()
 
 def randu():
@@ -278,5 +269,5 @@ def howmany():
         if x in numeros_unicos:
             print(f"El numero '{x}' se repite en la corrida '{i}'")
         numeros_unicos.append(x)
-howmany()   #PARECE QUE TIRA ERROR pero es la gracia...lo importante es la Exception que devuelve al ejecutar esta funcion
-
+#howmany()   #PARECE QUE TIRA ERROR pero es la gracia...lo importante es la Exception que devuelve al ejecutar esta funcion
+tableMiddleSquare()
