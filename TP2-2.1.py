@@ -95,7 +95,7 @@ def graficas():
     while eleccion_Grafica != "8":
         eleccion_Grafica = input("\n\t1. Random()\n\t2. Uniform()\n\t3. Randint()\n\t4. Lluvia con seed rand.\n\t5. Lluvia sin seed rand\n\t6. Lluvia con seed randint.\n\t7. Lluvia sin seed randint\n\t8. Salir\n\tElija: ")
         if eleccion_Grafica == "1":
-            for i in range(300):
+            for i in range(1000):
                 x.append(i+1)
                 y.append(rendom())
                 plt.scatter(x,y)
@@ -104,7 +104,7 @@ def graficas():
             plt.title("Evaluacion de ran.random()")
             plt.show()
         elif eleccion_Grafica == "2":
-            for i in range(300):
+            for i in range(1000):
                 x.append(i+1)
                 y.append(rendom())
                 plt.scatter(x,y)
@@ -113,16 +113,16 @@ def graficas():
             plt.title("Evaluacion de ran.uniform(1,10)")
             plt.show()
         elif eleccion_Grafica == "3":
-            z = np.random.randint(100, size=200)
-            x = np.random.randint(80, size=200)
-            y = np.random.randint(60, size=200)
+            z = np.random.randint(100, size=300)
+            x = np.random.randint(80, size=300)
+            y = np.random.randint(60, size=300)
             fig = plt.figure(figsize=(10,7))
             ax = plt.axes(projection="3d")
             ax.scatter3D(x,y,z, color = "darkorange")
             ax.set_xlabel("X-axis")
             ax.set_ylabel("Y-axis")
             ax.set_zlabel("Z-axis")
-            plt.title("Representación de 100 números utilizando randint")
+            plt.title("Representación de 300 números utilizando randint")
             plt.show()
         elif eleccion_Grafica == "4":   
             for i in range(3):          #Pongo 3 para hacer 3 graficas: con seed son iguales, sin seed son distintas
@@ -157,12 +157,12 @@ def graficas():
 #===============================================================================================
 def middleSquare():
     semilla = int(input("\n\tIngrese una semilla de 4 digitos: "))
-    miTabla = PrettyTable(["Contador", "Nueva Semilla", "Valor"])
+    miTabla = PrettyTable(["Contador", "Cuadrado", "Nueva Semilla"])
     numero = semilla
     historial = []
     loop = []
     cont = 0
-    eleccion_metodo = input("\n\t1. Aparezca semilla repetida.\n\t2. No aparezca semilla repetida\n\tElija: ")
+    eleccion_metodo = input("\n\t1. No cortar if semilla repetida.\n\t2. Cortar if semilla repetida\n\tElija: ")
     if eleccion_metodo == "1":
         eleccion_repeticiones = int(input("\n\tCuantas repeticiones?: "))
         for i in range(eleccion_repeticiones):
@@ -173,7 +173,7 @@ def middleSquare():
             cuad = numero*numero
             numero = int(str(cuad).zfill(8)[2:6])      #zfill agrega relleno de ceros
             #print(f"#{cont}:\nvalor = '{cuad}', new seed = {numero}")
-            miTabla.add_row([f"{cont}", f"{numero}", f"{cuad}"])
+            miTabla.add_row([f"{cont}", f"{cuad}", f"{numero}"])
             plt.scatter(cont, numero)
         print(miTabla)
         print(f"\n\tEmpezamos con semilla = '{semilla}', hemos repetido el proceso '{cont}' veces, y el loop lo genera '{loop}'")
@@ -198,42 +198,6 @@ def middleSquare():
         plt.show()
 #middleSquare()
 
-#===============================================================================================
-#  Mismo método de la parte media pero ploteado para que aparezca la gráfica  (NO FUNCA CORRECTAMENTE, TRAE LA ULTIMA ROW)
-#===============================================================================================
-#
-def tableMiddleSquare():
-    semilla = int(input("Ingrese una semilla de 4 digitos: "))
-    numero = semilla
-    historial = []
-    cont = 0
-    cont_t = [];cuad_t = [];numero_t = []
-    while numero not in historial:
-        cont += 1
-        historial.append(numero)
-        cuad = numero*numero
-        numero = int(str(cuad).zfill(8)[2:6])      #zfill agrega relleno de ceros
-        cont_t.append(cont) # Ver si esto es realmente es necesario ya que esta el index que hace lo mismo
-        cuad_t.append(cuad)
-        numero_t.append(numero)
-
-# Esconde todo lo relacionado al grafico del plot y solo muestra la tabla
-    fig, ax = plt.subplots()
-    fig.patch.set_visible(False)
-    ax.xaxis.set_visible(False) 
-    ax.yaxis.set_visible(False)
-# Hago la tabla
-    data={'Contador':cont_t, 'Cuadrado':cuad_t, 'Numero':numero_t}
-    df = pd.DataFrame(data)
-# Hago el plot de la tabla
-    plt.table(cellText=df.values,colWidths = [0.25]*len(df.columns),
-          rowLabels=df.index,
-          colLabels=df.columns,
-          cellLoc = 'center', rowLoc = 'center',
-          loc='top')
-    plt.show()
-#tableMiddleSquare()
-
 def randu():
     n = 150000
     x = [[],[]]; u = [[],[]]
@@ -248,7 +212,6 @@ def randu():
     plt.show()
 #randu()
 
-
 #===============================================================================================
 #                                           Análisis de Seed
 #===============================================================================================
@@ -256,16 +219,18 @@ def comparacion():
     eleccion_comparacion = ""
     while eleccion_comparacion != "3":
         eleccion_comparacion = input("\n\t1. Con seed.\n\t2. Sin seed\n\t3. Salir\n\tElija: ")
-        if eleccion_comparacion == "1":    
-            np.random.seed(8)       #Es el punto inicial del algoritmo. Es pseudo porque no es totalmente random, sino que se puede controlar
-            x = np.random.randint(1,7,size=1000)    #genera un numero del 1 al 6, y genera 1000 numeros
-            print(x) 
-            print(np.mean(x))
+        if eleccion_comparacion == "1":   
+            for i in range(3): 
+                np.random.seed(8)       #Es el punto inicial del algoritmo. Es pseudo porque no es totalmente random, sino que se puede controlar
+                x = np.random.randint(1,7,size=10)    #genera un numero del 1 al 6, y genera 1000 numeros
+                print(f"\n\tConjunto de valores: {x}")
+                print(f"\tPromedio del conjunto de valores: {np.mean(x)}")
         if eleccion_comparacion == "2":
-            #al borrarle el "np.random.seed(8)" el resultado va a ser distinto
-            x = np.random.randint(1,7,size=1000)   
-            print(x)
-            print(np.mean(x))
+            for i in range(3):
+                #al borrarle el "np.random.seed(8)" el resultado va a ser distinto
+                x = np.random.randint(1,7,size=10)   
+                print(f"\n\tConjunto de valores: {x}")
+                print(f"\tPromedio del conjunto de valores: {np.mean(x)}")
 #comparacion()
 
 #===============================================================================================
@@ -279,4 +244,4 @@ def howmany():
             print(f"El numero '{x}' se repite en la corrida '{i}'")
         numeros_unicos.append(x)
 #howmany()   #PARECE QUE TIRA ERROR pero es la gracia...lo importante es la Exception que devuelve al ejecutar esta funcion
-tableMiddleSquare()
+#tableMiddleSquare()
