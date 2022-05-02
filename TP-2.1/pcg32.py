@@ -17,6 +17,9 @@ uint32_t pcg32_random_r(pcg32_random_t* rng)
 }
 """
 
+## Pagina de donde lo saque https://learntutorials.net/es/c/topic/365/generacion-de-numeros-aleatorios 
+## Pagina del metodo propio https://www.pcg-random.org/ 
+
 import os
 import random
 import sys
