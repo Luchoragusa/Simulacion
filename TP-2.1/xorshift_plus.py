@@ -1,3 +1,5 @@
+## https://gist.github.com/amano41/4d254198333d890e6ef7ba622923e87c
+
 def xorshift128plus():
     '''xorshift+
     https://en.wikipedia.org/wiki/Xorshift#xorshift+
