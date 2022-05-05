@@ -23,7 +23,30 @@ import matplotlib.pyplot as plt
     Llegará un momento en que el resultado obtenido coincida con alguno de los resultados ya obtenidos. Cuando eso pase
         sabremos que la serie ha acabado y a continuacion se repetirán los mismos números. Por ejemplo con m=7, a=5, c=3 y x0=2
 '''
-def primerGCL():
+def barrasGCL():
+    cantNumA = []
+    x=[]
+    for j in range(100, 150):
+        numerosGenerados = []
+        x.append(j)
+        for i in range(40000):
+            xn1 = (1103515245 * xn + 12345) % (j)
+            xn = xn1    #xn es la nueva semilla    
+            if xn1 in numerosGenerados:
+                break
+            numerosGenerados.append(xn1)
+        print("Ya analizo la semilla: ", j)
+        cantNumA.append(len(numerosGenerados))
+    print(cantNumA)
+    plt.bar(x, cantNumA)    #Grafica de barras
+    plt.grid(True)
+    plt.xlabel("Modulo")
+    plt.ylabel("Cantidad de n generados")
+    plt.title("Evaluacion de n generados de acuerdo al modulo")
+    plt.show()
+#barrasGCL()
+
+def scatterGCL():
     xn = int(time.time()) #Semilla
     numerosGenerados = []
     x = []; y = []
@@ -41,24 +64,7 @@ def primerGCL():
     plt.ylabel("Resultados GCL")
     plt.title("Evaluacion de GCL")
     plt.show()
-
-    numerosGenerados = []
-    x = []; y = []
-    for i in range(1000):
-        xn1 = (1103515245 * xn + 12345) % 32768
-        xn = xn1    #xn es la nueva semilla    
-        if xn1 in numerosGenerados:
-            print(f"Se repite en posición del for: '{i}' con valor: '{xn1}'")
-            break
-        numerosGenerados.append(xn1)
-        x.append(i+1)
-        y.append(xn1)
-        plt.scatter(x,y)
-    plt.xlabel("Numero de repeticiones")
-    plt.ylabel("Resultados GCL")
-    plt.title("Evaluacion de GCL")
-    plt.show()
-primerGCL()
+scatterGCL()
 
 def segundoGCL():
     xn = int(time.time())
