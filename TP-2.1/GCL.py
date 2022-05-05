@@ -23,6 +23,9 @@ import matplotlib.pyplot as plt
     Llegará un momento en que el resultado obtenido coincida con alguno de los resultados ya obtenidos. Cuando eso pase
         sabremos que la serie ha acabado y a continuacion se repetirán los mismos números. Por ejemplo con m=7, a=5, c=3 y x0=2
 '''
+
+
+
 def barrasGCL():
     xn = int(time.time()) #Semilla
     cantNumA = []
@@ -36,7 +39,7 @@ def barrasGCL():
             if xn1 in numerosGenerados:
                 break
             numerosGenerados.append(xn1)
-        print("Ya analizo la semilla: ", j)
+        print("Ya analizo el módulo: ", j)
         cantNumA.append(len(numerosGenerados))
     print(cantNumA)
     plt.bar(x, cantNumA)    #Grafica de barras
@@ -45,6 +48,9 @@ def barrasGCL():
     plt.ylabel("Cantidad de n generados")
     plt.title("Evaluacion de n generados de acuerdo al modulo")
     plt.show()
+#EXPLICACION: un modulo grande no quiere decir muchos numeros aleatorios, no es directamente proporcional
+#sin embargo, con el valor de modulo en el que mas numeros aleatorios son generados, sin repeticion, es 32768.
+#y la cantidad de numeros generados es 32768.
 barrasGCL()
 
 def scatterGCL():
