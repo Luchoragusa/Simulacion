@@ -1,5 +1,6 @@
 from numpy.random import Generator, MT19937, SeedSequence
 import time
+import matplotlib.pyplot as plt
 
 #===============================================================================================
 #                                               GCL
@@ -24,14 +25,33 @@ import time
 '''
 def primerGCL():
     xn = int(time.time()) #Semilla
-    numerosGenerados = []
-    for i in range(40000):
-        xn1 = (1103515245 * xn + 12345) % 32768
-        xn = xn1    #xn es la nueva semilla    
-        if xn1 in numerosGenerados:
-            print(f"Se repite en posición del for: '{i}' con valor: '{xn1}'")
-            break
-        numerosGenerados.append(xn1)
+    cantNumA = []
+    x=[]
+    for j in range(100, 150):
+        numerosGenerados = []
+        x.append(j)
+        for i in range(40000):
+            xn1 = (1103515245 * xn + 12345) % (j)
+            xn = xn1    #xn es la nueva semilla    
+            if xn1 in numerosGenerados:
+                break
+            numerosGenerados.append(xn1)
+        print("Ya analizo la semilla: ", j)
+        cantNumA.append(len(numerosGenerados))
+    print(cantNumA)
+    plt.bar(x, cantNumA)    #Grafica de barras
+    plt.grid(True)
+    plt.xlabel("Modulo")
+    plt.ylabel("Cantidad de n generados")
+    plt.title("Evaluacion de n generados de acuerdo al modulo")
+    plt.show()
+
+
+
+
+
+        
+        
 primerGCL()
 
 def segundoGCL():
