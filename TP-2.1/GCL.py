@@ -24,6 +24,7 @@ import matplotlib.pyplot as plt
         sabremos que la serie ha acabado y a continuacion se repetirán los mismos números. Por ejemplo con m=7, a=5, c=3 y x0=2
 '''
 def barrasGCL():
+    xn = int(time.time()) #Semilla
     cantNumA = []
     x=[]
     for j in range(100, 150):
@@ -44,7 +45,7 @@ def barrasGCL():
     plt.ylabel("Cantidad de n generados")
     plt.title("Evaluacion de n generados de acuerdo al modulo")
     plt.show()
-#barrasGCL()
+barrasGCL()
 
 def scatterGCL():
     xn = int(time.time()) #Semilla
