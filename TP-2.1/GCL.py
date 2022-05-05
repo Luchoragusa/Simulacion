@@ -12,7 +12,7 @@ import time
         - el incremento 'c'
         - la semilla 'x0'
     Estos numeros deben ser positivos mayores de 0. 
-    Para 'a' se define = 1103515235 y m = 32768 segun POSIX
+    Para 'a' se define = 1103515235 y m = 32768 segun POSIX,    [JUSTO CON ESE m, es lo que mayor cantidad de tiradas da]
         1. 1103515245 y 32768 son primos entre si.
         2. El único factor primo de 32768 es 2: 32768 = 215 y 1103515244 | 2 Además es eficiente al ser potencia de 2.
         3. Se cumple tanto 32768 | 4 como 1103515244 | 4
@@ -24,11 +24,15 @@ import time
 '''
 def primerGCL():
     xn = int(time.time()) #Semilla
-    for i in range(10):
+    numerosGenerados = []
+    for i in range(40000):
         xn1 = (1103515245 * xn + 12345) % 32768
-        print(xn1)
-        xn = xn1
-#primerGCL()
+        xn = xn1    #xn es la nueva semilla    
+        if xn1 in numerosGenerados:
+            print(f"Se repite en posición del for: '{i}' con valor: '{xn1}'")
+            break
+        numerosGenerados.append(xn1)
+primerGCL()
 
 def segundoGCL():
     xn = int(time.time())
