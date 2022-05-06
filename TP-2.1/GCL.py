@@ -139,7 +139,7 @@ def ingresarGCL():
 def gclHiperPlano():  
     xn = int(time.time()) #Semilla   
     numerosGenerados = []
-    for i in range(10000):
+    for i in range(59049):
         xn1 = (1103515245 * xn + 12345) % 32768
         xn = xn1    #xn es la nueva semilla    
         if xn1 in numerosGenerados:
