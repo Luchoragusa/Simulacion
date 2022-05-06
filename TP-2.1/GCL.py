@@ -136,13 +136,31 @@ def ingresarGCL():
         print(len(arreglo))
 #ingresarGCL()
 
-def decimalGCL():
-    xn = int(time.time())
-    for i in range(10):
-        xn1 = ((1103515245 * xn + 12345) % 32768) / 32768.00    #los .00 son un "truco" para imprimir el resultado con decimales
-        print(xn1)
-        xn = xn1
-#decimalGCL()
+def gclHiperPlano():  
+    xn = int(time.time()) #Semilla   
+    numerosGenerados = []
+    for i in range(10000):
+        xn1 = (1103515245 * xn + 12345) % 32768
+        xn = xn1    #xn es la nueva semilla    
+        if xn1 in numerosGenerados:
+            print(f"Se repite en posición del for: '{i}' con valor: '{xn1}'")
+            break
+        numerosGenerados.append(xn1)
+    return numerosGenerados
+
+def plotHiperPlanoGCL():
+    z = gclHiperPlano()
+    x = gclHiperPlano()
+    y = gclHiperPlano()
+    fig = plt.figure(figsize=(10,7))
+    ax = plt.axes(projection="3d")
+    ax.scatter3D(x,y,z, color = "darkorange")
+    ax.set_xlabel("X-axis")
+    ax.set_ylabel("Y-axis")
+    ax.set_zlabel("Z-axis")
+    plt.title("Hiperplano")
+    plt.show()
+plotHiperPlanoGCL()
 
 def testComparacion():
     '''
@@ -183,5 +201,4 @@ def testComparacion():
         xn1 = (1103515245 * xn + 12345) % 32768
         xn = xn1
     print(f"En el CGL con la Semilla: {semilla} la cantidad de numeros generados es: {len(numerosGenerados)}")
-
-testComparacion()
+#testComparacion()
