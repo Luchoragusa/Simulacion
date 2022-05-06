@@ -165,13 +165,14 @@ plotHiperPlanoGCL()
 def testComparacion():
     '''
         En estadística y análisis preliminar de datos, las pruebas de aleatoriedad (o test de aleatoriedad), son pruebas estadísticas usadas para decidir si una determinada muestra o conjuntos de datos responde a un patrón o puede considerarse aleatoria
-
         El período de un generador congruencial se define como la longitud de un ciclo y dado que la semilla depende del modulo,
             entonces el período máximo puede ser, a lo súmo, su módulo 'm'. En ese caso, el GCL tiene un periodo completo.
         Aunque pasa las pruebas de aleatoridad, es sensible a la eleccion de parametros m, a, c.
         No deberian ser usados en aplicaciuones para las que se requiera aleatoridad de alta calidad.
     '''
-    semilla = 1234
+    semilla = 1357
+    semillaH = hex(semilla)
+    print(semillaH)
 
         ##MiddleSquare
 
@@ -201,4 +202,17 @@ def testComparacion():
         xn1 = (1103515245 * xn + 12345) % 32768
         xn = xn1
     print(f"En el CGL con la Semilla: {semilla} la cantidad de numeros generados es: {len(numerosGenerados)}")
-#testComparacion()
+    x = 123456789
+    y = 362436069
+    z = 521288629
+    w = 88675123
+    numerosGenerados = []
+    while w not in numerosGenerados:
+        if w != 88675123:
+            numerosGenerados.append(w)
+        t = x ^ ((x << 11) & 0x54d)  # aca siempre hay q poner la seed manualmente pq lo toma con un string
+        x, y, z = y, z, w
+        w = (w ^ (w >> 19)) ^ (t ^ (t >> 8))
+    print(f"En el xorshift con la Semilla: {semillaH} la cantidad de numeros generados es: {len(numerosGenerados)}")
+
+testComparacion()
