@@ -146,7 +146,9 @@ def decimalGCL():
 
 def testComparacion():
 
-    semilla = 9999
+    semilla = 1357
+    semillaH = hex(semilla)
+    print(semillaH)
 
         ##MiddleSquare
 
@@ -174,5 +176,18 @@ def testComparacion():
             numerosGenerados.append(xn)
         xn = (1103515245 * xn + 12345) % 32768
     print(f"En el CGL con la Semilla: {semilla} la cantidad de numeros generados es: {len(numerosGenerados)}")
+
+    x = 123456789
+    y = 362436069
+    z = 521288629
+    w = 88675123
+    numerosGenerados = []
+    while w not in numerosGenerados:
+        if w != 88675123:
+            numerosGenerados.append(w)
+        t = x ^ ((x << 11) & 0x54d)  # 32bit
+        x, y, z = y, z, w
+        w = (w ^ (w >> 19)) ^ (t ^ (t >> 8))
+    print(f"En el xorshift con la Semilla: {semillaH} la cantidad de numeros generados es: {len(numerosGenerados)}")
 
 testComparacion()
