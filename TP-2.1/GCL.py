@@ -29,7 +29,7 @@ def GCL():
     print("             MENÚ DE GRAFICOS GCL's           ")
     print("==============================================")
     while eleccion_Grafica != "5":
-        eleccion_Grafica = input("\n\t1. BARRAS\n\t2. SCATTER BUENO\n\t3. SCATTER MALO\n\t4. PLOT\n\t5. Salir\n\tElija: ")
+        eleccion_Grafica = input("\n\t1. BARRAS\n\t2. SCATTER BUENO\n\t3. SCATTER MALO\n\t4. PLOT\n\t5. SALIR\n\tElija: ")
         if eleccion_Grafica == "1":
             ''' 
                 EXPLICACION: un modulo grande no quiere decir muchos numeros aleatorios, no es directamente proporcional
