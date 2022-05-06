@@ -145,7 +145,13 @@ def decimalGCL():
 #decimalGCL()
 
 def testComparacion():
-
+    '''
+        En estadística y análisis preliminar de datos, las pruebas de aleatoriedad (o test de aleatoriedad), son pruebas estadísticas usadas para decidir si una determinada muestra o conjuntos de datos responde a un patrón o puede considerarse aleatoria
+        El período de un generador congruencial se define como la longitud de un ciclo y dado que la semilla depende del modulo,
+            entonces el período máximo puede ser, a lo súmo, su módulo 'm'. En ese caso, el GCL tiene un periodo completo.
+        Aunque pasa las pruebas de aleatoridad, es sensible a la eleccion de parametros m, a, c.
+        No deberian ser usados en aplicaciuones para las que se requiera aleatoridad de alta calidad.
+    '''
     semilla = 1357
     semillaH = hex(semilla)
     print(semillaH)
@@ -170,11 +176,13 @@ def testComparacion():
         ##GCL // sea la semilla q sea siempre es hasta 32768, ese es el  numero que deberiamos modificar
 
     xn = semilla #Semilla
+    xn1 = 0
     numerosGenerados = []
     while xn not in numerosGenerados:
         if numero != semilla:
             numerosGenerados.append(xn)
-        xn = (1103515245 * xn + 12345) % 32768
+        xn1 = (1103515245 * xn + 12345) % 32768
+        xn = xn1
     print(f"En el CGL con la Semilla: {semilla} la cantidad de numeros generados es: {len(numerosGenerados)}")
 
     x = 123456789
