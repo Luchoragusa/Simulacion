@@ -1,6 +1,9 @@
+from cgi import test
 from numpy.random import Generator, MT19937, SeedSequence
 import time
 import matplotlib.pyplot as plt
+import random as ran
+from prettytable import PrettyTable
 
 #===============================================================================================
 #                                               GCL
@@ -108,7 +111,7 @@ def GCL():
             plt.ylabel("Numeros aleatorios generados")
             plt.title("Evaluacion de GCL")
             plt.show() #Link: https://demonstrations.wolfram.com/LinearCongruentialGenerators/
-GCL()
+#GCL()
 
 #===============================================================================================
 #                                            OTROS GCL
@@ -140,3 +143,36 @@ def decimalGCL():
         print(xn1)
         xn = xn1
 #decimalGCL()
+
+def testComparacion():
+
+    semilla = 9999
+
+        ##MiddleSquare
+
+    historial = []
+    numero = semilla
+    cont = 0
+    miTabla = PrettyTable(["Contador", "Cuadrado", "Nueva Semilla"])
+    while numero not in historial:
+        if numero != semilla:
+            cont += 1
+            historial.append(numero)
+        cuad = numero*numero
+        numero = int(str(cuad).zfill(8)[2:6])      #zfill agrega relleno de ceros
+        miTabla.add_row([f"{cont}", f"{cuad}", f"{numero}"])
+    #print(miTabla)
+    print(f"En el MiddleSquare con la Semilla: {semilla} la cantidad de numeros generados es: {len(historial)}")
+       
+       
+        ##GCL // sea la semilla q sea siempre es hasta 32768, ese es el  numero que deberiamos modificar
+
+    xn = semilla #Semilla
+    numerosGenerados = []
+    while xn not in numerosGenerados:
+        if numero != semilla:
+            numerosGenerados.append(xn)
+        xn = (1103515245 * xn + 12345) % 32768
+    print(f"En el CGL con la Semilla: {semilla} la cantidad de numeros generados es: {len(numerosGenerados)}")
+
+testComparacion()
