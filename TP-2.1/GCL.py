@@ -139,7 +139,7 @@ def ingresarGCL():
 def gclHiperPlano():  
     xn = int(time.time()) #Semilla   
     numerosGenerados = []
-    for i in range(10000):
+    for i in range(32000):
         xn1 = (1103515245 * xn + 12345) % 32768
         xn = xn1    #xn es la nueva semilla    
         if xn1 in numerosGenerados:
@@ -147,7 +147,6 @@ def gclHiperPlano():
             break
         numerosGenerados.append(xn1)
     return numerosGenerados
-
 def plotHiperPlanoGCL():
     z = gclHiperPlano()
     x = gclHiperPlano()
@@ -169,13 +168,11 @@ def testComparacion():
             entonces el período máximo puede ser, a lo súmo, su módulo 'm'. En ese caso, el GCL tiene un periodo completo.
         Aunque pasa las pruebas de aleatoridad, es sensible a la eleccion de parametros m, a, c.
         No deberian ser usados en aplicaciuones para las que se requiera aleatoridad de alta calidad.
+        Se puede ver que la secuencia obtenida no es tan aleatoria y no llena todo el espacio de manera uniforme. Los parámetros del método de congruencia lineal son importantes.
     '''
     semilla = 1357
     semillaH = hex(semilla)
     print(semillaH)
-
-        ##MiddleSquare
-
     historial = []
     numero = semilla
     cont = 0
@@ -189,10 +186,7 @@ def testComparacion():
         miTabla.add_row([f"{cont}", f"{cuad}", f"{numero}"])
     #print(miTabla)
     print(f"En el MiddleSquare con la Semilla: {semilla} la cantidad de numeros generados es: {len(historial)}")
-       
-       
         ##GCL // sea la semilla q sea siempre es hasta 32768, ese es el  numero que deberiamos modificar
-
     xn = semilla #Semilla
     xn1 = 0
     numerosGenerados = []
@@ -214,5 +208,4 @@ def testComparacion():
         x, y, z = y, z, w
         w = (w ^ (w >> 19)) ^ (t ^ (t >> 8))
     print(f"En el xorshift con la Semilla: {semillaH} la cantidad de numeros generados es: {len(numerosGenerados)}")
-
-testComparacion()
+#testComparacion()

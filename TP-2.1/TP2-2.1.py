@@ -113,16 +113,16 @@ def graficas():
             plt.title("Evaluacion de ran.uniform(1,10)")
             plt.show()
         elif eleccion_Grafica == "3":
-            z = np.random.randint(100, size=300)
-            x = np.random.randint(80, size=300)
-            y = np.random.randint(60, size=300)
+            z = np.random.randint(100, size=32000)
+            x = np.random.randint(80, size=32000)
+            y = np.random.randint(60, size=32000)
             fig = plt.figure(figsize=(10,7))
             ax = plt.axes(projection="3d")
-            ax.scatter3D(x,y,z, color = "darkorange")
+            ax.scatter3D(x,y,z, color = "darkorange", s=1)
             ax.set_xlabel("X-axis")
             ax.set_ylabel("Y-axis")
             ax.set_zlabel("Z-axis")
-            plt.title("Representación de 300 números utilizando randint")
+            plt.title("Representación de 32000 números utilizando randint")
             plt.show()
         elif eleccion_Grafica == "4":   
             for i in range(3):          #Pongo 3 para hacer 3 graficas: con seed son iguales, sin seed son distintas
@@ -150,7 +150,7 @@ def graficas():
                 plt.figure()
                 plt.imshow(arreglo, cmap="gray")
                 plt.show()
-#graficas()
+graficas()
 
 #===============================================================================================
 #                        #Método de la parte media del cuadrado de Jon Von Neuman (Funca)
