@@ -181,9 +181,7 @@ def plotHiperPlanoXorshift():
     plt.title("Hiperplano")
     plt.show()
 
-#plotHiperPlanoGCL()
-
-
+#plotHiperPlanoXorshift()
 
 def testComparacion():
     '''
@@ -212,25 +210,16 @@ def testComparacion():
         numero = int(str(cuad).zfill(8)[2:6])      #zfill agrega relleno de ceros
         miTabla.add_row([f"{cont}", f"{cuad}", f"{numero}"])
     #print(miTabla)
-
-
-    print(f"\n\tEn el MiddleSquare con la Semilla: {semilla} la cantidad de numeros generados es: {len(historial)}")
-        ##GCL // sea la semilla q sea siempre es hasta 32768, ese es el  numero que deberiamos modificar
-
     print(f"En el MiddleSquare con la Semilla: {semilla} la cantidad de numeros generados es: {len(historial)}")
     cantNGen.append(len(historial))
 
+##GCL // sea la semilla q sea siempre es hasta 32768, ese es el  numero que deberiamos modificar
     xn = semilla #Semilla
     numerosGenerados = []
     while xn not in numerosGenerados:
         if numero != semilla:
             numerosGenerados.append(xn)
-
-        xn1 = (1103515245 * xn + 12345) % 32768
-        xn = xn1
-    print(f"\tEn el CGL con la Semilla: {semilla} la cantidad de numeros generados es: {len(numerosGenerados)}")
-
-    xn = (1103515245 * xn + 12345) % 32768
+        xn = (1103515245 * xn + 12345) % 32768
     print(f"En el CGL con la Semilla: {semilla} la cantidad de numeros generados es: {len(numerosGenerados)}")
     cantNGen.append(len(numerosGenerados))
 
@@ -246,18 +235,9 @@ def testComparacion():
         t = x ^ ((x << 11) & 0x54d)  # aca siempre hay q poner la seed manualmente pq lo toma con un string
         x, y, z = y, z, w
         w = (w ^ (w >> 19)) ^ (t ^ (t >> 8))
+    print(f"En el xorshift con la Semilla: {semillaH} la cantidad de numeros generados es: {len(numerosGenerados)}")
+    cantNGen.append(len(numerosGenerados))
 
-    print(f"\tEn el xorshift con la Semilla: {semillaH} la cantidad de numeros generados es: {len(numerosGenerados)}\n")
-#testComparacion()
-
-def xorshift():
-    while True:
-        print(xorshift())
-        input()
-        print(f"En el xorshift con la Semilla: {semillaH} la cantidad de numeros generados es: {len(numerosGenerados)}")
-        cantNGen.append(len(numerosGenerados))
-        plt.bar([1,2,3], cantNGen)
-        plt.show()
-
-#testComparacion()
-
+    plt.bar([1,2,3], cantNGen)
+    plt.show()
+#testComparacion() 
