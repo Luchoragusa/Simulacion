@@ -136,6 +136,9 @@ def ingresarGCL():
         print(len(arreglo))
 #ingresarGCL()
 
+
+
+ ## Metodo del gcl
 def gclHiperPlano():  
     xn = int(time.time()) #Semilla   
     numerosGenerados = []
@@ -147,19 +150,40 @@ def gclHiperPlano():
             break
         numerosGenerados.append(xn1)
     return numerosGenerados
-def plotHiperPlanoGCL():
-    z = gclHiperPlano()
-    x = gclHiperPlano()
-    y = gclHiperPlano()
+
+ ## Metodo del xorshift
+def xorshiftHiperPlano():  
+    x = 123456789
+    y = 362436069
+    z = 521288629
+    w = 88675123
+    numerosGenerados = []
+    while w not in numerosGenerados:
+        if w != 88675123:
+            numerosGenerados.append(w)
+        t = x ^ ((x << 11) & int(time.time()))  # aca siempre hay q poner la seed manualmente pq lo toma con un string
+        x, y, z = y, z, w
+        w = (w ^ (w >> 19)) ^ (t ^ (t >> 8))
+    print(len(numerosGenerados))
+    return numerosGenerados
+
+## genera el HiperPlano
+def plotHiperPlanoXorshift():
+    z = xorshiftHiperPlano()
+    x = xorshiftHiperPlano()
+    y = xorshiftHiperPlano()
     fig = plt.figure(figsize=(10,7))
     ax = plt.axes(projection="3d")
-    ax.scatter3D(x,y,z, color = "darkorange")
+    ax.scatter3D(x,y,z, color = "darkorange", s=1)
     ax.set_xlabel("X-axis")
     ax.set_ylabel("Y-axis")
     ax.set_zlabel("Z-axis")
     plt.title("Hiperplano")
     plt.show()
+
 #plotHiperPlanoGCL()
+
+
 
 def testComparacion():
     '''
@@ -170,9 +194,12 @@ def testComparacion():
         No deberian ser usados en aplicaciuones para las que se requiera aleatoridad de alta calidad.
         Se puede ver que la secuencia obtenida no es tan aleatoria y no llena todo el espacio de manera uniforme. Los parámetros del método de congruencia lineal son importantes.
     '''
+    cantNGen = []
     semilla = 1357
     semillaH = hex(semilla)
     print(semillaH)
+
+## MiddleSquare
     historial = []
     numero = semilla
     cont = 0
@@ -186,18 +213,28 @@ def testComparacion():
         miTabla.add_row([f"{cont}", f"{cuad}", f"{numero}"])
     #print(miTabla)
 
+
     print(f"\n\tEn el MiddleSquare con la Semilla: {semilla} la cantidad de numeros generados es: {len(historial)}")
         ##GCL // sea la semilla q sea siempre es hasta 32768, ese es el  numero que deberiamos modificar
+
+    print(f"En el MiddleSquare con la Semilla: {semilla} la cantidad de numeros generados es: {len(historial)}")
+    cantNGen.append(len(historial))
+
     xn = semilla #Semilla
-    xn1 = 0
     numerosGenerados = []
     while xn not in numerosGenerados:
         if numero != semilla:
             numerosGenerados.append(xn)
+
         xn1 = (1103515245 * xn + 12345) % 32768
         xn = xn1
     print(f"\tEn el CGL con la Semilla: {semilla} la cantidad de numeros generados es: {len(numerosGenerados)}")
 
+    xn = (1103515245 * xn + 12345) % 32768
+    print(f"En el CGL con la Semilla: {semilla} la cantidad de numeros generados es: {len(numerosGenerados)}")
+    cantNGen.append(len(numerosGenerados))
+
+##Xorshift
     x = 123456789
     y = 362436069
     z = 521288629
@@ -209,18 +246,18 @@ def testComparacion():
         t = x ^ ((x << 11) & 0x54d)  # aca siempre hay q poner la seed manualmente pq lo toma con un string
         x, y, z = y, z, w
         w = (w ^ (w >> 19)) ^ (t ^ (t >> 8))
+
     print(f"\tEn el xorshift con la Semilla: {semillaH} la cantidad de numeros generados es: {len(numerosGenerados)}\n")
 #testComparacion()
 
 def xorshift():
-    global xorshift_seed
-    xorshift_seed = 4564564686   
-    xorshift_seed ^= xorshift_seed << 13
-    xorshift_seed ^= xorshift_seed >> 17
-    xorshift_seed ^= xorshift_seed << 5
-    xorshift_seed %= int("ffffffff", 16) # The modulus limits it to a 32-bit number
-    return xorshift_seed
+    while True:
+        print(xorshift())
+        input()
+        print(f"En el xorshift con la Semilla: {semillaH} la cantidad de numeros generados es: {len(numerosGenerados)}")
+        cantNGen.append(len(numerosGenerados))
+        plt.bar([1,2,3], cantNGen)
+        plt.show()
 
-while True:
-    print(xorshift())
-    input()
+#testComparacion()
+
