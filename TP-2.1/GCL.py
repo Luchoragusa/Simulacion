@@ -221,7 +221,7 @@ def testComparacion():
             numerosGenerados.append(xn)
         xn = (1103515245 * xn + 12345) % 32768
     print(f"En el CGL con la Semilla: {semilla} la cantidad de numeros generados es: {len(numerosGenerados)}")
-    cantNGen.append(len(numerosGenerados))
+    #cantNGen.append(len(numerosGenerados))
 
 ##Xorshift
     x = 123456789
@@ -238,6 +238,11 @@ def testComparacion():
     print(f"En el xorshift con la Semilla: {semillaH} la cantidad de numeros generados es: {len(numerosGenerados)}")
     cantNGen.append(len(numerosGenerados))
 
-    plt.bar([1,2,3], cantNGen)
+# 3 barras
+    #plt.bar([1,2,3], cantNGen)
+    #plt.show()
+
+# 2 barras
+    plt.bar([1,3], cantNGen) ## hay q comentar la linea 224
     plt.show()
-#testComparacion() 
+testComparacion() 
