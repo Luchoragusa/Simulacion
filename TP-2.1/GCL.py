@@ -221,7 +221,7 @@ def testComparacion():
             numerosGenerados.append(xn)
         xn = (1103515245 * xn + 12345) % 32768
     print(f"En el CGL con la Semilla: {semilla} la cantidad de numeros generados es: {len(numerosGenerados)}")
-    #cantNGen.append(len(numerosGenerados))
+    cantNGen.append(len(numerosGenerados))
 
 ##Xorshift
     x = 123456789
@@ -239,12 +239,15 @@ def testComparacion():
     cantNGen.append(len(numerosGenerados))
 
 # 3 barras
-    #plt.bar([1,2,3], cantNGen)
-    #plt.show()
+    plt.bar([1,2,3], cantNGen)
+    plt.ylabel("Numeros generados")
+    plt.xlabel("Metodos")
+    plt.title("Evaluacion de numeros generados de acuerdo al GNPA")
+    plt.show()
 
 # 2 barras
-    plt.bar([1,3], cantNGen) ## hay q comentar la linea 224
-    plt.show()
+    #plt.bar([1,3], cantNGen) ## hay q comentar la linea 224
+    #plt.show()
 
 # Este metodo permite mostrar, mediante una grafica de barras, la cantidad de numeros generados por MGNPA.
 # Suponemos que el 0x... es la semilla del metodo xorshift.
