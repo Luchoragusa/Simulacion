@@ -10,7 +10,6 @@ import matplotlib.pyplot as plt
 def mm1():
     titulo = 'Sistema de colas MM1'
     print(titulo.center(80, '='))
-    histLs = [[],[]]; histWs = []; histWsl = []; histLq = []; histWq = []; histWql = []; histpu = []; histpo = []; histpe = []
     for i in range(10):    
         mu = ran.randint(5,10)                                  # el promedio de clientes atendidos por hora
         lambdas = [mu*0.25, mu*0.5, mu*0.75, mu, mu*1.25]         # el promedio de clientes por hora  
