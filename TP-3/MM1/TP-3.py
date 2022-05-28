@@ -193,7 +193,7 @@ def simulaciones():
     print("==============================================")
     print("             MENÚ DE MM1                 ")
     print("==============================================")
-    while eleccion_Grafica != "8":
+    while eleccion_Grafica != "4":
         eleccion_Grafica = input("\n\t1. Sistema de colas MM1\n\t2. Linea de Espera\n\t3. Simulacion usando simpy\n\t4. Salir\n\tElija: ")
         if eleccion_Grafica == "1":
             mm1()
