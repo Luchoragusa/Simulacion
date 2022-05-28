@@ -3,7 +3,6 @@ import math
 import simpy as sim
 import matplotlib.pyplot as plt
 
-
 #===============================================================================================
 #                                       MM1
 #===============================================================================================
@@ -56,7 +55,6 @@ def mm1():
 
                 atendidos = totalC-peridas
                 print(f"Aproximadamente se atendieron: {atendidos} clientes")
-mm1()
 
 #===============================================================================================
 #                                  Linea de Espera
@@ -109,8 +107,6 @@ def lineaDeEspera():
     #plt.title("Evaluacion del tiempo de espera de cada cliente")
     #plt.title("Evaluacion de clientes en el sistema")
     plt.show()
-
-#lineaDeEspera()
 
 #===============================================================================================
 #                               Simulacion usando simpy
@@ -190,3 +186,19 @@ upi = (dt / fin) / NUM_PELUQUEROS
 print("Uso promedio del servidor = %.2f" % upi)
 print("\n=============================================================")
 '''
+
+def simulaciones():
+    eleccion_Grafica = ""
+    x = []; y = []
+    print("==============================================")
+    print("             MENÚ DE MM1                 ")
+    print("==============================================")
+    while eleccion_Grafica != "8":
+        eleccion_Grafica = input("\n\t1. Sistema de colas MM1\n\t2. Linea de Espera\n\t3. Simulacion usando simpy\n\t4. Salir\n\tElija: ")
+        if eleccion_Grafica == "1":
+            mm1()
+        elif eleccion_Grafica == "2":
+            lineaDeEspera()
+        elif eleccion_Grafica == "3":   # Para ejecutar este, descomentar la linea 174 a 190
+            principal()
+simulaciones()
