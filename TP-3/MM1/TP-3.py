@@ -99,13 +99,23 @@ def lineaDeEspera():
         print(guion.center(120, '='))
         clientes_en_sistema.append(round(tiempo_salida_clientes[i],2) - round(tiempo_llegada[i],2))
         
-        #plt.bar(clientes[i], round(tiempo_espera[i],2))     # Evaluacion del tiempo de espera de cada cliente (en cola)
-        #plt.bar(clientes[i], clientes_en_sistema[i])        # Evaluacion de clientes en el sistema
+        #plt.bar(clientes[i], round(tiempo_espera[i],2))                                # Evaluacion del tiempo de espera de cada cliente (en cola)
+        #plt.bar(clientes[i], clientes_en_sistema[i])                                   # Evaluacion de clientes en el sistema
+        #plt.bar(clientes[i], round(tiempo_ocio_servidor[i],2))                         # Evaluacion del tiempo de ocio del servidor
+        #plt.bar(clientes[i], round(tiempo_salida_clientes[i],2))                       # Evaluacion del tiempo de salida de cada cliente
+        #plt.bar(clientes[i], round(tiempo_llegada[i],2))                               # Evaluacion del tiempo de llegada de cada cliente
+        #plt.bar(clientes[i], round(tiempo_servicios[i],2))                             # Evaluacion del tiempo de servicio de cada cliente
+        #plt.bar(round(tiempo_servicios[i], 2), round(tiempo_salida_clientes[i],2))     # Evaluacion de la duracion del servicio hasta la salida del cliente
     
     plt.xlabel("Numero de repeticiones")
     plt.ylabel("Resultados")
     #plt.title("Evaluacion del tiempo de espera de cada cliente")
     #plt.title("Evaluacion de clientes en el sistema")
+    #plt.title("Evaluacion del tiempo de ocio del servidor")
+    #plt.title("Evaluacion del tiempo de salida de cada cliente")
+    #plt.title("Evaluacion del tiempo de llegada de cada cliente")
+    #plt.title("Evaluacion del tiempo de servicio de cada cliente")
+    #plt.title("Evaluacion de la duracion del servicio hasta la salida del cliente")
     plt.show()
 
 #===============================================================================================
@@ -157,6 +167,7 @@ def principal (env, personal):
 		i += 1
 		env.process(cliente(env, 'Cliente %d' % i, personal)) 
 
+'''
 SEMILLA = 30
 NUM_PELUQUEROS = 1
 TIEMPO_CORTE_MIN = 15
@@ -168,7 +179,6 @@ te  = 0.0 # tiempo de espera total
 dt  = 0.0 # duracion de servicio total
 fin = 0.0 # minuto en el que finaliza
 
-'''
 titulo = 'Simulacion Peluqueria'
 print(titulo.center(80, '='))
 ran.seed(SEMILLA)   # cualquier valor
@@ -199,6 +209,6 @@ def simulaciones():
             mm1()
         elif eleccion_Grafica == "2":
             lineaDeEspera()
-        elif eleccion_Grafica == "3":   # Para ejecutar este, descomentar la linea 174 a 190
+        elif eleccion_Grafica == "3":   # Para ejecutar este, descomentar la linea 170 a 197
             principal()
 simulaciones()
