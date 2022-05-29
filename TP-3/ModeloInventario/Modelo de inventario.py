@@ -15,6 +15,7 @@
 import itertools
 import simpy
 import numpy
+import matplotlib.pyplot as plt
 
 """
 Discrete-Event Simulation of Single-Product inventario System (s,S)
@@ -25,6 +26,10 @@ This is a SimPy replication of the C program given by Law and Kelton
 William Muir (2019)
 
 """
+
+evolucionInventario = []
+evolucionDemanda= []
+evolucionInventarioT=[]
 
 
 class Inventario(object):
@@ -42,14 +47,20 @@ class Inventario(object):
         Tomar pedidos del inventario   
         """
         self.level -= size
-        self.update_time_avg_stats()
+
+        evolucionInventario.append(self.level) ## aca se guarda el estado del inventario
+
+        self.actualiza_reloj()
 
     def recibirPedido(self, size):
         """
         Sumar pedidos recibidos al inventario
         """
         self.level += size
-        self.update_time_avg_stats()
+
+        evolucionInventario.append(self.level) ## aca se guarda el estado del inventario
+
+        self.actualiza_reloj()
 
     def hacerPedido(self, order):
         """
@@ -66,9 +77,9 @@ class Inventario(object):
             self.recibirPedido(order.size)
             self._openOrder = False
 
-    def update_time_avg_stats(self):
+    def actualiza_reloj(self):
         """
-        Corresponds to `update_time_avg_stats(void)`, p. 78
+        Corresponds to `actualiza_reloj(void)`, p. 78
         """
         time_since_last_event = self._env.now - self._lastEvent
         if self.level < 0:
@@ -80,6 +91,7 @@ class Inventario(object):
                 self.level * time_since_last_event
             )
         self._lastEvent = self._env.now
+        evolucionInventarioT.append(self._lastEvent) ## aca se guardan los tiempos de los pedidos
 
 
 class HacerPedido(object):
@@ -114,6 +126,9 @@ def demand_generator(env, inventario, parametros):
                 0
             ]
         )
+
+        evolucionDemanda.append(demand.size) ## aca se guarda la demanda que van saliendo
+
         tiempo_pedido = numpy.random.exponential( ## aca se genera el tiempo entre pedidos
             parametros["tiempo_demanda"]
         )
@@ -132,7 +147,7 @@ def evaluation_generator(env, inventario, policy): ## aca se hace la evaluacion 
                 lag_range=parametros["rango_retraso_entrega"],
             )
             env.process(inventario.hacerPedido(order))
-        yield env.timeout(0.3) ## aca se hace la evaluacion de inventario cada vez que se llega al segundo, es decir, cada 1 segundo
+        yield env.timeout(1) ## aca se hace la evaluacion de inventario cada vez que se llega al segundo, es decir, cada 1 segundo
 
 
 def report(row_format, parametros, policy, db):
@@ -169,7 +184,7 @@ if __name__ == "__main__":
         ),
         tiempo_demanda=0.10, ## Esto es el tiempo entre demandas
         rango_retraso_entrega=(0.50, 1.00), ## Tiempo de demora de la entrega, tiene distrubicion uniforme
-        tamano_simulacion=120, ## Cantidad de repeticiones de la simulacion
+        tamano_simulacion=120, ## Cantidad de x de la simulacion
         K=32.0, ## Es el precio del pedido en si, seria como una especia de evio
         i=3.0, ## Es el precio por unidad pedida
         h=1.0,
@@ -179,7 +194,7 @@ if __name__ == "__main__":
 
     politicas = [ ## Son las politicas que menciona el ejericicio, osea evalua "s" contra "S", se deja fija "s" en 20 y se evaluan los valores de 20 en 20 de "S" hasta 100
         dict(minimum=s, target=S)
-        for s, S in itertools.product([55, 40, 60], [40, 60, 80, 100])
+        for s, S in itertools.product([20, 40, 60], [40, 60, 80, 100])
         if s < S
     ]
 
@@ -213,6 +228,13 @@ if __name__ == "__main__":
             area_faltante=float(),
         )
 
+        evolucionInventario = []
+        evolucionDemanda= []
+        evolucionInventarioT=[]
+
+        evolucionInventario.append(parametros["cantidad_inicial_inventario"]) ## Aca se guarda el inventario inicial
+        evolucionInventarioT.append(0) ## Aca se guarda el tiempo inicial
+
         inventario = Inventario(env, db, parametros)
         dmd_gen = env.process(
             demand_generator(env, inventario, parametros)
@@ -222,3 +244,19 @@ if __name__ == "__main__":
         )
         env.run(until=parametros["tamano_simulacion"])
         report(row_format, parametros, politica, db)
+
+        plt.bar(evolucionInventarioT, evolucionInventario)
+        plt.xlabel("Timepo de pedidos.")
+        plt.ylabel("Estado del inventario.")  
+        plt.axhline(y=0, color = "black")  
+        plt.axhline(y=parametros["cantidad_inicial_inventario"], color = "green", linestyle = "dotted")
+        plt.axhline(y=(numpy.mean(evolucionInventario)), color = "yellow", linestyle = "dotted")
+        ## plt.title("Evaluacion de la varianza sobre el conjunto de valores aleatorios")
+        ## plt.ylim([70, 150]) # esta ponderada la medicion
+        plt.show()
+        x = []
+        for i in range(len(evolucionDemanda)):
+            x.append(i)
+        plt.bar(x, evolucionDemanda)
+        plt.axhline(y=(numpy.mean(evolucionDemanda)), color = "yellow", linestyle = "dotted")
+        plt.show()
