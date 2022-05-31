@@ -3,26 +3,28 @@ import math
 import simpy as sim
 import matplotlib.pyplot as plt
 
+# Usando Simpy: https://naps.com.mx/blog/simulacion-en-python-usando-simpy/
+
 #===============================================================================================
 #                                       MM1
-#===============================================================================================
+#=============================================================================================== 
 def mm1():
     titulo = 'Sistema de colas MM1'
     print(titulo.center(80, '='))
     for i in range(10):    
-        mu = ran.randint(5,10)                                  # el promedio de clientes atendidos por hora
-        lambdas = [mu*0.25, mu*0.5, mu*0.75, mu, mu*1.25]         # el promedio de clientes por hora  
-        for j in range(len(lambdas)):
-            if mu > lambdas[j]:
-                Ls = lambdas[j]/(mu-lambdas[j])
-                Ws = 1/(mu-lambdas[j])
+        µ = ran.randint(5,10)                          # el promedio de clientes atendidos por hora
+        λ = [µ*0.25, µ*0.5, µ*0.75, µ, µ*1.25]         # el promedio de clientes por hora  
+        for j in range(len(λ)):
+            if µ > λ[j]:
+                Ls = λ[j]/(µ-λ[j])
+                Ws = 1/(µ-λ[j])
                 Wsl = Ws*60
-                Lq = Ls*lambdas[j]/mu
-                Wq = Ws*lambdas[j]/mu
+                Lq = Ls*λ[j]/µ
+                Wq = Ws*λ[j]/µ
                 Wql = Wq*60
-                pu = lambdas[j]/mu
+                pu = λ[j]/µ
                 po = 1 - pu
-                pe = (1 - (lambdas[j]/mu)) * ((lambdas[j]/mu) * (lambdas[j]/mu))
+                pe = (1 - (λ[j]/µ)) * ((λ[j]/µ) * (λ[j]/µ))
 
                 print(f"\n\n==============Repeticion {i+1} & Corrida lambda {j+1}================================")
                 print(f'Clientes en el sistema: {round(Ls)} ')
@@ -42,12 +44,12 @@ def mm1():
                 opcion = 'Se puede hacer calculo de sistema sin cola'
                 print(opcion.center(80, '*'))
 
-                trafico = lambdas[j]/mu
+                trafico = λ[j]/µ
                 Cperdidos = trafico/(trafico+1)
                 print(f"Porcentaje de perdidos: {Cperdidos*100} %")
 
                 print("Si el horario de atencion consta de 8 horas")
-                totalC = mu*8
+                totalC = µ*8
                 print(f"Aproximadamente la cantidad de clientes en un dia es: {totalC}")
 
                 peridas = totalC*Cperdidos
@@ -118,84 +120,6 @@ def lineaDeEspera():
     #plt.title("Evaluacion de la duracion del servicio hasta la salida del cliente")
     plt.show()
 
-#===============================================================================================
-#                               Simulacion usando simpy
-#===============================================================================================
-'''Explicacion:
-        Una peluqueria tiene un peluquero que se demora entre 15 y 30 minutos por corte. La peluqueria recibe en promedio 3 clientes
-        por hora (o sea, uno cada 20 minutos). Se simula las llegadas y servicios de 5 clientes
-
-        Se puede variar cualquier parametro (n peluqueros, cambiar tiempo en que se demora por corte, n clientes, X tiempo especifico)
-
-    Valor teorico esperado
-        Los numeros pseudoaleatorios que utilizaremos seran los siguientes: 
-        0.5391, 0.2892, 0.6536, 0.2573, 0.6416, 0.0300, 0.2100, 0.3972, 0.9888, 0.4615
-        https://naps.com.mx/blog/simulacion-en-python-usando-simpy/
-'''
-def cortar(cliente):
-	global dt  #Para poder acceder a la variable dt declarada anteriormente
-	R = ran.random()  # Obtiene un numero aleatorio y lo guarda en R
-	tiempo = TIEMPO_CORTE_MAX - TIEMPO_CORTE_MIN  
-	tiempo_corte = TIEMPO_CORTE_MIN + (tiempo*R) # Distribucion uniforme
-	yield env.timeout(tiempo_corte) # deja correr el tiempo n minutos
-	print(" \o/ Corte listo a %s en %.2f minutos" % (cliente,tiempo_corte))
-	dt = dt + tiempo_corte # Acumula los tiempos de uso de la i
-
-def cliente (env, name, personal ):
-	global te
-	global fin
-	llega = env.now # Guarda el minuto de llegada del cliente
-	print ("---> %s llego a peluqueria en minuto %.2f" % (name, llega))
-	with personal.request() as request: # Espera su turno
-		yield request # Obtiene turno
-		pasa = env.now # Guarda el minuto cuado comienza a ser atendido
-		espera = pasa - llega # Calcula el tiempo que espero
-		te = te + espera # Acumula los tiempos de espera
-		print ("**** %s pasa con peluquero en minuto %.2f habiendo esperado %.2f" % (name, pasa, espera))
-		yield env.process(cortar(name)) # Invoca al proceso cortar
-		deja = env.now #Guarda el minuto en que termina el proceso cortar 
-		print ("<--- %s deja peluqueria en minuto %.2f" % (name, deja))
-		fin = deja # Conserva globalmente el ultimo minuto de la simulacion
-	
-def principal (env, personal):
-	llegada = 0
-	i = 0
-	for i in range(TOT_CLIENTES): # Para n clientes
-		R = ran.random()
-		llegada = -T_LLEGADAS * math.log(R) # Distribucion exponencial
-		yield env.timeout(llegada)  # Deja transcurrir un tiempo entre uno y otro
-		i += 1
-		env.process(cliente(env, 'Cliente %d' % i, personal)) 
-
-'''
-SEMILLA = 30
-NUM_PELUQUEROS = 1
-TIEMPO_CORTE_MIN = 15
-TIEMPO_CORTE_MAX = 30
-T_LLEGADAS = 20
-TIEMPO_SIMULACION = 120
-TOT_CLIENTES = 5
-te  = 0.0 # tiempo de espera total
-dt  = 0.0 # duracion de servicio total
-fin = 0.0 # minuto en el que finaliza
-
-titulo = 'Simulacion Peluqueria'
-print(titulo.center(80, '='))
-ran.seed(SEMILLA)   # cualquier valor
-env = sim.Environment()   # crea el objeto entorno de simulacion
-personal = sim.Resource(env, NUM_PELUQUEROS)     # crea los recursos (peluqueros)
-env.process(principal(env, personal))       # invoca el proceso principal
-env.run()
-print("\n=============================================================")
-print("\n Indicadores obtenidos: ")
-lpc = te / fin
-print("\nLongitud promedio de la cola: %.2f" % lpc)
-tep = te / TOT_CLIENTES
-print("Tiempo de espera promedio del total de clientes = %.2f" % tep)
-upi = (dt / fin) / NUM_PELUQUEROS
-print("Uso promedio del servidor = %.2f" % upi)
-print("\n=============================================================")
-'''
 
 def simulaciones():
     eleccion_Grafica = ""
@@ -203,12 +127,10 @@ def simulaciones():
     print("==============================================")
     print("             MENÚ DE MM1                 ")
     print("==============================================")
-    while eleccion_Grafica != "4":
-        eleccion_Grafica = input("\n\t1. Sistema de colas MM1\n\t2. Linea de Espera\n\t3. Simulacion usando simpy\n\t4. Salir\n\tElija: ")
+    while eleccion_Grafica != "3":
+        eleccion_Grafica = input("\n\t1. Sistema de colas MM1\n\t2. Linea de Espera\n\t\n\t3. Salir\n\tElija: ")
         if eleccion_Grafica == "1":
             mm1()
         elif eleccion_Grafica == "2":
             lineaDeEspera()
-        elif eleccion_Grafica == "3":   # Para ejecutar este, descomentar la linea 170 a 197
-            principal()
 simulaciones()
