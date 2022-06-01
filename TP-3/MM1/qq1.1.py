@@ -16,14 +16,14 @@ import warnings
 warnings.filterwarnings('ignore')
 
 #Single server, single queue simulation                 
-l = 1                       # numero promedio de llegadas por minuto
-µ =1.5                      # numero promedio de personas atendidas por minuto
-ncust =1000                 # numero de clientes
+λ = 3                       # numero promedio de llegadas por minuto
+µ =5                      # numero promedio de personas atendidas por minuto
+ncust =35                 # numero de clientes
 c=1                         # numero de servidores
 
 # generando los tiempos de llegada usando distribucion exponencial
 
-inter_arrival_times = list(np.random.exponential(scale=1/l,size=ncust))
+inter_arrival_times = list(np.random.exponential(scale=1/λ,size=ncust))
 
 
     
@@ -193,10 +193,11 @@ Ls=(sum(Pn*Pn.index))
 Lq=sum((Pn.index[c+1:]-1)*(Pn[c+1:]))
 
 print('SALIDAS:','\n',
+    'Numero de clientes en el sistema(Ls):',str(Ls),'\n',
+    'Numero de clientes en cola (Lq):',str(Lq),'\n',
+    'Tiempo esperado en cola (Wq):',str(data['wait_times'].mean()),'\n',
+    'Tiempo de permanencia en el sistema (Ws):',str(data.total_times.mean()),'\n',
     'Tiempo entre arrivos : ',str(data.inter_arrival_times.mean()),'\n',
-    'Tiempo de servicio: (1/µ)',str(data.service_times.mean()),'\n'
-    'Utilizacion (c): ',str(workingtime/timeline.time.max()),'\n',
-    'Tiempo esperado en linea (Wq):',str(data['wait_times'].mean()),'\n',
-    'Tiempo previsto de permanencia en el sistema (Ws):',str(data.total_times.mean()),'\n',
-    'Numero esperado de clientes en linea (Lq):',str(Lq),'\n',
-    'Numero esperado de clientes en el sistema(Ls):',str(Ls),'\n')
+    'Tiempo de servicio: (λ/µ)',str(data.service_times.mean()),'\n'
+    'Utilizacion (c): ',str(workingtime/timeline.time.max())
+    )

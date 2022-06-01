@@ -31,8 +31,8 @@ def mm1():
                 print(f'Tiempo en el sistema: {round(Ws)} Horas')
                 print(f'Tiempo en el sistema: {Wsl} minutos')
                 print(f'Clientes en cola: {round(Lq)}')
-                print(f'Tiempo en la cola: {round(Wq)} horas')
-                print(f'Tiempo en la cola: {round(Wql)}')
+                print(f'Tiempo en la cola: {round(Wq)} Horas')
+                print(f'Tiempo en la cola: {round(Wql)} minutos')
                 print(f'Porcentaje servidor ocupado: {pu*100}')
                 print(f'Porcentaje servidor ocioso: {po*100}')
                 print(f'Probabilidad de que se encuentren 2 clientes: {pe*100}\n\n')
@@ -77,7 +77,7 @@ def lineaDeEspera():
     tiempo_ocio_servidor = []
     tiempo_salida_clientes = []
     clientes_en_sistema = []
-    num_clientes = 50
+    num_clientes = 35
     while(i < num_clientes):
         if(i == 0):
             clientes.append(i)
@@ -118,7 +118,7 @@ def lineaDeEspera():
     #plt.title("Evaluacion del tiempo de llegada de cada cliente")
     #plt.title("Evaluacion del tiempo de servicio de cada cliente")
     #plt.title("Evaluacion de la duracion del servicio hasta la salida del cliente")
-    plt.show()
+    #plt.show()
 
 
 def simulaciones():
@@ -128,9 +128,10 @@ def simulaciones():
     print("             MENÚ DE MM1                 ")
     print("==============================================")
     while eleccion_Grafica != "3":
-        eleccion_Grafica = input("\n\t1. Sistema de colas MM1\n\t2. Linea de Espera\n\t\n\t3. Salir\n\tElija: ")
+        eleccion_Grafica = input("\n\t1. Sistema de colas MM1\n\t2. Linea de Espera\n\t3. Salir\n\tElija: ")
         if eleccion_Grafica == "1":
             mm1()
         elif eleccion_Grafica == "2":
             lineaDeEspera()
 simulaciones()
+
