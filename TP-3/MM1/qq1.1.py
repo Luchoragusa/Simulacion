@@ -18,7 +18,7 @@ warnings.filterwarnings('ignore')
 #Single server, single queue simulation                 
 λ = 3                       # numero promedio de llegadas por minuto
 µ =5                      # numero promedio de personas atendidas por minuto
-ncust =35                 # numero de clientes
+ncust =300                 # numero de clientes
 c=1                         # numero de servidores
 
 # generando los tiempos de llegada usando distribucion exponencial
