@@ -239,13 +239,11 @@ if __name__ == "__main__":
 
         plt.bar(evolucionInventarioT, evolucionInventario)
         plt.title("Evolucion del stock del inventario")
-        plt.xlabel("Timepo de pedidos.")
-        plt.ylabel("Estado del inventario.")  
+        plt.xlabel("Tiempo de pedidos")
+        plt.ylabel("Estado del inventario")  
         plt.axhline(y=0, color = "black")  
         plt.axhline(y=parametros["cantidad_inicial_inventario"], color = "green", linestyle = "dotted")
         plt.axhline(y=(numpy.mean(evolucionInventario)), color = "yellow", linestyle = "dotted")
-        ## plt.title("Evaluacion de la varianza sobre el conjunto de valores aleatorios")
-        ## plt.ylim([70, 150]) # esta ponderada la medicion
 
         plt.show()
         x = []
@@ -263,7 +261,7 @@ if __name__ == "__main__":
             x.append(i)
             y.append(l_costo_de_orden[i]/parametros["tamano_simulacion"])
         plt.title("Evolucion del costo de orden")
-        plt.ylabel("Costo de orden.") 
+        plt.ylabel("Costo de orden") 
         plt.plot(x, y)
         plt.show()
 
@@ -273,7 +271,8 @@ if __name__ == "__main__":
             x.append(i)
             y.append((l_area_faltante[i] * parametros["pi"])/parametros["tamano_simulacion"])
         plt.title("Evolucion del costo de faltantes")
-        plt.ylabel("Costo de faltante.") 
+        plt.ylabel("Costo de faltante") 
+        plt.ylabel("Cantidad de costos de faltante")
         plt.plot(x, y)
         plt.show()
 
@@ -283,6 +282,7 @@ if __name__ == "__main__":
             x.append(i)
             y.append((l_area_matenimiento[i] * parametros["h"]) /parametros["tamano_simulacion"])
         plt.title("Evolucion del costo de mantenimiento")
-        plt.ylabel("Costo del mantenimiento.") 
+        plt.ylabel("Costo del mantenimiento") 
+        plt.xlabel("Cantidad de costos de mantenimiento")
         plt.plot(x, y)
         plt.show()
