@@ -174,7 +174,7 @@ if __name__ == "__main__":
         ),
         tiempo_demanda=0.10, ## Esto es el tiempo entre demandas
         rango_retraso_entrega=(0.50, 1.00), ## Tiempo de demora de la entrega, tiene distrubicion uniforme
-        tamano_simulacion=10, ## Cantidad de x de la simulacion
+        tamano_simulacion=40, ## Cantidad de x de la simulacion
         K=32.0, ## Es el precio del pedido en si, seria como una especie de envio
         i=3.0, ## Es el precio por unidad pedida
         h=1.0, # Costo de Holding, es decir, de mantener el articulo guardado, por el alquiler, mantenimiento y esas cosas
@@ -237,14 +237,6 @@ if __name__ == "__main__":
 
         report(row_format, parametros, politica, db)
 
-        print(evolucionInventarioT)
-        print(evolucionInventario)
-
-        print("===========")
-
-        print(len(evolucionInventarioT))
-        print(len(evolucionInventario))
-        
         x = []
         for i in range(len(evolucionInventario)):
             x.append(i)
