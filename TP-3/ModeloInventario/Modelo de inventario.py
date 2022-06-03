@@ -174,7 +174,7 @@ if __name__ == "__main__":
         ),
         tiempo_demanda=0.10, ## Esto es el tiempo entre demandas
         rango_retraso_entrega=(0.50, 1.00), ## Tiempo de demora de la entrega, tiene distrubicion uniforme
-        tamano_simulacion=20, ## Cantidad de x de la simulacion
+        tamano_simulacion=10, ## Cantidad de x de la simulacion
         K=32.0, ## Es el precio del pedido en si, seria como una especie de envio
         i=3.0, ## Es el precio por unidad pedida
         h=1.0, # Costo de Holding, es decir, de mantener el articulo guardado, por el alquiler, mantenimiento y esas cosas
@@ -239,7 +239,7 @@ if __name__ == "__main__":
 
         plt.bar(evolucionInventarioT, evolucionInventario)
         plt.title("Evolucion del stock del inventario")
-        plt.xlabel("Timepo de pedidos.")
+        plt.xlabel("Tiempo de pedidos.")
         plt.ylabel("Estado del inventario.")  
         plt.axhline(y=0, color = "black")  
         plt.axhline(y=parametros["cantidad_inicial_inventario"], color = "green", linestyle = "dotted")
@@ -252,7 +252,7 @@ if __name__ == "__main__":
         for i in range(len(evolucionDemanda)):
             x.append(i)
         plt.bar(x, evolucionDemanda)
-        plt.title("Evolucion de la demanada")
+        plt.title("Evolucion de la demanda")
         plt.ylabel("Cantidad de productos demandados")  
         plt.axhline(y=(numpy.mean(evolucionDemanda)), color = "yellow", linestyle = "dotted")
         plt.show()
@@ -262,7 +262,7 @@ if __name__ == "__main__":
         for i in range(len(l_costo_de_orden)):
             x.append(i)
             y.append(l_costo_de_orden[i]/parametros["tamano_simulacion"])
-        plt.title("Evolucion del costo de orden")
+        plt.title("Evolucion del total de costo de orden")
         plt.ylabel("Costo de orden.") 
         plt.plot(x, y)
         plt.show()
@@ -272,7 +272,7 @@ if __name__ == "__main__":
         for i in range(len(l_area_faltante)):
             x.append(i)
             y.append((l_area_faltante[i] * parametros["pi"])/parametros["tamano_simulacion"])
-        plt.title("Evolucion del costo de faltantes")
+        plt.title("Evolucion del total de costo de faltantes")
         plt.ylabel("Costo de faltante.") 
         plt.plot(x, y)
         plt.show()
@@ -282,7 +282,7 @@ if __name__ == "__main__":
         for i in range(len(l_area_matenimiento)):
             x.append(i)
             y.append((l_area_matenimiento[i] * parametros["h"]) /parametros["tamano_simulacion"])
-        plt.title("Evolucion del costo de mantenimiento")
+        plt.title("Evolucion del total de costo de mantenimiento")
         plt.ylabel("Costo del mantenimiento.") 
         plt.plot(x, y)
         plt.show()
