@@ -237,21 +237,42 @@ if __name__ == "__main__":
 
         report(row_format, parametros, politica, db)
 
-        plt.bar(evolucionInventarioT, evolucionInventario)
-        plt.title("Evolucion del stock del inventario")
-        plt.xlabel("Tiempo de pedidos.")
-        plt.ylabel("Estado del inventario.")  
+        print(evolucionInventarioT)
+        print(evolucionInventario)
+
+        print("===========")
+
+        print(len(evolucionInventarioT))
+        print(len(evolucionInventario))
+        
+        x = []
+        for i in range(len(evolucionInventario)):
+            x.append(i)
+        plt.bar(x, evolucionInventario)
+        plt.title("Evolucion del stock del inventario con respecto a pedidos")
+        plt.xlabel("Pedidos recibidos")
+        plt.ylabel("Estado del inventario")  
         plt.axhline(y=0, color = "black")  
         plt.axhline(y=parametros["cantidad_inicial_inventario"], color = "green", linestyle = "dotted")
         plt.axhline(y=(numpy.mean(evolucionInventario)), color = "yellow", linestyle = "dotted")
-
         plt.show()
+
+        plt.bar(evolucionInventarioT, evolucionInventario, width=0.15, align='edge')
+        plt.title("Evolucion del stock del inventario con respecto al tiempo")
+        plt.xlabel("Duracion de pedidos")
+        plt.ylabel("Estado del inventario")
+        plt.axhline(y=0, color = "black")
+        plt.axhline(y=parametros["cantidad_inicial_inventario"], color = "green", linestyle = "dotted")
+        plt.axhline(y=(numpy.mean(evolucionInventario)), color = "yellow", linestyle = "dotted")
+        plt.show()
+
         x = []
         for i in range(len(evolucionDemanda)):
             x.append(i)
         plt.bar(x, evolucionDemanda)
-        plt.title("Evolucion de la demanda")
+        plt.title("Demanda de productos")
         plt.ylabel("Cantidad de productos demandados")  
+        plt.ylabel("Pedidos realizados")  
         plt.axhline(y=(numpy.mean(evolucionDemanda)), color = "yellow", linestyle = "dotted")
         plt.show()
 
@@ -264,6 +285,7 @@ if __name__ == "__main__":
         plt.ylabel("Costo de orden") 
         plt.xlabel("Cantidad de costos de orden")
         plt.plot(x, y)
+        plt.grid(True)
         plt.show()
 
         x = []
@@ -275,6 +297,7 @@ if __name__ == "__main__":
         plt.ylabel("Costo de faltante") 
         plt.xlabel("Cantidad de costos de faltante")
         plt.plot(x, y)
+        plt.grid(True)
         plt.show()
 
         x = []
@@ -286,4 +309,5 @@ if __name__ == "__main__":
         plt.ylabel("Costo del mantenimiento") 
         plt.xlabel("Cantidad de costos de mantenimiento")
         plt.plot(x, y)
+        plt.grid(True)
         plt.show()
