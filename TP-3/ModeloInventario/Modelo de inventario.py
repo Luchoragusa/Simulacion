@@ -184,8 +184,8 @@ if __name__ == "__main__":
 
     politicas = [ ## Son las politicas que menciona el ejericicio, osea evalua "s" contra "S", se deja fija "s" en 20 y se evaluan los valores de 20 en 20 de "S" hasta 100
         dict(minimum=s, target=S)
-        ##for s, S in itertools.product([20, 40, 60], [40, 60, 80, 100])
-        for s, S in itertools.product([20], [40]) ## dependiente la cantidad de politicas son las corridas del ejercicio
+        for s, S in itertools.product([20, 40, 60], [40, 60, 80, 100])
+        ##for s, S in itertools.product([20], [60]) ## dependiente la cantidad de politicas son las corridas del ejercicio
         if s < S
     ]
 
@@ -247,7 +247,7 @@ if __name__ == "__main__":
         plt.axhline(y=0, color = "black")  
         plt.axhline(y=parametros["cantidad_inicial_inventario"], color = "green", linestyle = "dotted")
         plt.axhline(y=(numpy.mean(evolucionInventario)), color = "yellow", linestyle = "dotted")
-        plt.show()
+        ####plt.show()
 
         plt.bar(evolucionInventarioT, evolucionInventario, width=0.15, align='edge')
         plt.title("Evolucion del stock del inventario con respecto al tiempo")
@@ -256,7 +256,7 @@ if __name__ == "__main__":
         plt.axhline(y=0, color = "black")
         plt.axhline(y=parametros["cantidad_inicial_inventario"], color = "green", linestyle = "dotted")
         plt.axhline(y=(numpy.mean(evolucionInventario)), color = "yellow", linestyle = "dotted")
-        plt.show()
+        ##plt.show()
 
         x = []
         for i in range(len(evolucionDemanda)):
@@ -266,7 +266,7 @@ if __name__ == "__main__":
         plt.ylabel("Cantidad de productos demandados")  
         plt.ylabel("Pedidos realizados")  
         plt.axhline(y=(numpy.mean(evolucionDemanda)), color = "yellow", linestyle = "dotted")
-        plt.show()
+        ##plt.show()
 
         x = []
         y = []
@@ -278,7 +278,7 @@ if __name__ == "__main__":
         plt.xlabel("Cantidad de costos de orden")
         plt.plot(x, y)
         plt.grid(True)
-        plt.show()
+        ##plt.show()
 
         x = []
         y = []
@@ -290,7 +290,7 @@ if __name__ == "__main__":
         plt.xlabel("Cantidad de costos de faltante")
         plt.plot(x, y)
         plt.grid(True)
-        plt.show()
+        ##plt.show()
 
         x = []
         y = []
@@ -302,4 +302,4 @@ if __name__ == "__main__":
         plt.xlabel("Cantidad de costos de mantenimiento")
         plt.plot(x, y)
         plt.grid(True)
-        plt.show()
+        ##plt.show()
