@@ -82,7 +82,7 @@ def graficarSaldos(m, band):
 
 def graficarApuestas(m,  band):
     if (band):
-        for k in range(3):
+        for k in range(3): # son 3 pq tenes la corrida de 25, 50 y 75 tiradas
             mApuesta = m[k]
             for i in range(len(mApuesta)):
                 x = []
@@ -112,8 +112,8 @@ def graficarPromSaldos(m):
         mTemp = m[i]
         mTemp2 = []
         for j in range(len(mTemp)):
-            mTemp2.append(np.mean(mTemp[j]))
-        mProm.append(np.mean(mTemp2))
+            mTemp2.append(np.mean(mTemp[j])) # calculo el promedio de cada corrida de 25, 50 y 75 tiradas
+        mProm.append(np.mean(mTemp2)) # calculo el promedio de los promedios de cada corrida de 25, 50 y 75 tiradas
     eje_x = ["25 jugadas", "50 jugadas", "75 jugadas"]
     eje_y = [mProm[0], mProm[1], mProm[2]]
     plt.axhline(y=saldoIni, color = "red") # linea de saldo inicial
@@ -156,9 +156,9 @@ def graficarFR(mDato, band):
         mCantApuesta=[]
         c = 0
         for i in range(len(mDato)):
-            m = mDato[i]
+            m = mDato[i] # guardo 1 de las corridas
             for j in range(len(m)): # recorro cada apuesta
-                if m[j] in mApuesta: # me fijo si la apuesta ha se hizo
+                if m[j] in mApuesta: # me fijo si la apuesta ya se hizo
                     for k in range(len(mApuesta)): # recorro la matriz de apuestas para ver en q posicion esta guardada la apuesta
                         if mApuesta[k] == m[j]:
                             mCantApuesta[k] += 1 # le sumo uno en la posicion que corresponde de la matriz de apuesta
@@ -167,8 +167,8 @@ def graficarFR(mDato, band):
                     mCantApuesta.append(1)
                 c += 1
         for i in range(len(mCantApuesta)): # obtengo la FR de cantidad de apuestas
-            mCantApuesta[i] = mCantApuesta[i]/c  
-            mApuesta[i] = str(mApuesta[i])
+            mCantApuesta[i] = mCantApuesta[i]/c  # obtengo la FR como tal
+            mApuesta[i] = str(mApuesta[i]) # lo hago string para que tenga el formato de la grafica
         plt.bar(mApuesta, mCantApuesta, alpha = 0.75, width= 0.25)
         plt.tittle('Frecuencia relativa por apuesta')
         plt.xlabel('Valor de apuesta')
@@ -177,33 +177,31 @@ def graficarFR(mDato, band):
         plt.show()
 
 def agotarSaldo(colorSeleccionado, dinero_apostado):
-#Opcion 10 girar
     for i in range(4):
         matrizApuestas = []
         saldo_global = saldoIni #El saldo con el que se inicia
         mSaldo = []
-        mSaldo.append(saldo_global)
-        matrizApuestas.append(dinero_apostado)
+        mSaldo.append(saldo_global) # aca guardo como evoluciona el saldo de esta corrida
+        matrizApuestas.append(dinero_apostado) # aca guardo como evoluciona la apuesta de esta corrida
         contadorMG = 0
         band = True
         while (band):
             nRandom = ran.randint (0,36)
             saldo_global -= matrizApuestas[contadorMG] # le descuento al salgoGlobal lo apostado
             if(nRandom in numerosRojos and colorSeleccionado == rojo) or (nRandom not in numerosRojos and colorSeleccionado == negro):
-                saldo_global += matrizApuestas[contadorMG]*2
-                matrizApuestas.append(matrizApuestas[0]) 
+                saldo_global += matrizApuestas[contadorMG]*2 # sumo lo que gane al saldo
+                matrizApuestas.append(matrizApuestas[0]) # le asigno que la prox apuesta es el valor inicial, pq gane
             else:
                 if(matrizApuestas[contadorMG]*2 <= saldo_global):
-                    matrizApuestas.append(matrizApuestas[contadorMG]*2)
+                    matrizApuestas.append(matrizApuestas[contadorMG]*2) # si pierdo doblo la apuesta
                 else:
                     band = False 
             mSaldo.append(saldo_global)
             contadorMG += 1
-        evolucionApuesta.append(matrizApuestas)
-        evolucionSaldo.append(mSaldo) 
+        evolucionApuesta.append(matrizApuestas) # guardo la info de las apuestas de la corrida actual
+        evolucionSaldo.append(mSaldo)  # guardo la info del saldo de la corrida actual
 
 def tiradas(colorSeleccionado, dinero_apostado):
-#Opcion 10 girar
     for i in range(4):
         matrizApuestas = []; matrizApuestas.append(dinero_apostado)
         saldo_global = saldoIni #El saldo con el que se inicia
@@ -285,13 +283,14 @@ if color_eleccion_usuario == "1":
 else: 
     colorSeleccionado = negro
 
-if eleccion == 1:
+if eleccion == 1: # agotar saldo
     agotarSaldo(colorSeleccionado, dinero_apostado)
     graficarApuestas(evolucionApuesta, False)
     graficarFR(evolucionApuesta, False)
     graficarSaldos(evolucionSaldo, False)
 
-else:
+else: # 25, 50 y 75 jugadas
+
     tiradas(colorSeleccionado, dinero_apostado)
     m = [evolucionApuesta, evolucionApuesta1, evolucionApuesta2]
     graficarApuestas(m, True)
