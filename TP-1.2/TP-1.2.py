@@ -377,7 +377,7 @@ def main():
                 fig2,axs2=plt.subplots(2, 2)
                 plt.figure(3)
                 fig,axs=plt.subplots(2, 2)               
-                for i in range(5):  
+                for i in range(5):
                     arreglo_x=[]
                     arreglo_y=[]
                     apuestasHistorial=[]
@@ -433,7 +433,7 @@ def main():
                 plt.axhline(y=saldo_eleccion_fibo, color = "r")               
                 plt.figure(2)
                 texto_titulo=f"Evolución de las apuestas partiendo de ${str(saldo_eleccion_fibo)} de 4 corridas"
-                fig2.suptitle(texto_titulo)    
+                fig2.suptitle(texto_titulo)   
                 plt.figure(3)
                 texto_titulo=f"Frecuencia relativa de los valores de las apuestas de las 4 corridas"
                 fig.suptitle(texto_titulo)                              

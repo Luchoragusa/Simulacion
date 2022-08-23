@@ -6,6 +6,8 @@ from typing import Callable, Iterable
 from sympy import arg
 import numpy
 
+## Generadores de numeros aleatorios nuestros
+
 def uniforme(a,b):
     r=ran.random()
     x=a+(b-a)*r
@@ -98,23 +100,29 @@ def graficarprobabilidad(funcion:Callable,*args):
     plt.title("Distribución de Probabilidad "+nombrefuncionglobal)
     plt.show()
 
+# Distribucion continua
+
 nombrefuncionglobal="Uniforme"
 graficarprobabilidad(partial(numpy.random.uniform,0,10))
 graficarprobabilidad(partial(uniforme,0,10))
+
 nombrefuncionglobal="Exponencial"
 graficarprobabilidad(partial(numpy.random.exponential,10))
 graficarprobabilidad(partial(exponencial,10))
+
 nombrefuncionglobal="Normal"
 graficarprobabilidad(partial(numpy.random.normal,4,2))
 graficarprobabilidad(partial(normal,4,2))
+
+# Distribucion discreta
+
 nombrefuncionglobal="Binomial"
 graficarprobabilidad(partial(numpy.random.binomial,10,0.6))
 graficarprobabilidad(partial(binomial,10,0.6))
+
 nombrefuncionglobal="Poisson"
 graficarprobabilidad(partial(numpy.random.poisson,10))
 graficarprobabilidad(partial(poisson,10))
-
-
 
 def graficarmatriz():
     x = []; y= []
@@ -132,40 +140,5 @@ matriz= [[0] * 10 for r in range(10)]
 for i in range(10):
     for j in range(10):
         matriz[i][j]=(ran.randint(0,100))
-#print(matriz)
+
 print(markov(5,6,7,matriz))
-#
-#
-##Ver si sirve:
-#
-#def graficarfuncion(funcion:Callable,*args):
-#    x = []; y= []
-#    for i in range(5000):
-#        x.append(i)
-#        y.append(funcion(*args))
-#    y.sort()
-#    plt.plot(x, y)
-#    plt.xlabel("x")
-#    plt.ylabel("Numero")    
-#    plt.title("Funcion de Distribución de Probabilidad "+nombrefuncionglobal)
-#    plt.show()
-#
-#nombrefuncionglobal="Uniforme"
-#graficarfuncion(partial(numpy.random.uniform,0,10))
-#graficarfuncion(partial(uniforme,0,10))
-#nombrefuncionglobal="Exponencial"
-#graficarfuncion(partial(numpy.random.exponential,10))
-#graficarfuncion(partial(exponencial,10))
-#nombrefuncionglobal="Normal"
-#graficarfuncion(partial(numpy.random.normal,4,2))
-#graficarfuncion(partial(normal,4,2))
-#nombrefuncionglobal="Binomial"
-#graficarfuncion(partial(numpy.random.binomial,10,0.6))
-#graficarfuncion(partial(binomial,10,0.6))
-#nombrefuncionglobal="Poisson"
-#graficarfuncion(partial(numpy.random.poisson,10))
-#graficarfuncion(partial(poisson,10))
-#nombrefuncionglobal="Empirica Discreta"
-#
-#
-#
