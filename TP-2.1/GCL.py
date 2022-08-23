@@ -136,20 +136,35 @@ def ingresarGCL():
         print(len(arreglo))
 #ingresarGCL()
 
-# Metodo del HiperPlano
+'Metodo GLC para el hiperplano'
 def gclHiperPlano():  
-    xn = int(time.time())  
+    xn = int(time.time()) #Semilla   
     numerosGenerados = []
-    for i in range(32000):
+    for i in range(59049):
         xn1 = (1103515245 * xn + 12345) % 32768
-        xn = xn1     
+        xn = xn1    #xn es la nueva semilla    
         if xn1 in numerosGenerados:
             print(f"Se repite en posición del for: '{i}' con valor: '{xn1}'")
             break
         numerosGenerados.append(xn1)
     return numerosGenerados
 
-# Metodo del xorshift
+'Genera el HiperPlano con el metodo GLC'
+def plotHiperPlanoGCL():
+    z = gclHiperPlano()
+    x = gclHiperPlano()
+    y = gclHiperPlano()
+    fig = plt.figure(figsize=(10,7))
+    ax = plt.axes(projection="3d")
+    ax.scatter3D(x,y,z, color = "darkorange")
+    ax.set_xlabel("X-axis")
+    ax.set_ylabel("Y-axis")
+    ax.set_zlabel("Z-axis")
+    plt.title("Hiperplano con GCL")
+    plt.show()
+#plotHiperPlanoGCL()
+
+'Metodo xorshift para el hiperplano'
 def xorshiftHiperPlano():  
     x = 123456789
     y = 362436069
@@ -165,7 +180,7 @@ def xorshiftHiperPlano():
     print(len(numerosGenerados))
     return numerosGenerados
 
-## genera el HiperPlano
+'Genera el HiperPlano con el metodo xorshift'
 def plotHiperPlanoXorshift():
     z = xorshiftHiperPlano()
     x = xorshiftHiperPlano()
@@ -176,9 +191,9 @@ def plotHiperPlanoXorshift():
     ax.set_xlabel("X-axis")
     ax.set_ylabel("Y-axis")
     ax.set_zlabel("Z-axis")
-    plt.title("Hiperplano")
+    plt.title("Hiperplano con Xorshift")
     plt.show()
-plotHiperPlanoXorshift()
+#plotHiperPlanoGCL()
 
 #===============================================================================================
 #                                         COMPARACION DE GLC'S
@@ -204,7 +219,7 @@ def testComparacion():
     semillaH = hex(semilla)
     print(semillaH)
 
-## MiddleSquare
+# MiddleSquare
     historial = []
     numero = semilla
     cont = 0
@@ -220,7 +235,7 @@ def testComparacion():
     print(f"En el MiddleSquare con la Semilla: {semilla} la cantidad de numeros generados es: {len(historial)}")
     cantNGen.append(len(historial))
 
-##GCL 
+# GCL 
     xn = semilla #Semilla
     numerosGenerados = []
     while xn not in numerosGenerados:
@@ -230,7 +245,7 @@ def testComparacion():
     print(f"En el CGL con la Semilla: {semilla} la cantidad de numeros generados es: {len(numerosGenerados)}")
     cantNGen.append(len(numerosGenerados))
 
-##Xorshift
+# Xorshift
     x = 123456789
     y = 362436069
     z = 521288629
@@ -252,4 +267,4 @@ def testComparacion():
     plt.title("Evaluacion de numeros generados de acuerdo al GNPA")
     plt.show()
 
-testComparacion() 
+#testComparacion() 
