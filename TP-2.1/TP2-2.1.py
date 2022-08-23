@@ -96,6 +96,7 @@ def graficas():
     print("==============================================")
     while eleccion_Grafica != "8":
         eleccion_Grafica = input("\n\t1. Random()\n\t2. Uniform()\n\t3. Randint()\n\t4. Lluvia con seed rand.\n\t5. Lluvia sin seed rand\n\t6. Lluvia con seed randint.\n\t7. Lluvia sin seed randint\n\t8. Salir\n\tElija: ")
+        
         if eleccion_Grafica == "1": # Gráfica 4.1 Latex
             for i in range(1000):   # 1000 valores de la funcion random
                 x.append(i+1)
@@ -105,6 +106,7 @@ def graficas():
             plt.ylabel("Resultado aleatorio")
             plt.title("Evaluacion de ran.random()")
             plt.show()
+
         elif eleccion_Grafica == "2":   # Gráfica 4.2 Latex
             for i in range(1000):
                 x.append(i+1)
@@ -114,9 +116,10 @@ def graficas():
             plt.ylabel("Resultado aleatorio")
             plt.title("Evaluacion de ran.uniform(1,10)")
             plt.show()
+
         elif eleccion_Grafica == "3":   # Gráfica 4.3 Latex
             z = np.random.randint(100, size=32000)  # 32000 valores de la funcion random
-            x = np.random.randint(80, size=32000)
+            x = np.random.randint(80, size=32000)  
             y = np.random.randint(60, size=32000)
             fig = plt.figure(figsize=(10,7))        # dimensiones de la figura (ancho, alto) 
             ax = plt.axes(projection="3d")          # crea una figura 3D con una serie de ejes 
@@ -126,6 +129,7 @@ def graficas():
             ax.set_zlabel("Z-axis")
             plt.title("Representación de 32000 números utilizando randint")
             plt.show()
+
         elif eleccion_Grafica == "4":   # Gráfica 4.4 Latex 1ra fila
             for i in range(3):          #Pongo 3 para hacer 3 graficas: con seed son iguales, sin seed son distintas
                 np.random.seed(42)      # seed para la funcion random
@@ -183,6 +187,7 @@ def middleSquare():
         plt.ylabel("Numeros medios obtenidos del cuadrado")
         plt.title("Representación gráfica de nuevas semillas")
         plt.show()
+
     if eleccion_metodo == "2":  # Grafica 4.7 Latex
         while numero not in historial:
             cont += 1
