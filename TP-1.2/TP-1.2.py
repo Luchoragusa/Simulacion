@@ -1,11 +1,6 @@
 import random as ran
-from cmath import sqrt
-from xmlrpc.client import Boolean
-import numpy as np # importando numpy
-from turtle import color
+import numpy as np
 import matplotlib.pyplot as plt
-from pyparsing import col 
-from scipy import stats # importando scipy.stats
 
 numeroRandomObtenido = 0
 apuesta_minima_ruleta = 10000
@@ -63,18 +58,18 @@ def pedirNumero():
             band = True
             numero = int(input("Elige un numero entre 0 y 36: "))
 
-def fibonacci(n):   #formula fibonacci aplicada a python
-    if n == 1 or n == 2:
+def fibonacci(n):       
+    if n == 1 or n == 2:  # si el subindice n es 1 o 2, retorno 1   
         return 1
     else:
-        return fibonacci(n-1) + fibonacci(n-2)
+        return fibonacci(n-1) + fibonacci(n-2)  # si no, retorno la suma de los subindices n-1 y n-2 
 
-def estrategiaFibonacci_Agota_Saldo(saldo):
-    enesimo = 1
-    mesa = ["Rojo"] * 18 + ["Negro"] * 18 + ["Verde"] * 1
+def estrategiaFibonacci_Agota_Saldo(saldo): 
+    enesimo = 1                                               # el enesimo numero de la sucesion de fibonacci es el numero que se quiere apostar 
+    mesa = ["Rojo"] * 18 + ["Negro"] * 18 + ["Verde"] * 1     
     saldo_historial = []
-    apuesta_historial = []
-    valores_apuestas_historial = [0,0,0,0,0,0]
+    apuesta_historial = []  
+    valores_apuestas_historial = [0,0,0,0,0,0]                # cada indice es por los valores de apuesta
     apuesta_inicial = 10
     nro_tirada = []
     i=0      
@@ -82,31 +77,32 @@ def estrategiaFibonacci_Agota_Saldo(saldo):
     saldo_historial.append(saldo)    
     apuesta_historial.append(apuesta_inicial) 
     while saldo > 0:
-        apuesta = fibonacci(enesimo) * apuesta_inicial     #Apuesto 10 dinero al "n" que me trae       
-        if apuesta > saldo:
-            apuesta = saldo 
-        apuesta_historial.append(apuesta)
-        tirada = ran.choice(mesa)
+        apuesta = fibonacci(enesimo) * apuesta_inicial        # Apuesto 10 unidades al "n" que me trae       
+        if apuesta > saldo:                                   # Si la apuesta es mayor que el saldo, la apuesta es igual al saldo (pensado para agotar totalmente el saldo)
+            apuesta = saldo                                   
+        apuesta_historial.append(apuesta)                     # Guardo la apuesta en el historial
+        tirada = ran.choice(mesa)                             # Tirada aleatoria
         if apuesta==10:
-            valores_apuestas_historial[0]+=1
+            valores_apuestas_historial[0]+=1                  # Si la apuesta es 10, sumo 1 al indice 0
         elif apuesta==20:
-            valores_apuestas_historial[1]+=1        
+            valores_apuestas_historial[1]+=1                  # Si la apuesta es 20, sumo 1 al indice 1
         elif apuesta==30:
-            valores_apuestas_historial[2]+=1
+            valores_apuestas_historial[2]+=1                  # Si la apuesta es 30, sumo 1 al indice 2
         elif apuesta==50:
-            valores_apuestas_historial[3]+=1        
+            valores_apuestas_historial[3]+=1                  # Si la apuesta es 50, sumo 1 al indice 3
         elif apuesta==80:
-            valores_apuestas_historial[4]+=1
-        if tirada == "Rojo":
+            valores_apuestas_historial[4]+=1                  # Si la apuesta es 80, sumo 1 al indice 4
+        if tirada == "Rojo":    
             saldo += apuesta
-            enesimo = max(enesimo - 2, 1)   #traigo el max numero entre n-2 y 1
+            enesimo = max(enesimo - 2, 1)                     # traigo el max numero entre n-2 y 1
         else:
             saldo -= apuesta
             enesimo += 1
         i+=1    
-        saldo_historial.append(saldo)        
-        nro_tirada.append(i)
-    return nro_tirada, saldo_historial, apuesta_historial, valores_apuestas_historial
+        saldo_historial.append(saldo)                         # Guardo el saldo en el historial
+        nro_tirada.append(i)                                  # Guardo el numero de tirada en el historial
+    return nro_tirada, saldo_historial, apuesta_historial, valores_apuestas_historial   
+    # Retorno el numero de tirada, el saldo, la apuesta y los valores de las apuestas
 
 def estrategiaParoli_Agota_Saldo(saldo):
     mesa = ["Rojo"] * 18 + ["Negro"] * 18 + ["Verde"] * 1
@@ -152,7 +148,7 @@ def estrategiaParoli_Agota_Saldo(saldo):
         nro_tirada.append(i)
     return nro_tirada,saldo_historial,apuestas_historial,valores_apuestas_historial     
 
-def estrategiaFibonacci_Tiradas(saldo,cant_tiradas):
+def estrategiaFibonacci_Tiradas(saldo,cant_tiradas):    
     enesimo = 1
     mesa = ["Rojo"] * 18 + ["Negro"] * 18 + ["Verde"] * 1
     saldo_historial = []  
@@ -164,9 +160,9 @@ def estrategiaFibonacci_Tiradas(saldo,cant_tiradas):
     saldo_historial.append(saldo)
     nro_tirada.append(0)                                      
     for i in range(cant_tiradas):      
-        apuesta = fibonacci(enesimo) * apuesta_inicial      #Apuesto 0.01 dinero al "n" que me trae          
-        if saldo-apuesta < 0:
-            break  
+        apuesta = fibonacci(enesimo) * apuesta_inicial      # Apuesto 10 unidades al "n" que me trae          
+        if saldo-apuesta < 0:                               # Si saldo menos apuesta es menor que 0, sale 
+            break                                           # sale de la funcion para no agotar completamente el saldo
         apuesta_historial.append(apuesta)
         tirada = ran.choice(mesa)
         if apuesta==10:
@@ -181,7 +177,7 @@ def estrategiaFibonacci_Tiradas(saldo,cant_tiradas):
             valores_apuestas_historial[4]+=1
         if tirada == "Rojo":
             saldo += apuesta
-            enesimo = max(enesimo - 2, 1)   #traigo el max numero entre n-2 y 1
+            enesimo = max(enesimo - 2, 1)   # traigo el max numero entre n-2 y 1
         else:
             saldo -= apuesta
             enesimo += 1
@@ -382,13 +378,13 @@ def main():
                     arreglo_y=[]
                     apuestasHistorial=[]
                     valoresApuestasHistorial=[]
-                    arreglo_x,arreglo_y,apuestasHistorial,valoresApuestasHistorial=estrategiaFibonacci_Agota_Saldo(saldo_eleccion_fibo)
+                    arreglo_x,arreglo_y,apuestasHistorial,valoresApuestasHistorial=estrategiaFibonacci_Agota_Saldo(saldo_eleccion_fibo) 
                     plt.figure(1) 
-                    plt.plot(arreglo_x,arreglo_y)                   
+                    plt.plot(arreglo_x,arreglo_y)                       
                     plt.figure(2)
                     if i==0:
-                        axs2[0,0].plot(arreglo_x,apuestasHistorial,marker='o')
-                        axs2[0,0].set_title("Corrida "+str(i+1))
+                        axs2[0,0].plot(arreglo_x,apuestasHistorial,marker='o')  
+                        axs2[0,0].set_title("Corrida "+str(i+1))    
                         axs2[0,0].set(ylabel='Apuestas')
                     elif i==1:
                         axs2[0,1].plot(arreglo_x,apuestasHistorial, 'tab:orange',marker='o')
@@ -402,9 +398,9 @@ def main():
                         axs2[1,1].set_title("Corrida "+str(i+1))
                         axs2[1,1].set(xlabel='Numero de Tiradas')
                     plt.figure(3)
-                    total_valores_apuestas=valoresApuestasHistorial[0]+valoresApuestasHistorial[1]+valoresApuestasHistorial[2]+valoresApuestasHistorial[3]+valoresApuestasHistorial[4]
-                    frecuenciasValoresApuestasHistorial=[0,0,0,0,0]
-                    frecuenciasValoresApuestasHistorial[0]=valoresApuestasHistorial[0]/total_valores_apuestas
+                    total_valores_apuestas=valoresApuestasHistorial[0]+valoresApuestasHistorial[1]+valoresApuestasHistorial[2]+valoresApuestasHistorial[3]+valoresApuestasHistorial[4]  
+                    frecuenciasValoresApuestasHistorial=[0,0,0,0,0] 
+                    frecuenciasValoresApuestasHistorial[0]=valoresApuestasHistorial[0]/total_valores_apuestas     
                     frecuenciasValoresApuestasHistorial[1]=valoresApuestasHistorial[1]/total_valores_apuestas
                     frecuenciasValoresApuestasHistorial[2]=valoresApuestasHistorial[2]/total_valores_apuestas
                     frecuenciasValoresApuestasHistorial[3]=valoresApuestasHistorial[3]/total_valores_apuestas
