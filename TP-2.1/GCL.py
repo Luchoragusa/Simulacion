@@ -39,7 +39,7 @@ def GCL():
                     sin embargo, con el valor de modulo en el que mas numeros aleatorios son generados, sin repeticion, es 32768.
                     y la cantidad de numeros generados es 32768.                  
             '''
-            xn = int(time.time()) #Semilla 
+            xn = int(time.time()) #time.time() devuelve la cantidad de segundos desde el 1/1/1970
             cantNumA = []
             x=[]
             for j in range(100, 150):   #Cantidad de numeros aleatorios a generar por cada modulo (m) 
@@ -96,7 +96,7 @@ def GCL():
             plt.ylabel("Numeros aleatorios generados")
             plt.title("Mapa de numeros aleatorios con GCL")
             plt.show()
-        elif eleccion_Grafica == "4":
+        elif eleccion_Grafica == "4": # Grafica 5.5 del latex
             xn = 165 #Semilla cualquiera
             numerosGenerados = []
             x = []; y = []
@@ -151,7 +151,7 @@ def gclHiperPlano():
 
 'Genera el HiperPlano con el metodo GLC'
 def plotHiperPlanoGCL():
-    z = gclHiperPlano()
+    z = gclHiperPlano() #Genera los numeros aleatorios para los 3 ejes
     x = gclHiperPlano()
     y = gclHiperPlano()
     fig = plt.figure(figsize=(10,7))
@@ -160,7 +160,7 @@ def plotHiperPlanoGCL():
     ax.set_xlabel("X-axis")
     ax.set_ylabel("Y-axis")
     ax.set_zlabel("Z-axis")
-    plt.title("Hiperplano con GCL")
+    plt.title("Hiperplano") 
     plt.show()
 #plotHiperPlanoGCL()
 
@@ -261,7 +261,7 @@ def testComparacion():
     cantNGen.append(len(numerosGenerados))
 
 # 3 barras
-    plt.bar([1,2,3], cantNGen)
+    plt.bar([1,2,3], cantNGen) # Es la comparacion de los 3 metodos de generacion de numeros pseudoaleatorios con la misma semilla
     plt.ylabel("Numeros generados")
     plt.xlabel("Metodos")
     plt.title("Evaluacion de numeros generados de acuerdo al GNPA")
