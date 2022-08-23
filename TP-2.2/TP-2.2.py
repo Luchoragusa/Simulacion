@@ -89,7 +89,7 @@ def markov(m,n,i,p):    #EMPIRICA DISCRETA      || p es una matrix 10x10 y x es 
         x[i]=x[i]+1.0  
     return x      
 
-def graficarprobabilidad(funcion:Callable,*args):
+def graficarprobabilidad(funcion:Callable,*args): # (funcion:Callable, *args) --> funciones variables con argumentos variables 
     y= []
     for i in range(5000):
         y.append(funcion(*args))
@@ -103,21 +103,21 @@ def graficarprobabilidad(funcion:Callable,*args):
 # Distribucion continua
 
 nombrefuncionglobal="Uniforme"
-graficarprobabilidad(partial(numpy.random.uniform,0,10))
-graficarprobabilidad(partial(uniforme,0,10))
+graficarprobabilidad(partial(numpy.random.uniform,0,10))    # Grafica de la funcion uniforme de numpy
+graficarprobabilidad(partial(uniforme,0,10))    # Grafica de la funcion uniforme traducida de fortran a python
 
 nombrefuncionglobal="Exponencial"
-graficarprobabilidad(partial(numpy.random.exponential,10))
-graficarprobabilidad(partial(exponencial,10))
+graficarprobabilidad(partial(numpy.random.exponential,10))  # Grafica de la funcion exponencial de numpy
+graficarprobabilidad(partial(exponencial,10))   # Grafica de la funcion exponencial traducida de fortran a python
 
 nombrefuncionglobal="Normal"
-graficarprobabilidad(partial(numpy.random.normal,4,2))
-graficarprobabilidad(partial(normal,4,2))
+graficarprobabilidad(partial(numpy.random.normal,4,2))  # Grafica de la funcion normal de numpy
+graficarprobabilidad(partial(normal,4,2))   # Grafica de la funcion normal traducida de fortran a python
 
 # Distribucion discreta
 
 nombrefuncionglobal="Binomial"
-graficarprobabilidad(partial(numpy.random.binomial,10,0.6))
+graficarprobabilidad(partial(numpy.random.binomial,10,0.6)) # Grafica de la funcion binomial de numpy
 graficarprobabilidad(partial(binomial,10,0.6))
 
 nombrefuncionglobal="Poisson"
