@@ -2,8 +2,7 @@ import random as ran
 from math import log,exp
 import matplotlib.pyplot as plt
 from functools import partial
-from typing import Callable, Iterable
-from sympy import arg
+from typing import Callable
 import numpy
 
 ## Generadores de numeros aleatorios nuestros
@@ -76,9 +75,10 @@ def poisson(p):
         tr=tr*r
     return x
 
-def markov(m,n,i,p):    #EMPIRICA DISCRETA      || p es una matrix 10x10 y x es una lista de 10       
+def markov(m,n,i,p):    #EMPIRICA DISCRETA      || p es una matrix 10x10 y x es una lista de 10     
+# m --> columnas, n --> filas, i --> estado inicial, p --> matriz de transicion  
     x=[]
-    for k in range(m):
+    for k in range(m):  
         x.append(0.0)
     for l in range(n):
         r=ran.random()
@@ -129,7 +129,6 @@ def graficarmatriz():
     for i in range(500): 
         x.append(i)
         y.append(uniforme(0,20)) 
-        
     plt.plot(x, y)
     plt.xlabel("x")
     plt.ylabel("Numero")    
