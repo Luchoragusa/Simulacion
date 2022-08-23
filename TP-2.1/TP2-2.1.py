@@ -13,7 +13,7 @@ def rendom():
     n1 = ran.random()                               # Random float 0.0 <= x < 1.0
     return n1
 def iuniform():
-    n2 = ran.uniform(2.5, 10.0)                     # Random float 2.5 <= x <= 10.0
+    n2 = ran.uniform(1.0, 10.0)                     # Random float 2.5 <= x <= 10.0
     return n2
 def expo():
     n3 = ran.expovariate(1/5)                       # Intervalo entre llegadas con promedio de 5 segundos
@@ -110,7 +110,7 @@ def graficas():
         elif eleccion_Grafica == "2":   # Gráfica 4.2 Latex
             for i in range(1000):
                 x.append(i+1)
-                y.append(rendom())
+                y.append(iuniform())
                 plt.scatter(x,y)
             plt.xlabel("Numero de tiradas")
             plt.ylabel("Resultado aleatorio")
@@ -118,9 +118,9 @@ def graficas():
             plt.show()
 
         elif eleccion_Grafica == "3":   # Gráfica 4.3 Latex
-            z = np.random.randint(100, size=32000)  # 32000 valores de la funcion random
-            x = np.random.randint(80, size=32000)  
-            y = np.random.randint(60, size=32000)
+            z = np.random.randint(100, size=32000)  
+            x = np.random.randint(100, size=32000)  # 100 significa que los valores aleatorios van de 0 a 99, 32000 es el numero de valores aleatorios que se van a generar 
+            y = np.random.randint(100, size=32000)    
             fig = plt.figure(figsize=(10,7))        # dimensiones de la figura (ancho, alto) 
             ax = plt.axes(projection="3d")          # crea una figura 3D con una serie de ejes 
             ax.scatter3D(x,y,z, color = "darkorange", s=1)  # dibuja una serie de puntos en 3D 
@@ -156,7 +156,7 @@ def graficas():
                 plt.figure()
                 plt.imshow(arreglo, cmap="gray")
                 plt.show()
-#graficas()
+graficas()
 
 #===============================================================================================
 #                        #Método de la parte media del cuadrado de Jon Von Neuman
