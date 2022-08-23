@@ -136,19 +136,26 @@ class bcolors:
     UNDERLINE = '\033[4m'
 # se imprime la ocupacion del servidor y la cantidad de clientes que estan ocupados y no estan ocupados en la cola
 
+# =========================================================
+#             Valor esperado y calculado/teórico
+# =========================================================
 Ls=(sum(Pn*Pn.index))   # se calcula el tiempo de espera acumulado de los clientes en la cola
 Lq=sum((Pn.index[c+1:]-1)*(Pn[c+1:]))   # se calcula el tiempo de espera acumulado de los clientes en la cola
 print('\nSALIDAS:','\n',    
-    'Tiempo entre arrivos : ',str(data.inter_arrival_times.mean()),'  ---------------------------- Valor Teorico : ', 1/l ,'\n',    
-    'Tiempo de servicio: (1/µ)',str(data.service_times.mean()),'  ---------------------------- Valor Teorico : ',1/µ,'\n'
-    'Numero esperado de clientes en el sistema(Ls):',str(Ls),  '  ---------------------------- Valor Teorico : ', l/(µ-l) ,'\n',
-    'Numero esperado de clientes en linea (Lq):',str(Lq),'Valor Teorico : ', l*l/µ*(µ-l) ,'\n',
-    'Tiempo previsto de permanencia en el sistema (Ws):',str(data.total_times.mean()),' --------------------------------- Valor Teorico : ', 1/(µ-l) ,'\n',
-    'Tiempo esperado en linea (Wq):',str(data['wait_times'].mean()),' --------------------------------        Valor Teorico : ', l/µ*(µ-l) ,'\n',
-    'Utilizacion (c): ',str(workingtime/timeline.time.max()),' ------------------------- Valor Teorico : ', l/µ ,'\n',
-    'Po: ',Pn[0],' ------------------------- Valor Teorico : ',1- l/µ ,'\n\n',
+    'Tiempo entre arrivos : ',str(data.inter_arrival_times.mean()),'  ------------------------> Valor Teorico : ', 1/l ,'\n',    
+    'Tiempo de servicio: (1/µ)',str(data.service_times.mean()),'  ----------------------------> Valor Teorico : ',1/µ,'\n'
+    'Numero esperado de clientes en el sistema(Ls):',str(Ls),  '  ----------------------------> Valor Teorico : ', l/(µ-l) ,'\n',
+    'Numero esperado de clientes en linea (Lq):',str(Lq),' -----------------------------------> Valor Teorico : ', l*l/µ*(µ-l) ,'\n',
+    'Tiempo previsto de permanencia en el sistema (Ws):',str(data.total_times.mean()),' ------> Valor Teorico : ', 1/(µ-l) ,'\n',
+    'Tiempo esperado en linea (Wq):',str(data['wait_times'].mean()),' ------------------------> Valor Teorico : ', l/µ*(µ-l) ,'\n',
+    'Utilizacion (c): ',str(workingtime/timeline.time.max()),' -------------------------------> Valor Teorico : ', l/µ ,'\n',
+    'Probabilidad de que el sistema esté desocupado (Po): ',Pn[0],' --------------------------> Valor Teorico : ',1- l/µ ,'\n\n',
     'Probabilidad que haya n clientes en el sistema :',Pn,'\n')
 
+
+# =========================================================
+#                       Graficas
+# =========================================================
 plt.figure(figsize=(12,4))
 sns.lineplot(x=data.index,y=wait_times,color='black')
 plt.xlabel('Numeros de clientes')  
