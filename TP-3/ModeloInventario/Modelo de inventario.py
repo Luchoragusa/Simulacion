@@ -1,5 +1,3 @@
-## https://github.com/wamuir/simpy-stockout
-
 import itertools
 import simpy
 import numpy
@@ -24,9 +22,7 @@ class Inventario(object):
         self.level = parametros["cantidad_inicial_inventario"]
 
     def tomarPedido(self, size):
-        """
-        Tomar pedidos del inventario   
-        """
+        # Tomar pedidos del inventario   
         self.level -= size
 
         evolucionInventario.append(self.level) ## aca se guarda el estado del inventario
@@ -34,9 +30,7 @@ class Inventario(object):
         self.actualiza_reloj()
 
     def recibirPedido(self, size):
-        """
-        Sumar pedidos recibidos al inventario
-        """
+        # Sumar pedidos recibidos al inventario
         self.level += size
 
         evolucionInventario.append(self.level) ## aca se guarda el estado del inventario
@@ -44,9 +38,7 @@ class Inventario(object):
         self.actualiza_reloj()
 
     def hacerPedido(self, order):
-        """
-        Hacerle un pedido de reorden
-        """
+        #Hacerle un pedido de reorden
         setup_cost = self._parametros["K"]
         incremental_cost = self._parametros["i"]
         if not self._openOrder:
@@ -62,9 +54,7 @@ class Inventario(object):
             self._openOrder = False
 
     def actualiza_reloj(self):
-        """
-        Corresponds to `actualiza_reloj(void)`, p. 78
-        """
+        # Corresponds to `actualiza_reloj(void)`, p. 78
         time_since_last_event = self._env.now - self._lastEvent
         if self.level < 0:
             self._db["area_faltante"] -= (
@@ -85,27 +75,21 @@ class Inventario(object):
 
 
 class HacerPedido(object):
-    """
-    A class for reorders
-    """
+    # Inicializa el pedido
     def __init__(self, size, lag_range):
         self.size = size
         self.lag = numpy.random.uniform(*lag_range)
 
 
 class Demand(object):
-    """
-    A class for demand
-    """
+    # Inicializa el pedido
     def __init__(self, size):
         self.size = size
 
 
 def demand_generator(env, inventario, parametros):
-    """
-    Generador de numeros para la demanda con una distribucion exponencial, eso es lo que nosotros agarrabamos un numero
-    y lo metiamos en la linea divida para determinar la demana que se hace.
-    """
+    # Generador de numeros para la demanda con una distribucion exponencial, eso es lo que nosotros agarrabamos un numero
+    # y lo metiamos en la linea divida para determinar la demana que se hace.
     sizes = [i + 1 for i in range(parametros["cantidad_max_demanda"])]
     probabilities = numpy.diff(
         (0, *parametros["niveles_demanda"])
@@ -127,9 +111,7 @@ def demand_generator(env, inventario, parametros):
 
 
 def evaluation_generator(env, inventario, policy): ## aca se hace la evaluacion de inventario
-    """
-    Aca se evalua el inventario teniendo en cuenta a los valores de "s" y "S"
-    """
+    # Aca se evalua el inventario teniendo en cuenta a los valores de "s" y "S"
     while True:
         if inventario.level < policy["minimum"]:
             order = HacerPedido(
@@ -141,9 +123,7 @@ def evaluation_generator(env, inventario, policy): ## aca se hace la evaluacion 
 
 
 def report(row_format, parametros, policy, db):
-    """
-    Genera la info del reporte
-    """
+    # Genera la info del reporte
     length = parametros["tamano_simulacion"]
     aoc = db["costo_de_orden"] / length
     ahc = db["area_matenimiento"] * parametros["h"] / length
@@ -160,9 +140,7 @@ def report(row_format, parametros, policy, db):
 
 if __name__ == "__main__":
 
-    """
-    Estos son los parametros iniciales del ejercicio que esta en la pagina 102 // 30 del pdf del Law and Kelton
-    """
+    # Estos son los parametros iniciales del ejercicio que esta en la pagina 102 // 30 del pdf del Law and Kelton
     parametros = dict(
         cantidad_inicial_inventario=60, ## Esto es el inventario inicial
         cantidad_max_demanda=4, ## Esto es el numero de demandas que se pueden hacer, osea la cantidad de rangos entre los que tiene que caer el numero aleatorio
@@ -189,9 +167,7 @@ if __name__ == "__main__":
         if s < S
     ]
 
-    """
-    Son los nombres de las columnas de la tabla
-    """
+    # Son los nombres de las columnas de la tabla
     row_format = "\n{:>10}{:>25}{:>25}{:>25}{:>25}"
     header = row_format.format(
         "Politica",
@@ -202,13 +178,8 @@ if __name__ == "__main__":
     )
     print(header)
 
-    """
-    Run the simulation.  As per Law and Kelton (2000), this only a
-    single replication is run.  Given differences in random number
-    generators (e.g., they use a LCG), results will not be identical.
+    # Se puede probar usando otro simulador como el LCG
 
-    Se puede probar usando otro simulador como el LCG
-    """
     numpy.random.seed(1234) ## Genero el num random
     for politica in politicas:
         env = simpy.Environment()
