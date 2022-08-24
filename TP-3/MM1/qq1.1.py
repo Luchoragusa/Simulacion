@@ -6,10 +6,10 @@ import warnings
 
 warnings.filterwarnings('ignore')
 
-l = 2                
-µ = 3                    
-ncust =1000         
-c=1  
+l = 2       # lambda es la tasa de llegadas de clientes               
+µ = 3       # mu es la tasa de servicio de los clientes                   
+ncust =1000 # numero de clientes que llegan al sistema       
+c=1         # numero de servidores en el sistema = 1
 
 # =============================================
 'Variacion de porcentajes de lambda y mu'
@@ -137,7 +137,7 @@ class bcolors:
 # se imprime la ocupacion del servidor y la cantidad de clientes que estan ocupados y no estan ocupados en la cola
 
 # =========================================================
-#             Valor esperado y calculado/teórico
+#             Valor esperado y calculado/teórico (terminal)
 # =========================================================
 Ls=(sum(Pn*Pn.index))   # se calcula el tiempo de espera acumulado de los clientes en la cola
 Lq=sum((Pn.index[c+1:]-1)*(Pn[c+1:]))   # se calcula el tiempo de espera acumulado de los clientes en la cola
