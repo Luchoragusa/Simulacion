@@ -13,7 +13,7 @@ def funcion(rep, corr):
             nRandom = ran.randint (0,36)    # genera un numero aleatorio entre 0 y 36
             valoresInt.append(nRandom)      # agrega el numero aleatorio a un arreglo
             hi[nRandom] += 1                # aumenta la frecuencia relativa del numero aleatorio
-        conjuntoValores.append(valoresInt)  # se le agrega a conjuntoValores los valores aleatorios de cada tirada
+        conjuntoValores.append(valoresInt)  # se le agrega a conjuntoValores los valores aleatorios de cada corrida
         conjuntoValoresHi.append(hi)        # aca se guardan los arreglos de cantidad de repeticion de un valor por corrida
 
 def funcionProm(repeticiones, corridas, conjuntoValores):   # Grafica de los promedios
