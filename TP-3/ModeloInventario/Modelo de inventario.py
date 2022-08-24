@@ -1,3 +1,4 @@
+
 import itertools
 import simpy
 import numpy
@@ -74,15 +75,14 @@ class Inventario(object):
         evolucionInventarioT.append(self._lastEvent) ## aca se guardan los tiempos de los pedidos
 
 
-class HacerPedido(object):
     # Inicializa el pedido
+class HacerPedido(object):
     def __init__(self, size, lag_range):
         self.size = size
         self.lag = numpy.random.uniform(*lag_range)
 
-
-class Demand(object):
     # Inicializa el pedido
+class Demand(object):
     def __init__(self, size):
         self.size = size
 
